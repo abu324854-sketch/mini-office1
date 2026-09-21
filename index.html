@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Ultimate Enterprise V2 - Next-Gen Suite</title>
+    <title>Web Office Ultimate Enterprise V3 - All-in-One Suite</title>
     <style>
         :root {
             --primary: #0078d4;
@@ -33,11 +33,11 @@
         body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
         
         /* Sidebar */
-        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 20px rgba(0,0,0,0.3); z-index: 10; }
-        .sidebar-brand { display: flex; align-items: center; justify-content: space-between; font-size: 17px; font-weight: 700; color: #4cc9f0; margin-bottom: 20px; padding-left: 10px; }
+        .sidebar { width: 300px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 20px rgba(0,0,0,0.3); z-index: 10; }
+        .sidebar-brand { display: flex; align-items: center; justify-content: space-between; font-size: 16px; font-weight: 700; color: #4cc9f0; margin-bottom: 20px; padding-left: 10px; }
         .theme-toggle-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
         .theme-toggle-btn:hover { background: rgba(255,255,255,0.2); }
-        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; display: flex; align-items: center; gap: 14px; width: 100%; }
+        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 13px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 14px; display: flex; align-items: center; gap: 14px; width: 100%; }
         .sidebar button:hover { background: rgba(255,255,255,0.06); color: #fff; }
         .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.4); }
 
@@ -65,8 +65,8 @@
 
         /* Welcome */
         #home-welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; gap: 15px; }
-        #home-welcome h1 { font-size: 32px; font-weight: 800; color: var(--primary); }
-        #home-welcome p { font-size: 16px; max-width: 550px; opacity: 0.8; line-height: 1.5; }
+        #home-welcome h1 { font-size: 34px; font-weight: 800; color: var(--primary); }
+        #home-welcome p { font-size: 16px; max-width: 600px; opacity: 0.8; line-height: 1.6; }
 
         /* Word Module */
         .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; min-height: 350px; }
@@ -98,24 +98,39 @@
         .slide-canvas { width: 100%; max-width: 720px; height: 360px; border-radius: 6px; box-shadow: 0 4px 20px var(--shadow); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
         .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed var(--border); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
         .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.6; }
+
+        /* Task Planner Module */
+        .task-container { display: flex; flex-direction: column; gap: 15px; flex: 1; overflow-y: auto; }
+        .task-form { display: flex; gap: 10px; flex-wrap: wrap; background: var(--ribbon-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--border); }
+        .task-form input, .task-form select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel-bg); color: var(--text-main); font-size: 13px; }
+        .task-form input[type="text"] { flex: 1; min-width: 200px; }
+        .task-list { display: flex; flex-direction: column; gap: 8px; }
+        .task-item { display: flex; align-items: center; justify-content: space-between; background: var(--panel-bg); border: 1px solid var(--border); padding: 12px 16px; border-radius: 6px; gap: 15px; }
+        .task-item.completed { opacity: 0.6; text-decoration: line-through; }
+        .task-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-high { background: #d13438; color: #fff; }
+        .badge-mid { background: #ff8c00; color: #fff; }
+        .badge-low { background: #107c41; color: #fff; }
     </style>
 </head>
 <body>
     <div class="sidebar" id="sidebarMenu">
         <div class="sidebar-brand">
-            <span>⚡ Ultimate Suite V2</span>
+            <span>⚡ Ultimate Suite V3</span>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌓 Tema</button>
         </div>
         <button id="navWord" onclick="switchApp('word')">📄 Word Pro Muharrir</button>
         <button id="navExcel" onclick="switchApp('excel')">📊 Excel Formula Engine</button>
         <button id="navAccess" onclick="switchApp('access')">🗄️ Access Relational DB</button>
         <button id="navPpt" onclick="switchApp('ppt')">📽️ PowerPoint Studio</button>
+        <button id="navTasks" onclick="switchApp('tasks')">🎯 Vazifalar Rejasi (Planner)</button>
     </div>
 
     <div class="content">
         <div id="home-welcome">
-            <h1>Web Office Ultimate Enterprise V2</h1>
-            <p>Hozirgi zamonaviy ofis dasturlaridan qolishmaydigan, formulalarni hisoblovchi, CSV eksporti va to'laqonli slayd-shou imkoniyatiga ega professional veb-ofis muhiti.</p>
+            <h1>Web Office Ultimate Enterprise V3</h1>
+            <p>Hozirgi zamonaviy ofis dasturlaridan ancha ustun, matn muharriri, jadval hisob-kitoblari, ma'lumotlar bazasi, taqdimot studiyasi hamda to'laqonli vazifalar rejasini o'z ichiga olgan yagona professional tizim.</p>
         </div>
 
         <!-- WORD -->
@@ -241,6 +256,27 @@
                 </div>
             </div>
         </div>
+
+        <!-- TASKS PLANNER -->
+        <div id="tasks" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 🎯 Vazifalar va Loyihalar Rejasi</h3>
+                <span id="taskStatus" class="status-msg">Avto-saqlangan ✓</span>
+            </div>
+            <div class="task-container">
+                <div class="task-form">
+                    <input type="text" id="taskTitleInput" placeholder="Yangi vazifa nomi...">
+                    <select id="taskPriorityInput">
+                        <option value="high">Muhim (Yuqori)</option>
+                        <option value="mid" selected>O'rta</option>
+                        <option value="low">Past</option>
+                    </select>
+                    <input type="date" id="taskDateInput">
+                    <button class="btn btn-primary" onclick="addNewTask()">+ Vazifa qo'shish</button>
+                </div>
+                <div class="task-list" id="taskListView"></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -282,7 +318,7 @@
             saveWord();
         }
         function saveWord() {
-            localStorage.setItem('enterprise_WordV2', document.getElementById('wordEditor').innerHTML);
+            localStorage.setItem('enterprise_WordV3', document.getElementById('wordEditor').innerHTML);
         }
         function clearWord() {
             if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
@@ -347,7 +383,7 @@
         }
         function updateExcelCell(cellId, val) {
             excelData[cellId] = val;
-            localStorage.setItem('enterprise_ExcelV2', JSON.stringify(excelData));
+            localStorage.setItem('enterprise_ExcelV3', JSON.stringify(excelData));
         }
         function handleFormula(e) {
             if(e.key === 'Enter' && selectedCell) {
@@ -482,13 +518,13 @@
             renderAccess();
         }
         function saveAccess() {
-            localStorage.setItem('enterprise_StaffV2', JSON.stringify(staffData));
-            localStorage.setItem('enterprise_OrdersV2', JSON.stringify(ordersData));
+            localStorage.setItem('enterprise_StaffV3', JSON.stringify(staffData));
+            localStorage.setItem('enterprise_OrdersV3', JSON.stringify(ordersData));
         }
 
         // --- POWERPOINT ---
         let pptSlides = [
-            {title: "Korporativ Taqdimot V2", text: "1. Strategik rejalar va ustuvor vazifalar\n2. Moliyaviy tahlil va prognozlar\n3. Yakuniy natijalar va xulosalar", bg: "#ffffff", color: "#201f1e"}
+            {title: "Korporativ Taqdimot V3", text: "1. Strategik rejalar va ustuvor vazifalar\n2. Moliyaviy tahlil va prognozlar\n3. Yakuniy natijalar va xulosalar", bg: "#ffffff", color: "#201f1e"}
         ];
         let activeSlideIdx = 0;
 
@@ -515,7 +551,7 @@
             document.getElementById('slideTitleInput').style.color = current.color;
             document.getElementById('slideTextInput').style.color = current.color;
             
-            localStorage.setItem('enterprise_PPTV2', JSON.stringify(pptSlides));
+            localStorage.setItem('enterprise_PPTV3', JSON.stringify(pptSlides));
         }
         function selectSlide(idx) { activeSlideIdx = idx; renderPPT(); }
         function addSlide() {
@@ -572,27 +608,93 @@
             </body></html>`);
         }
 
+        // --- TASKS PLANNER ---
+        let tasksData = [
+            {id: 1, title: "Yangi loyiha arxitekturasini tuzish", priority: "high", date: "2026-09-30", completed: false},
+            {id: 2, title: "Moliyaviy hisobotlarni tayyorlash", priority: "mid", date: "2026-10-02", completed: true}
+        ];
+
+        function renderTasks() {
+            const list = document.getElementById('taskListView');
+            if(!list) return;
+            list.innerHTML = '';
+            tasksData.forEach((t, idx) => {
+                let badgeClass = t.priority === 'high' ? 'badge-high' : (t.priority === 'mid' ? 'badge-mid' : 'badge-low');
+                let badgeText = t.priority === 'high' ? 'Muhim' : (t.priority === 'mid' ? 'O\'rta' : 'Past');
+                
+                list.innerHTML += `
+                    <div class="task-item ${t.completed ? 'completed' : ''}">
+                        <div class="task-info">
+                            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${idx})">
+                            <span style="font-weight:600; font-size:14px;">${t.title}</span>
+                            <span class="badge ${badgeClass}">${badgeText}</span>
+                            <span style="font-size:12px; opacity:0.6; margin-left:auto;">Muddat: ${t.date || 'Belgilanmagan'}</span>
+                        </div>
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:11px;" onclick="deleteTask(${idx})">O'chirish</button>
+                    </div>
+                `;
+            });
+            localStorage.setItem('enterprise_TasksV3', JSON.stringify(tasksData));
+        }
+
+        function addNewTask() {
+            let titleInput = document.getElementById('taskTitleInput');
+            let priorityInput = document.getElementById('taskPriorityInput');
+            let dateInput = document.getElementById('taskDateInput');
+            
+            if(!titleInput.value.trim()) {
+                alert("Vazifa nomini kiriting!");
+                return;
+            }
+
+            tasksData.push({
+                id: Date.now(),
+                title: titleInput.value,
+                priority: priorityInput.value,
+                date: dateInput.value,
+                completed: false
+            });
+
+            titleInput.value = '';
+            dateInput.value = '';
+            renderTasks();
+        }
+
+        function toggleTask(idx) {
+            tasksData[idx].completed = !tasksData[idx].completed;
+            renderTasks();
+        }
+
+        function deleteTask(idx) {
+            tasksData.splice(idx, 1);
+            renderTasks();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             let savedTheme = localStorage.getItem('theme');
             if(savedTheme === 'light') { document.documentElement.classList.remove('dark'); }
             
-            let w = localStorage.getItem('enterprise_WordV2');
+            let w = localStorage.getItem('enterprise_WordV3');
             if(w) document.getElementById('wordEditor').innerHTML = w;
             updateWordStats();
 
-            let ex = localStorage.getItem('enterprise_ExcelV2');
+            let ex = localStorage.getItem('enterprise_ExcelV3');
             if(ex) { try { excelData = JSON.parse(ex); } catch(e) {} }
             initExcel();
 
-            let st = localStorage.getItem('enterprise_StaffV2');
-            let ord = localStorage.getItem('enterprise_OrdersV2');
+            let st = localStorage.getItem('enterprise_StaffV3');
+            let ord = localStorage.getItem('enterprise_OrdersV3');
             if(st) { try { staffData = JSON.parse(st); } catch(e) {} }
             if(ord) { try { ordersData = JSON.parse(ord); } catch(e) {} }
             renderAccess();
 
-            let pt = localStorage.getItem('enterprise_PPTV2');
+            let pt = localStorage.getItem('enterprise_PPTV3');
             if(pt) { try { pptSlides = JSON.parse(pt); } catch(e) {} }
             renderPPT();
+
+            let ts = localStorage.getItem('enterprise_TasksV3');
+            if(ts) { try { tasksData = JSON.parse(ts); } catch(e) {} }
+            renderTasks();
         });
     </script>
 </body>
