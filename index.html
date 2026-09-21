@@ -3,154 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Professional Suite</title>
+    <title>Web Office Ultimate - Professional Suite</title>
     <style>
+        :root {
+            --primary: #0078d4;
+            --primary-dark: #106ebe;
+            --bg-sidebar: #1f1f1f;
+            --bg-main: #f3f2f1;
+            --text-main: #201f1e;
+            --border: #e1dfdd;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { display: flex; height: 100vh; background: #eef2f5; color: #333; overflow: hidden; }
-        
-        /* Chap menyu (Ribbon Launcher) */
-        .sidebar { width: 260px; background: #1b263b; color: #fff; padding: 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: 3px 0 10px rgba(0,0,0,0.1); }
-        .sidebar h2 { font-size: 20px; margin-bottom: 15px; color: #48cae4; text-align: center; font-weight: 600; }
-        .sidebar button { background: transparent; border: none; color: #94a3b8; padding: 12px 15px; text-align: left; cursor: pointer; border-radius: 8px; font-size: 15px; transition: 0.2s; display: flex; align-items: center; gap: 12px; }
-        .sidebar button:hover, .sidebar button.active { background: #0f172a; color: #fff; font-weight: 600; border-left: 4px solid #48cae4; }
+        body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
 
-        /* Asosiy ishchi qism */
+        /* Professional Chap Menyu (Ribbon Launcher) */
+        .sidebar { width: 280px; background: var(--bg-sidebar); color: #fff; padding: 25px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
+        .sidebar-brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; color: #61dafb; margin-bottom: 25px; padding-left: 10px; }
+        .sidebar button { background: transparent; border: none; color: #c8c6c4; padding: 14px 18px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; }
+        .sidebar button:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.3); }
+
+        /* Ishchi Hudud */
         .content { flex: 1; padding: 25px; display: flex; flex-direction: column; overflow: hidden; }
-        .panel { display: none; flex: 1; flex-direction: column; gap: 15px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow-y: auto; }
-        .panel.active { display: flex; }
-        h3 { color: #1e293b; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; font-size: 18px; }
+        .panel { display: none; flex: 1; flex-direction: column; gap: 15px; background: #ffffff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); overflow-y: auto; border: 1px solid var(--border); }
+        .panel.active { display: flex; animation: fadeIn 0.25s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Umumiy tugmalar va asboblar paneli */
-        button.btn { background: #0284c7; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.2s; font-size: 14px; }
-        button.btn:hover { background: #0369a1; }
-        .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .toolbar select, .toolbar input { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; background: #fff; font-size: 14px; }
-        .status-msg { font-size: 13px; color: #10b981; font-weight: bold; margin-left: auto; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+        .panel-header h3 { color: #323130; font-size: 20px; font-weight: 600; }
 
-        /* 1. MS Word Stili */
-        .word-container { display: flex; flex-direction: column; flex: 1; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
-        .editor-area { flex: 1; padding: 25px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.6; min-height: 350px; }
+        /* Asboblar paneli (Ribbon) */
+        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #faf9f8; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
+        .btn { background: #fff; color: #323130; border: 1px solid var(--border); padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; transition: 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:hover { background: #f3f2f1; border-color: #8a8886; }
+        .btn-primary { background: var(--primary); color: #white; border: none; color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-danger { background: #d13438; color: #fff; border: none; }
+        .btn-danger:hover { background: #a80000; }
 
-        /* 2 & 3. Excel va Access Jadval Stili */
-        .table-container { flex: 1; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; background: white; text-align: left; }
-        th, td { border: 1px solid #e2e8f0; padding: 10px 12px; }
-        th { background: #f1f5f9; color: #475569; font-weight: 600; position: sticky; top: 0; z-index: 10; }
-        input[type="text"], input[type="number"] { width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: #1e293b; }
+        .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: #fff; font-size: 13px; color: #323130; }
+        .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; display: flex; align-items: center; gap: 5px; }
 
-        /* 4. PowerPoint Stili */
-        .ppt-workspace { display: flex; gap: 20px; flex: 1; }
-        .slides-sidebar { width: 220px; border-right: 1px solid #e2e8f0; padding-right: 15px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-        .slide-thumb { padding: 12px; border: 2px solid #cbd5e1; border-radius: 6px; cursor: pointer; background: #f8fafc; font-size: 13px; transition: 0.2s; }
-        .slide-thumb.active { border-color: #0284c7; background: #e0f2fe; font-weight: bold; }
-        .slide-editor { flex: 1; display: flex; flex-direction: column; gap: 15px; justify-content: center; align-items: center; border: 2px dashed #cbd5e1; border-radius: 8px; padding: 30px; background: #fafafa; }
-        .slide-editor input, .slide-editor textarea { width: 90%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; outline: none; background: #fff; }
-        .slide-editor textarea { height: 180px; resize: none; font-size: 15px; }
+        /* 1. WORD STILI */
+        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; }
+        .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 900px; margin: 0 auto; width: 100%; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.02); }
+        .word-footer { background: #faf9f8; padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; }
+
+        /* 2 & 3. EXCEL & ACCESS JADVALLARI */
+        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; background: #fff; text-align: left; }
+        th, td { border: 1px solid var(--border); padding: 9px 12px; font-size: 14px; }
+        th { background: #f3f2f1; color: #323130; font-weight: 600; position: sticky; top: 0; z-index: 5; }
+        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 14px; }
+
+        /* 4. POWERPOINT STILI */
+        .ppt-layout { display: flex; gap: 20px; flex: 1; height: calc(100vh - 160px); }
+        .ppt-sidebar { width: 240px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+        .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: #faf9f8; transition: 0.15s; }
+        .slide-card.active { border-color: var(--primary); background: #eff6fc; font-weight: 600; }
+        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center; background: #faf9f8; border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+        .slide-canvas { width: 100%; max-width: 750px; height: 420px; background: #fff; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 40px; display: flex; flex-direction: column; gap: 20px; border: 1px solid var(--border); }
+        .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed #e1dfdd; outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
+        .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 200px; background: transparent; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-    <!-- Chap Paneli -->
+    <!-- Chap Menyu -->
     <div class="sidebar">
-        <h2>Web Office Pro</h2>
-        <button class="active" onclick="switchApp('word', this)">📄 MS Word</button>
-        <button onclick="switchApp('excel', this)">📊 MS Excel</button>
-        <button onclick="switchApp('access', this)">🗄️ MS Access</button>
-        <button onclick="switchApp('ppt', this)">📽️ MS PowerPoint</button>
+        <div class="sidebar-brand">
+            <span>⚡ Web Office Ultimate</span>
+        </div>
+        <button class="active" onclick="switchApp('word', this)">📄 Word Professional</button>
+        <button onclick="switchApp('excel', this)">📊 Excel Sheets</button>
+        <button onclick="switchApp('access', this)">🗄️ Access Database</button>
+        <button onclick="switchApp('ppt', this)">📽️ PowerPoint Studio</button>
     </div>
 
-    <!-- Asosiy Oyna -->
+    <!-- Asosiy Dasturlar Kontenti -->
     <div class="content">
 
         <!-- 1. MS WORD -->
         <div id="word" class="panel active">
-            <h3>Microsoft Word - Hujjat Muharriri</h3>
-            <div class="toolbar">
+            <div class="panel-header">
+                <h3>Word - Matn Muharriri</h3>
+                <span id="wordStatus" class="status-msg">Saqlangan ✓</span>
+            </div>
+            <div class="ribbon">
                 <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
                 <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
                 <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
-                <button class="btn" onclick="formatWord('strikeThrough')<s>S</s></button>
+                <button class="btn" onclick="formatWord('strikeThrough')"><s>S</s></button>
                 <select onchange="formatWord('fontSize', this.value)">
                     <option value="3">Shrift o'lchami</option>
                     <option value="2">Kichik (12px)</option>
                     <option value="3">O'rta (16px)</option>
-                    <option value="5">Katta (24px)</option>
-                    <option value="7">Juda katta (32px)</option>
+                    <option value="5">Katta (22px)</option>
+                    <option value="7">Juda katta (30px)</option>
                 </select>
+                <input type="color" onchange="formatWord('foreColor', this.value)" title="Matn rangi" style="width: 35px; height: 32px; padding: 0; cursor: pointer;">
                 <button class="btn" onclick="formatWord('justifyLeft')">Chapga</button>
                 <button class="btn" onclick="formatWord('justifyCenter')">O'rtaga</button>
                 <button class="btn" onclick="formatWord('justifyRight')">O'ngga</button>
                 <button class="btn" onclick="formatWord('insertUnorderedList')">• Ro'yxat</button>
-                <span id="wordStatus" class="status-msg"></span>
+                <button class="btn btn-primary" onclick="downloadWordDoc()">Yuklab olish (.doc)</button>
+                <button class="btn btn-danger" onclick="clearWord()">Tozalash</button>
             </div>
-            <div class="word-container">
-                <div id="wordEditor" class="editor-area" contenteditable="true" oninput="saveWord()" placeholder="Hujjat matnini shu yerga kiriting..."></div>
-            </div>
-            <div style="display: flex; gap: 10px; margin-top: 5px;">
-                <button class="btn" onclick="downloadWord()">Hujjatni yuklab olish (.html)</button>
-                <button class="btn" onclick="clearWord()" style="background: #ef4444;">Tozalash</button>
+            <div class="word-wrapper">
+                <div id="wordEditor" class="word-editor" contenteditable="true" oninput="updateWordStats()"></div>
+                <div class="word-footer">
+                    <span id="wordChars">So'zlar: 0 | Belgilar: 0</span>
+                    <span>Sahifa: 1 / 1</span>
+                </div>
             </div>
         </div>
 
         <!-- 2. MS EXCEL -->
         <div id="excel" class="panel">
-            <h3>Microsoft Excel - Hisob-kitob va jadvallar</h3>
-            <div class="toolbar">
-                <button class="btn" onclick="addExcelRow()">+ Qator qo'shish</button>
-                <button class="btn" onclick="addExcelCol()">+ Ustun qo'shish</button>
-                <button class="btn" onclick="calculateExcelSum()" style="background: #10b981;">Jami summani hisoblash</button>
-                <span id="excelStatus" class="status-msg"></span>
+            <div class="panel-header">
+                <h3>Excel - Jadval va Hisob-kitoblar</h3>
+                <span id="excelStatus" class="status-msg">Saqlangan ✓</span>
             </div>
-            <div class="table-container">
+            <div class="ribbon">
+                <button class="btn btn-primary" onclick="addExcelRow()">+ Qator qo'shish</button>
+                <button class="btn" onclick="addExcelCol()">+ Ustun qo'shish</button>
+                <button class="btn btn-danger" onclick="clearExcel()">Jadvalni tozalash</button>
+                <div style="font-weight: 600; margin-left: auto;">Umumiy Jami: <span id="grandTotal" style="color: var(--primary);">0</span> so'm</div>
+            </div>
+            <div class="table-wrap">
                 <table id="excelTable">
                     <thead>
                         <tr id="excelHeaderRow">
-                            <th>Mahsulot</th>
+                            <th>#</th>
+                            <th>Mahsulot / Xizmat</th>
                             <th>Miqdor</th>
                             <th>Narx (so'm)</th>
-                            <th>Jami (so'm)</th>
+                            <th>Jami Summa</th>
                         </tr>
                     </thead>
                     <tbody id="excelBody">
-                        <tr>
-                            <td><input type="text" value="Kompyuter"></td>
-                            <td><input type="number" value="1" oninput="calcExcelRow(this)"></td>
-                            <td><input type="number" value="7500000" oninput="calcExcelRow(this)"></td>
-                            <td class="rowTotal">7500000</td>
-                        </tr>
+                        <!-- Qatorlar JS orqali boshqariladi -->
                     </tbody>
                 </table>
             </div>
-            <div style="font-weight: bold; margin-top: 10px; font-size: 16px;">Jami umumiy summa: <span id="grandTotal">7500000</span> so'm</div>
         </div>
 
         <!-- 3. MS ACCESS -->
         <div id="access" class="panel">
-            <h3>Microsoft Access - Ma'lumotlar bazasi (Database)</h3>
-            <div class="toolbar">
-                <input type="text" id="dbSearch" placeholder="Ma'lumotlar orasidan qidirish..." oninput="filterAccess()" style="width: 250px;">
-                <button class="btn" onclick="addAccessRow()">+ Yangi yozuv qo'shish</button>
-                <span id="accessStatus" class="status-msg"></span>
+            <div class="panel-header">
+                <h3>Access - Ma'lumotlar Bazasini Boshqarish</h3>
+                <span id="accessStatus" class="status-msg">Saqlangan ✓</span>
             </div>
-            <div class="table-container">
+            <div class="ribbon">
+                <input type="text" id="dbSearch" placeholder="Ma'lumotlar bazasidan qidirish..." oninput="filterAccess()" style="width: 250px;">
+                <button class="btn btn-primary" onclick="addAccessRow()">+ Yangi yozuv qo'shish</button>
+                <button class="btn" onclick="exportAccessCSV()">CSV ga eksport qilish</button>
+            </div>
+            <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>F.I.Sh (Mijoz / Hodim)</th>
-                            <th>Telefon raqami</th>
-                            <th>Manzil / Hudud</th>
-                            <th>Amal</th>
+                            <th>Telefon Raqami</th>
+                            <th>Kategoriya / Lavozim</th>
+                            <th>Ro'yxatga olingan sana</th>
+                            <th>Amallar</th>
                         </tr>
                     </thead>
                     <tbody id="accessBody">
-                        <tr>
-                            <td>1</td>
-                            <td><input type="text" value="Anvar Rahimov"></td>
-                            <td><input type="text" value="+998901112233"></td>
-                            <td><input type="text" value="Farg'ona, Vodil"></td>
-                            <td><button class="btn" onclick="deleteAccessRow(this)" style="background:#ef4444; padding:4px 8px; font-size:12px;">O'chirish</button></td>
-                        </tr>
+                        <!-- Ma'lumotlar shu yerda -->
                     </tbody>
                 </table>
             </div>
@@ -158,20 +180,23 @@
 
         <!-- 4. MS POWERPOINT -->
         <div id="ppt" class="panel">
-            <h3>Microsoft PowerPoint - Taqdimot (Slaydlar muharriri)</h3>
-            <div class="toolbar">
-                <button class="btn" onclick="addSlide()">+ Yangi slayd qo'shish</button>
-                <button class="btn" onclick="deleteCurrentSlide()" style="background: #ef4444;">Slaydni o'chirish</button>
-                <span id="slideIndicator" style="font-weight: bold;">Slayd: 1 / 1</span>
-                <span id="pptStatus" class="status-msg"></span>
+            <div class="panel-header">
+                <h3>PowerPoint - Taqdimot Muharriri</h3>
+                <span id="pptStatus" class="status-msg">Saqlangan ✓</span>
             </div>
-            <div class="ppt-workspace">
-                <div class="slides-sidebar" id="slidesThumbList">
-                    <!-- Slaydlar ro'yxati shu yerda chiqadi -->
-                </div>
-                <div class="slide-editor">
-                    <input type="text" id="slideTitleInput" placeholder="Slayd sarlavhasi..." oninput="updateSlideContent()">
-                    <textarea id="slideTextInput" placeholder="Slayd mazmuni, matnlar va qoidalar..." oninput="updateSlideContent()"></textarea>
+            <div class="ribbon">
+                <button class="btn btn-primary" onclick="addSlide()">+ Yangi slayd</button>
+                <button class="btn btn-danger" onclick="deleteCurrentSlide()">Slaydni o'chirish</button>
+                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color: #white; border:none; color:#fff;">▶ Slayd-shou boshlash</button>
+                <span id="slideIndicator" style="margin-left: auto; font-weight: 600;">Slayd: 1 / 1</span>
+            </div>
+            <div class="ppt-layout">
+                <div class="ppt-sidebar" id="slidesThumbList"></div>
+                <div class="ppt-workspace">
+                    <div class="slide-canvas">
+                        <input type="text" id="slideTitleInput" placeholder="Slayd sarlavhasini kiriting..." oninput="updateSlideContent()">
+                        <textarea id="slideTextInput" placeholder="Slayd mazmuni, matnlar va ro'yxatlarni kiriting..." oninput="updateSlideContent()"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -179,7 +204,7 @@
     </div>
 
     <script>
-        // Dasturlararo o'tish
+        // Umumiy dasturlararo almashtirish
         function switchApp(appId, btn) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
@@ -187,193 +212,210 @@
             btn.classList.add('active');
         }
 
-        // --- 1. WORD FUNKSIYALARI ---
+        // --- 1. WORD LOGIKASI ---
         function formatWord(cmd, val = null) {
             document.execCommand(cmd, false, val);
+            updateWordStats();
+            saveWord();
+        }
+        function updateWordStats() {
+            const text = document.getElementById('wordEditor').innerText.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            const chars = text.length;
+            document.getElementById('wordChars').innerText = `So'zlar: ${words} | Belgilar: ${chars}`;
             saveWord();
         }
         function saveWord() {
             localStorage.setItem('webOffice_Word', document.getElementById('wordEditor').innerHTML);
-            showStatus('wordStatus', 'Saqlandi ✓');
+            showStatus('wordStatus');
         }
         function clearWord() {
-            if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
+            if(confirm("Hujjatni butunlay tozalashni xohlaysizmi?")) {
                 document.getElementById('wordEditor').innerHTML = '';
-                saveWord();
+                updateWordStats();
             }
         }
-        function downloadWord() {
+        function downloadWordDoc() {
             const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:40px;">${document.getElementById('wordEditor').innerHTML}</body></html>`;
-            const blob = new Blob([html], {type: 'text/html'});
+            const blob = new Blob([html], {type: 'application/msword'});
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'hujjat.html';
+            link.download = 'hujjat.doc';
             link.click();
         }
 
-        // --- 2. EXCEL FUNKSIYALARI ---
-        function calcExcelRow(el) {
-            const row = el.closest('tr');
-            const inputs = row.querySelectorAll('input');
-            const qty = parseFloat(inputs[1].value) || 0;
-            const price = parseFloat(inputs[2].value) || 0;
-            row.querySelector('.rowTotal').innerText = qty * price;
-            calculateExcelSum();
-            saveExcel();
-        }
-        function calculateExcelSum() {
+        // --- 2. EXCEL LOGIKASI ---
+        let excelData = [
+            {name: "Noutbuk Asus", qty: 2, price: 6500000},
+            {name: "Ofis kreslosi", qty: 5, price: 850000}
+        ];
+
+        function renderExcel() {
+            const tbody = document.getElementById('excelBody');
+            tbody.innerHTML = '';
             let grandTotal = 0;
-            document.querySelectorAll('.rowTotal').forEach(cell => {
-                grandTotal += parseFloat(cell.innerText) || 0;
+
+            excelData.forEach((row, idx) => {
+                let total = row.qty * row.price;
+                grandTotal += total;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td><input type="text" value="${row.name}" oninput="excelData[${idx}].name = this.value; saveExcel();"></td>
+                    <td><input type="number" value="${row.qty}" oninput="excelData[${idx}].qty = parseFloat(this.value)||0; renderExcel();"></td>
+                    <td><input type="number" value="${row.price}" oninput="excelData[${idx}].price = parseFloat(this.value)||0; renderExcel();"></td>
+                    <td style="font-weight: 600;">${total.toLocaleString()} so'm</td>
+                `;
+                tbody.appendChild(tr);
             });
-            document.getElementById('grandTotal').innerText = grandTotal;
+            document.getElementById('grandTotal').innerText = grandTotal.toLocaleString();
+            saveExcel();
         }
         function addExcelRow() {
-            const tbody = document.getElementById('excelBody');
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td><input type="text" value="Yangi mahsulot"></td><td><input type="number" value="1" oninput="calcExcelRow(this)"></td><td><input type="number" value="0" oninput="calcExcelRow(this)"></td><td class="rowTotal">0</td>`;
-            tbody.appendChild(tr);
-            saveExcel();
+            excelData.push({name: "Yangi mahsulot", qty: 1, price: 0});
+            renderExcel();
+        }
+        function clearExcel() {
+            if(confirm("Jadvalni tozalaysizmi?")) {
+                excelData = [];
+                renderExcel();
+            }
         }
         function saveExcel() {
-            let rowsData = [];
-            document.querySelectorAll('#excelBody tr').forEach(row => {
-                const inputs = row.querySelectorAll('input');
-                rowsData.push({name: inputs[0].value, qty: inputs[1].value, price: inputs[2].value});
-            });
-            localStorage.setItem('webOffice_Excel', JSON.stringify(rowsData));
-            showStatus('excelStatus', 'Excel saqlandi ✓');
+            localStorage.setItem('webOffice_Excel', JSON.stringify(excelData));
+            showStatus('excelStatus');
         }
 
-        // --- 3. ACCESS FUNKSIYALARI ---
-        function addAccessRow() {
+        // --- 3. ACCESS LOGIKASI ---
+        let accessData = [
+            {id: 1, name: "Anvar Rahimov", phone: "+998 90 111-22-33", category: "Mijoz", date: "2026-06-12"},
+            {id: 2, name: "Dilshodbek Umarov", phone: "+998 91 333-44-55", category: "Hamkor", date: "2026-07-01"}
+        ];
+
+        function renderAccess() {
             const tbody = document.getElementById('accessBody');
-            const id = tbody.children.length + 1;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${id}</td><td><input type="text" value="Ism Familiya" oninput="saveAccess()"></td><td><input type="text" value="+998" oninput="saveAccess()"></td><td><input type="text" value="Manzil" oninput="saveAccess()"></td><td><button class="btn" onclick="deleteAccessRow(this)" style="background:#ef4444; padding:4px 8px; font-size:12px;">O'chirish</button></td>`;
-            tbody.appendChild(tr);
+            tbody.innerHTML = '';
+            accessData.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.id}</td>
+                    <td><input type="text" value="${item.name}" oninput="accessData[${idx}].name = this.value; saveAccess();"></td>
+                    <td><input type="text" value="${item.phone}" oninput="accessData[${idx}].phone = this.value; saveAccess();"></td>
+                    <td><input type="text" value="${item.category}" oninput="accessData[${idx}].category = this.value; saveAccess();"></td>
+                    <td>${item.date}</td>
+                    <td><button class="btn btn-danger" style="padding:3px 8px; font-size:12px;" onclick="deleteAccess(${idx})">O'chirish</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
             saveAccess();
         }
-        function deleteAccessRow(btn) {
-            btn.closest('tr').remove();
-            saveAccess();
+        function addAccessRow() {
+            const newId = accessData.length > 0 ? accessData[accessData.length - 1].id + 1 : 1;
+            const today = new Date().toISOString().split('T')[0];
+            accessData.push({id: newId, name: "Ism Familiya", phone: "+998 ", category: "Yangi", date: today});
+            renderAccess();
+        }
+        function deleteAccess(idx) {
+            accessData.splice(idx, 1);
+            renderAccess();
         }
         function filterAccess() {
-            const query = document.getElementById('dbSearch').value.toLowerCase();
+            const q = document.getElementById('dbSearch').value.toLowerCase();
             document.querySelectorAll('#accessBody tr').forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
+                row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
             });
+        }
+        function exportAccessCSV() {
+            let csv = "ID,F.I.Sh,Telefon,Kategoriya,Sana\n";
+            accessData.forEach(r => csv += `${r.id},"${r.name}","${r.phone}","${r.category}",${r.date}\n`);
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'database_export.csv';
+            link.click();
         }
         function saveAccess() {
-            let data = [];
-            document.querySelectorAll('#accessBody tr').forEach(row => {
-                const inputs = row.querySelectorAll('input');
-                if(inputs.length > 0) {
-                    data.push({name: inputs[0].value, phone: inputs[1].value, address: inputs[2].value});
-                }
-            });
-            localStorage.setItem('webOffice_Access', JSON.stringify(data));
-            showStatus('accessStatus', 'Baza saqlandi ✓');
+            localStorage.setItem('webOffice_Access', JSON.stringify(accessData));
+            showStatus('accessStatus');
         }
 
-        // --- 4. POWERPOINT FUNKSIYALARI ---
-        let pptSlides = [{title: "Slayd 1 Sarlavhasi", text: "Bu yerga taqdimot matni va asosiy fikrlar kiritiladi..."}];
+        // --- 4. POWERPOINT LOGIKASI ---
+        let pptSlides = [
+            {title: "Biznes Loyiha Taqdimoti", text: "Asosiy maqsad va vazifalar rejasi.\n1. Bozor tahlili\n2. Ishlab chiqarish\n3. Muvaffaqiyat strategiyasi"}
+        ];
         let activeSlideIdx = 0;
 
-        function renderSlidesThumbnails() {
+        function renderSlides() {
             const list = document.getElementById('slidesThumbList');
             list.innerHTML = '';
             pptSlides.forEach((slide, idx) => {
                 const div = document.createElement('div');
-                div.className = `slide-thumb ${idx === activeSlideIdx ? 'active' : ''}`;
-                div.innerText = `${idx + 1}. ${slide.title || 'Slayd'}`;
+                div.className = `slide-card ${idx === activeSlideIdx ? 'active' : ''}`;
+                div.innerHTML = `<div style="font-size:12px; color:#605e5c;">Slayd ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Sarlavhasiz'}</div>`;
                 div.onclick = () => selectSlide(idx);
                 list.appendChild(div);
             });
             document.getElementById('slideIndicator').innerText = `Slayd: ${activeSlideIdx + 1} / ${pptSlides.length}`;
             document.getElementById('slideTitleInput').value = pptSlides[activeSlideIdx].title;
             document.getElementById('slideTextInput').value = pptSlides[activeSlideIdx].text;
-        }
-
-        function selectSlide(idx) {
-            activeSlideIdx = idx;
-            renderSlidesThumbnails();
-        }
-
-        function addSlide() {
-            pptSlides.push({title: `Slayd ${pptSlides.length + 1}`, text: "Yangi slayd matni..."});
-            activeSlideIdx = pptSlides.length - 1;
-            renderSlidesThumbnails();
             savePPT();
         }
-
+        function selectSlide(idx) {
+            activeSlideIdx = idx;
+            renderSlides();
+        }
+        function addSlide() {
+            pptSlides.push({title: `Yangi Slayd ${pptSlides.length + 1}`, text: "Bu yerga matn kiritiladi..."});
+            activeSlideIdx = pptSlides.length - 1;
+            renderSlides();
+        }
         function deleteCurrentSlide() {
             if(pptSlides.length > 1) {
                 pptSlides.splice(activeSlideIdx, 1);
                 if(activeSlideIdx >= pptSlides.length) activeSlideIdx = pptSlides.length - 1;
-                renderSlidesThumbnails();
-                savePPT();
+                renderSlides();
             } else {
-                alert("Eng kamida bitta slayd qolishi kerak!");
+                alert("Oxirgi slaydni o'chirib bo'lmaydi!");
             }
         }
-
         function updateSlideContent() {
             pptSlides[activeSlideIdx].title = document.getElementById('slideTitleInput').value;
             pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput').value;
-            renderSlidesThumbnails();
-            savePPT();
+            renderSlides();
         }
-
+        function startSlideShow() {
+            let w = window.open("", "_blank");
+            w.document.write(`<html><head><title>Slayd-shou</title><style>body{background:#111;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:50px;}h1{font-size:48px;color:#61dafb;margin-bottom:20px;}p{font-size:24px;line-height:1.6;white-space:pre-wrap;}</style></head><body><div><h1>${pptSlides[activeSlideIdx].title}</h1><p>${pptSlides[activeSlideIdx].text}</p></div></body></html>`);
+        }
         function savePPT() {
             localStorage.setItem('webOffice_PPT', JSON.stringify(pptSlides));
-            showStatus('pptStatus', 'Slaydlar saqlandi ✓');
+            showStatus('pptStatus');
         }
 
-        function showStatus(elementId, text) {
+        // Umumiy status xabari
+        function showStatus(elementId) {
             const el = document.getElementById(elementId);
-            el.innerText = text;
-            setTimeout(() => { el.innerText = ""; }, 1500);
+            el.innerHTML = "Saqlandi ✓";
+            setTimeout(() => { el.innerHTML = "Faol ✓"; }, 1500);
         }
 
-        // Sahifa ochilganda xotiradan ma'lumotlarni yuklash
+        // Dastur ishga tushganda ma'lumotlarni yuklash
         window.onload = function() {
-            // Word
             const w = localStorage.getItem('webOffice_Word');
             if(w) document.getElementById('wordEditor').innerHTML = w;
+            updateWordStats();
 
-            // Excel
-            const ex = JSON.parse(localStorage.getItem('webOffice_Excel'));
-            if(ex) {
-                const tbody = document.getElementById('excelBody');
-                tbody.innerHTML = '';
-                ex.forEach(item => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td><input type="text" value="${item.name}"></td><td><input type="number" value="${item.qty}" oninput="calcExcelRow(this)"></td><td><input type="number" value="${item.price}" oninput="calcExcelRow(this)"></td><td class="rowTotal">${item.qty * item.price}</td>`;
-                    tbody.appendChild(tr);
-                });
-                calculateExcelSum();
-            }
+            const ex = localStorage.getItem('webOffice_Excel');
+            if(ex) excelData = JSON.parse(ex);
+            renderExcel();
 
-            // Access
-            const ac = JSON.parse(localStorage.getItem('webOffice_Access'));
-            if(ac) {
-                const tbody = document.getElementById('accessBody');
-                tbody.innerHTML = '';
-                ac.forEach((item, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${idx + 1}</td><td><input type="text" value="${item.name}" oninput="saveAccess()"></td><td><input type="text" value="${item.phone}" oninput="saveAccess()"></td><td><input type="text" value="${item.address}" oninput="saveAccess()"></td><td><button class="btn" onclick="deleteAccessRow(this)" style="background:#ef4444; padding:4px 8px; font-size:12px;">O'chirish</button></td>`;
-                    tbody.appendChild(tr);
-                });
-            }
+            const ac = localStorage.getItem('webOffice_Access');
+            if(ac) accessData = JSON.parse(ac);
+            renderAccess();
 
-            // PPT
-            const pt = JSON.parse(localStorage.getItem('webOffice_PPT'));
-            if(pt) {
-                pptSlides = pt;
-            }
-            renderSlidesThumbnails();
+            const pt = localStorage.getItem('webOffice_PPT');
+            if(pt) pptSlides = JSON.parse(pt);
+            renderSlides();
         };
     </script>
 </body>
