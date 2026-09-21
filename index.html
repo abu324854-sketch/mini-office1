@@ -3,68 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Ultimate - Professional Suite</title>
+    <title>Web Office Enterprise - Professional Suite</title>
     <style>
         :root {
             --primary: #0078d4;
             --primary-dark: #106ebe;
-            --bg-sidebar: #1f1f1f;
+            --bg-sidebar: #1b1b1b;
             --bg-main: #f3f2f1;
             --text-main: #201f1e;
-            --border: #e1dfdd;
+            --border: #d1d1d1;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
 
-        /* Professional Chap Menyu (Ribbon Launcher) */
-        .sidebar { width: 280px; background: var(--bg-sidebar); color: #fff; padding: 25px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
-        .sidebar-brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; color: #61dafb; margin-bottom: 25px; padding-left: 10px; }
-        .sidebar button { background: transparent; border: none; color: #c8c6c4; padding: 14px 18px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; }
+        /* Professional Chap Menyu */
+        .sidebar { width: 280px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 15px rgba(0,0,0,0.15); }
+        .sidebar-brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; color: #4cc9f0; margin-bottom: 20px; padding-left: 10px; }
+        .sidebar button { background: transparent; border: none; color: #b0b0b0; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 12px; }
         .sidebar button:hover { background: rgba(255,255,255,0.08); color: #fff; }
         .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.3); }
 
         /* Ishchi Hudud */
-        .content { flex: 1; padding: 25px; display: flex; flex-direction: column; overflow: hidden; }
-        .panel { display: none; flex: 1; flex-direction: column; gap: 15px; background: #ffffff; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); overflow-y: auto; border: 1px solid var(--border); }
-        .panel.active { display: flex; animation: fadeIn 0.25s ease-in-out; }
+        .content { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; }
+        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); overflow-y: auto; border: 1px solid var(--border); }
+        .panel.active { display: flex; animation: fadeIn 0.2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
-        .panel-header h3 { color: #323130; font-size: 20px; font-weight: 600; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .panel-header h3 { color: #201f1e; font-size: 18px; font-weight: 600; }
 
         /* Asboblar paneli (Ribbon) */
-        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #faf9f8; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
-        .btn { background: #fff; color: #323130; border: 1px solid var(--border); padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; transition: 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #faf9f8; padding: 10px; border-radius: 6px; border: 1px solid var(--border); }
+        .btn { background: #fff; color: #323130; border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; transition: 0.15s; display: inline-flex; align-items: center; gap: 6px; }
         .btn:hover { background: #f3f2f1; border-color: #8a8886; }
-        .btn-primary { background: var(--primary); color: #white; border: none; color: #fff; }
+        .btn-primary { background: var(--primary); color: #fff; border: none; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-danger { background: #d13438; color: #fff; border: none; }
         .btn-danger:hover { background: #a80000; }
 
-        .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: #fff; font-size: 13px; color: #323130; }
-        .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; display: flex; align-items: center; gap: 5px; }
+        .ribbon select, .ribbon input { padding: 5px 8px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: #fff; font-size: 13px; color: #323130; }
+        .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; }
 
-        /* 1. WORD STILI */
+        /* 1. WORD */
         .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; }
-        .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 900px; margin: 0 auto; width: 100%; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.02); }
-        .word-footer { background: #faf9f8; padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; }
+        .word-editor { flex: 1; padding: 30px; outline: none; overflow-y: auto; font-size: 15px; line-height: 1.6; max-width: 800px; margin: 0 auto; width: 100%; box-shadow: 0 0 10px rgba(0,0,0,0.02); }
+        .word-footer { background: #faf9f8; padding: 6px 15px; border-top: 1px solid var(--border); font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; }
 
-        /* 2 & 3. EXCEL & ACCESS JADVALLARI */
+        /* 2. EXCEL (Formula Bar bilan) */
+        .formula-bar { display: flex; align-items: center; background: #fff; border: 1px solid var(--border); padding: 5px 10px; border-radius: 4px; gap: 10px; }
+        .formula-bar label { font-weight: bold; color: #605e5c; font-size: 14px; }
+        .formula-bar input { flex: 1; border: none; outline: none; font-size: 14px; font-family: monospace; }
         .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
         table { width: 100%; border-collapse: collapse; background: #fff; text-align: left; }
-        th, td { border: 1px solid var(--border); padding: 9px 12px; font-size: 14px; }
-        th { background: #f3f2f1; color: #323130; font-weight: 600; position: sticky; top: 0; z-index: 5; }
-        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 14px; }
+        th, td { border: 1px solid var(--border); padding: 8px 10px; font-size: 13px; }
+        th { background: #f3f2f1; color: #323130; font-weight: 600; position: sticky; top: 0; z-index: 5; text-align: center; }
+        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 13px; }
+        td.cell-selected { background: #edebe9 !important; border: 2px solid var(--primary); }
 
-        /* 4. POWERPOINT STILI */
-        .ppt-layout { display: flex; gap: 20px; flex: 1; height: calc(100vh - 160px); }
-        .ppt-sidebar { width: 240px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
-        .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: #faf9f8; transition: 0.15s; }
+        /* 3. ACCESS (Relyatsion Jadvallar va Bog'liqlik) */
+        .access-grid { display: flex; gap: 15px; flex: 1; overflow: hidden; }
+        .access-table-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; }
+        .access-table-title { background: #faf9f8; padding: 8px 12px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+
+        /* 4. POWERPOINT (Slaydlar va Dizayn) */
+        .ppt-layout { display: flex; gap: 15px; flex: 1; }
+        .ppt-sidebar { width: 220px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .slide-card { padding: 10px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: #faf9f8; transition: 0.15s; }
         .slide-card.active { border-color: var(--primary); background: #eff6fc; font-weight: 600; }
-        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center; background: #faf9f8; border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-        .slide-canvas { width: 100%; max-width: 750px; height: 420px; background: #fff; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 40px; display: flex; flex-direction: column; gap: 20px; border: 1px solid var(--border); }
-        .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed #e1dfdd; outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
-        .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 200px; background: transparent; line-height: 1.5; }
+        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; background: #faf9f8; border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
+        .slide-canvas { width: 100%; max-width: 700px; height: 380px; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 30px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
+        .slide-canvas input { font-size: 22px; font-weight: bold; border: none; border-bottom: 2px dashed rgba(0,0,0,0.1); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
+        .slide-canvas textarea { font-size: 15px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -72,36 +81,35 @@
     <!-- Chap Menyu -->
     <div class="sidebar">
         <div class="sidebar-brand">
-            <span>⚡ Web Office Ultimate</span>
+            <span>⚡ Web Office Enterprise</span>
         </div>
         <button class="active" onclick="switchApp('word', this)">📄 Word Professional</button>
-        <button onclick="switchApp('excel', this)">📊 Excel Sheets</button>
-        <button onclick="switchApp('access', this)">🗄️ Access Database</button>
+        <button onclick="switchApp('excel', this)">📊 Excel Advanced</button>
+        <button onclick="switchApp('access', this)">🗄️ Access Relational DB</button>
         <button onclick="switchApp('ppt', this)">📽️ PowerPoint Studio</button>
     </div>
 
     <!-- Asosiy Dasturlar Kontenti -->
     <div class="content">
 
-        <!-- 1. MS WORD -->
+        <!-- 1. WORD -->
         <div id="word" class="panel active">
             <div class="panel-header">
-                <h3>Word - Matn Muharriri</h3>
+                <h3>Word - Hujjat Muharriri</h3>
                 <span id="wordStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
                 <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
                 <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
-                <button class="btn" onclick="formatWord('strikeThrough')"><s>S</s></button>
                 <select onchange="formatWord('fontSize', this.value)">
-                    <option value="3">Shrift o'lchami</option>
+                    <option value="3">Shrift hajmi</option>
                     <option value="2">Kichik (12px)</option>
-                    <option value="3">O'rta (16px)</option>
+                    <option value="3">O'rta (15px)</option>
                     <option value="5">Katta (22px)</option>
                     <option value="7">Juda katta (30px)</option>
                 </select>
-                <input type="color" onchange="formatWord('foreColor', this.value)" title="Matn rangi" style="width: 35px; height: 32px; padding: 0; cursor: pointer;">
+                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding: 0; cursor: pointer;" title="Rangi">
                 <button class="btn" onclick="formatWord('justifyLeft')">Chapga</button>
                 <button class="btn" onclick="formatWord('justifyCenter')">O'rtaga</button>
                 <button class="btn" onclick="formatWord('justifyRight')">O'ngga</button>
@@ -118,84 +126,85 @@
             </div>
         </div>
 
-        <!-- 2. MS EXCEL -->
+        <!-- 2. EXCEL -->
         <div id="excel" class="panel">
             <div class="panel-header">
-                <h3>Excel - Jadval va Hisob-kitoblar</h3>
+                <h3>Excel - Hisob-kitob va Formulalar Dvigateli</h3>
                 <span id="excelStatus" class="status-msg">Saqlangan ✓</span>
             </div>
+            <div class="formula-bar">
+                <label id="activeCellLabel">A1</label>
+                <input type="text" id="formulaInput" placeholder="Qiymat yoki formula kiriting (masalan: =SUM(A1:A3))" onkeypress="handleFormula(event)">
+            </div>
             <div class="ribbon">
-                <button class="btn btn-primary" onclick="addExcelRow()">+ Qator qo'shish</button>
-                <button class="btn" onclick="addExcelCol()">+ Ustun qo'shish</button>
+                <button class="btn btn-primary" onclick="addExcelRow()">+ Qator</button>
+                <button class="btn btn-primary" onclick="addExcelCol()">+ Ustun</button>
+                <button class="btn" onclick="applyExcelSum()" style="background: #107c41; color:#fff; border:none;">SUM (Yig'indi)</button>
                 <button class="btn btn-danger" onclick="clearExcel()">Jadvalni tozalash</button>
-                <div style="font-weight: 600; margin-left: auto;">Umumiy Jami: <span id="grandTotal" style="color: var(--primary);">0</span> so'm</div>
+                <span style="font-weight: 600; margin-left: auto;">Natija / Yig'indi: <span id="excelResult" style="color:var(--primary);">0</span></span>
             </div>
             <div class="table-wrap">
                 <table id="excelTable">
-                    <thead>
-                        <tr id="excelHeaderRow">
-                            <th>#</th>
-                            <th>Mahsulot / Xizmat</th>
-                            <th>Miqdor</th>
-                            <th>Narx (so'm)</th>
-                            <th>Jami Summa</th>
-                        </tr>
-                    </thead>
-                    <tbody id="excelBody">
-                        <!-- Qatorlar JS orqali boshqariladi -->
-                    </tbody>
+                    <thead id="excelHead"></thead>
+                    <tbody id="excelBody"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 3. MS ACCESS -->
+        <!-- 3. ACCESS -->
         <div id="access" class="panel">
             <div class="panel-header">
-                <h3>Access - Ma'lumotlar Bazasini Boshqarish</h3>
+                <h3>Access - Relyatsion Ma'lumotlar Bazasi (Bog'langan Jadvallar)</h3>
                 <span id="accessStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="ribbon">
-                <input type="text" id="dbSearch" placeholder="Ma'lumotlar bazasidan qidirish..." oninput="filterAccess()" style="width: 250px;">
-                <button class="btn btn-primary" onclick="addAccessRow()">+ Yangi yozuv qo'shish</button>
-                <button class="btn" onclick="exportAccessCSV()">CSV ga eksport qilish</button>
+                <button class="btn btn-primary" onclick="addAccessRecord()">+ Hodim va Buyurtma qo'shish</button>
+                <span style="font-size: 13px; color: #605e5c;">(Jadvallar bir-biriga ID orqali to'liq bog'langan)</span>
             </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>F.I.Sh (Mijoz / Hodim)</th>
-                            <th>Telefon Raqami</th>
-                            <th>Kategoriya / Lavozim</th>
-                            <th>Ro'yxatga olingan sana</th>
-                            <th>Amallar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="accessBody">
-                        <!-- Ma'lumotlar shu yerda -->
-                    </tbody>
-                </table>
+            <div class="access-grid">
+                <!-- 1-Jadval: Hodimlar -->
+                <div class="access-table-box">
+                    <div class="access-table-title"><span>Jadval 1: Hodimlar (Staff)</span></div>
+                    <div style="overflow-y: auto; flex: 1;">
+                        <table>
+                            <thead><tr><th>ID</th><th>F.I.Sh</th><th>Lavozim</th></tr></thead>
+                            <tbody id="staffBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 2-Jadval: Buyurtmalar (Bog'langan) -->
+                <div class="access-table-box">
+                    <div class="access-table-title"><span>Jadval 2: Buyurtmalar (Orders - Foreign Key bog'langan)</span></div>
+                    <div style="overflow-y: auto; flex: 1;">
+                        <table>
+                            <thead><tr><th>Buyurtma ID</th><th>Hodim ID (Bog'langan)</th><th>Mahsulot</th><th>Summa</th></tr></thead>
+                            <tbody id="ordersBody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 4. MS POWERPOINT -->
+        <!-- 4. POWERPOINT -->
         <div id="ppt" class="panel">
             <div class="panel-header">
-                <h3>PowerPoint - Taqdimot Muharriri</h3>
+                <h3>PowerPoint - Taqdimot va Slayd Studio</h3>
                 <span id="pptStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addSlide()">+ Yangi slayd</button>
-                <button class="btn btn-danger" onclick="deleteCurrentSlide()">Slaydni o'chirish</button>
-                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color: #white; border:none; color:#fff;">▶ Slayd-shou boshlash</button>
+                <button class="btn" onclick="changeSlideTheme('#ffffff', '#201f1e')">Oq fon</button>
+                <button class="btn" onclick="changeSlideTheme('#1b263b', '#ffffff')" style="background:#1b263b; color:#fff;">To'q fon</button>
+                <button class="btn btn-danger" onclick="deleteSlide()">O'chirish</button>
+                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color:#fff; border:none;">▶ Slayd-shou</button>
                 <span id="slideIndicator" style="margin-left: auto; font-weight: 600;">Slayd: 1 / 1</span>
             </div>
             <div class="ppt-layout">
                 <div class="ppt-sidebar" id="slidesThumbList"></div>
                 <div class="ppt-workspace">
-                    <div class="slide-canvas">
-                        <input type="text" id="slideTitleInput" placeholder="Slayd sarlavhasini kiriting..." oninput="updateSlideContent()">
-                        <textarea id="slideTextInput" placeholder="Slayd mazmuni, matnlar va ro'yxatlarni kiriting..." oninput="updateSlideContent()"></textarea>
+                    <div class="slide-canvas" id="slideCanvasBox">
+                        <input type="text" id="slideTitleInput" placeholder="Sarlavha..." oninput="updateSlideData()">
+                        <textarea id="slideTextInput" placeholder="Slayd mazmuni va elementlar..." oninput="updateSlideData()"></textarea>
                     </div>
                 </div>
             </div>
@@ -204,7 +213,6 @@
     </div>
 
     <script>
-        // Umumiy dasturlararo almashtirish
         function switchApp(appId, btn) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
@@ -227,10 +235,9 @@
         }
         function saveWord() {
             localStorage.setItem('webOffice_Word', document.getElementById('wordEditor').innerHTML);
-            showStatus('wordStatus');
         }
         function clearWord() {
-            if(confirm("Hujjatni butunlay tozalashni xohlaysizmi?")) {
+            if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
                 document.getElementById('wordEditor').innerHTML = '';
                 updateWordStats();
             }
@@ -244,178 +251,203 @@
             link.click();
         }
 
-        // --- 2. EXCEL LOGIKASI ---
-        let excelData = [
-            {name: "Noutbuk Asus", qty: 2, price: 6500000},
-            {name: "Ofis kreslosi", qty: 5, price: 850000}
-        ];
+        // --- 2. EXCEL LOGIKASI (Professional Kataklar va Formulalar) ---
+        let excelRows = 5;
+        let excelCols = 5;
+        let excelData = {};
+        let selectedCell = null;
 
-        function renderExcel() {
-            const tbody = document.getElementById('excelBody');
-            tbody.innerHTML = '';
-            let grandTotal = 0;
+        function initExcel() {
+            const head = document.getElementById('excelHead');
+            const body = document.getElementById('excelBody');
+            head.innerHTML = '';
+            body.innerHTML = '';
 
-            excelData.forEach((row, idx) => {
-                let total = row.qty * row.price;
-                grandTotal += total;
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${idx + 1}</td>
-                    <td><input type="text" value="${row.name}" oninput="excelData[${idx}].name = this.value; saveExcel();"></td>
-                    <td><input type="number" value="${row.qty}" oninput="excelData[${idx}].qty = parseFloat(this.value)||0; renderExcel();"></td>
-                    <td><input type="number" value="${row.price}" oninput="excelData[${idx}].price = parseFloat(this.value)||0; renderExcel();"></td>
-                    <td style="font-weight: 600;">${total.toLocaleString()} so'm</td>
-                `;
-                tbody.appendChild(tr);
-            });
-            document.getElementById('grandTotal').innerText = grandTotal.toLocaleString();
-            saveExcel();
-        }
-        function addExcelRow() {
-            excelData.push({name: "Yangi mahsulot", qty: 1, price: 0});
-            renderExcel();
-        }
-        function clearExcel() {
-            if(confirm("Jadvalni tozalaysizmi?")) {
-                excelData = [];
-                renderExcel();
+            let trH = '<tr><th>#</th>';
+            for(let c=0; c<excelCols; c++) {
+                trH += `<th>${String.fromCharCode(65 + c)}</th>`;
+            }
+            trH += '</tr>';
+            head.innerHTML = trH;
+
+            for(let r=0; r<excelRows; r++) {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<th style="background:#f3f2f1;">${r+1}</th>`;
+                for(let c=0; c<excelCols; c++) {
+                    let cellId = `${String.fromCharCode(65 + c)}${r+1}`;
+                    let val = excelData[cellId] || '';
+                    tr.innerHTML += `<td><input type="text" id="cell_${cellId}" value="${val}" onclick="selectExcelCell('${cellId}')" oninput="updateExcelCell('${cellId}', this.value)"></td>`;
+                }
+                body.appendChild(tr);
             }
         }
-        function saveExcel() {
-            localStorage.setItem('webOffice_Excel', JSON.stringify(excelData));
-            showStatus('excelStatus');
+
+        function selectExcelCell(cellId) {
+            if(selectedCell) document.getElementById(`cell_${selectedCell}`).parentElement.classList.remove('cell-selected');
+            selectedCell = cellId;
+            document.getElementById(`cell_${cellId}`).parentElement.classList.add('cell-selected');
+            document.getElementById('activeCellLabel').innerText = cellId;
+            document.getElementById('formulaInput').value = excelData[cellId] || '';
         }
 
-        // --- 3. ACCESS LOGIKASI ---
-        let accessData = [
-            {id: 1, name: "Anvar Rahimov", phone: "+998 90 111-22-33", category: "Mijoz", date: "2026-06-12"},
-            {id: 2, name: "Dilshodbek Umarov", phone: "+998 91 333-44-55", category: "Hamkor", date: "2026-07-01"}
+        function updateExcelCell(cellId, val) {
+            excelData[cellId] = val;
+            localStorage.setItem('webOffice_Excel', JSON.stringify(excelData));
+        }
+
+        function handleFormula(e) {
+            if(e.key === 'Enter' && selectedCell) {
+                let val = document.getElementById('formulaInput').value;
+                excelData[selectedCell] = val;
+                document.getElementById(`cell_${selectedCell}`).value = val;
+                updateExcelCell(selectedCell, val);
+            }
+        }
+
+        function applyExcelSum() {
+            let sum = 0;
+            for(let key in excelData) {
+                let num = parseFloat(excelData[key]);
+                if(!isNaN(num)) sum += num;
+            }
+            document.getElementById('excelResult').innerText = sum;
+        }
+
+        function addExcelRow() { excelRows++; initExcel(); }
+        function addExcelCol() { if(excelCols < 10) excelCols++; initExcel(); }
+        function clearExcel() {
+            if(confirm("Excel jadvalini tozalaysizmi?")) {
+                excelData = {};
+                initExcel();
+            }
+        }
+
+        // --- 3. ACCESS LOGIKASI (Relyatsion Jadvallar) ---
+        let staffData = [
+            {id: 1, name: "Anvar Rahimov", position: "Menejer"},
+            {id: 2, name: "Dilshod Umarov", position: "Operator"}
+        ];
+        let ordersData = [
+            {orderId: 101, staffId: 1, product: "Noutbuk Asus", amount: 6500000},
+            {orderId: 102, staffId: 2, product: "Ofis Kreslosi", amount: 850000}
         ];
 
         function renderAccess() {
-            const tbody = document.getElementById('accessBody');
-            tbody.innerHTML = '';
-            accessData.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td><input type="text" value="${item.name}" oninput="accessData[${idx}].name = this.value; saveAccess();"></td>
-                    <td><input type="text" value="${item.phone}" oninput="accessData[${idx}].phone = this.value; saveAccess();"></td>
-                    <td><input type="text" value="${item.category}" oninput="accessData[${idx}].category = this.value; saveAccess();"></td>
-                    <td>${item.date}</td>
-                    <td><button class="btn btn-danger" style="padding:3px 8px; font-size:12px;" onclick="deleteAccess(${idx})">O'chirish</button></td>
-                `;
-                tbody.appendChild(tr);
+            let staffBody = document.getElementById('staffBody');
+            staffBody.innerHTML = '';
+            staffData.forEach((s, idx) => {
+                staffBody.innerHTML += `<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" oninput="staffData[${idx}].name=this.value; saveAccess();"></td><td><input type="text" value="${s.position}" oninput="staffData[${idx}].position=this.value; saveAccess();"></td></tr>`;
+            });
+
+            let ordersBody = document.getElementById('ordersBody');
+            ordersBody.innerHTML = '';
+            ordersData.forEach((o, idx) => {
+                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b> (Bog'langan)</td><td><input type="text" value="${o.product}" oninput="ordersData[${idx}].product=this.value; saveAccess();"></td><td><input type="number" value="${o.amount}" oninput="ordersData[${idx}].amount=this.value; saveAccess();"></td></tr>`;
             });
             saveAccess();
         }
-        function addAccessRow() {
-            const newId = accessData.length > 0 ? accessData[accessData.length - 1].id + 1 : 1;
-            const today = new Date().toISOString().split('T')[0];
-            accessData.push({id: newId, name: "Ism Familiya", phone: "+998 ", category: "Yangi", date: today});
+
+        function addAccessRecord() {
+            let newStaffId = staffData.length + 1;
+            staffData.push({id: newStaffId, name: "Yangi Hodim", position: "Mutaxassis"});
+            ordersData.push({orderId: 100 + newStaffId, staffId: newStaffId, product: "Yangi Mahsulot", amount: 100000});
             renderAccess();
         }
-        function deleteAccess(idx) {
-            accessData.splice(idx, 1);
-            renderAccess();
-        }
-        function filterAccess() {
-            const q = document.getElementById('dbSearch').value.toLowerCase();
-            document.querySelectorAll('#accessBody tr').forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
-            });
-        }
-        function exportAccessCSV() {
-            let csv = "ID,F.I.Sh,Telefon,Kategoriya,Sana\n";
-            accessData.forEach(r => csv += `${r.id},"${r.name}","${r.phone}","${r.category}",${r.date}\n`);
-            const blob = new Blob([csv], {type: 'text/csv'});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'database_export.csv';
-            link.click();
-        }
+
         function saveAccess() {
-            localStorage.setItem('webOffice_Access', JSON.stringify(accessData));
-            showStatus('accessStatus');
+            localStorage.setItem('webOffice_Staff', JSON.stringify(staffData));
+            localStorage.setItem('webOffice_Orders', JSON.stringify(ordersData));
         }
 
         // --- 4. POWERPOINT LOGIKASI ---
         let pptSlides = [
-            {title: "Biznes Loyiha Taqdimoti", text: "Asosiy maqsad va vazifalar rejasi.\n1. Bozor tahlili\n2. Ishlab chiqarish\n3. Muvaffaqiyat strategiyasi"}
+            {title: "Professional Taqdimot", text: "Asosiy mavzu va reja ko'rsatmalari.", bg: "#ffffff", color: "#201f1e"}
         ];
         let activeSlideIdx = 0;
 
-        function renderSlides() {
+        function renderPPT() {
             const list = document.getElementById('slidesThumbList');
             list.innerHTML = '';
             pptSlides.forEach((slide, idx) => {
                 const div = document.createElement('div');
                 div.className = `slide-card ${idx === activeSlideIdx ? 'active' : ''}`;
-                div.innerHTML = `<div style="font-size:12px; color:#605e5c;">Slayd ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Sarlavhasiz'}</div>`;
+                div.innerHTML = `<div style="font-size:11px; color:#605e5c;">Slayd ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Sarlavha'}</div>`;
                 div.onclick = () => selectSlide(idx);
                 list.appendChild(div);
             });
             document.getElementById('slideIndicator').innerText = `Slayd: ${activeSlideIdx + 1} / ${pptSlides.length}`;
-            document.getElementById('slideTitleInput').value = pptSlides[activeSlideIdx].title;
-            document.getElementById('slideTextInput').value = pptSlides[activeSlideIdx].text;
-            savePPT();
+            
+            let current = pptSlides[activeSlideIdx];
+            document.getElementById('slideTitleInput').value = current.title;
+            document.getElementById('slideTextInput').value = current.text;
+            
+            let canvas = document.getElementById('slideCanvasBox');
+            canvas.style.backgroundColor = current.bg;
+            canvas.style.color = current.color;
+            document.getElementById('slideTitleInput').style.color = current.color;
+            document.getElementById('slideTextInput').style.color = current.color;
+            
+            localStorage.setItem('webOffice_PPT', JSON.stringify(pptSlides));
         }
+
         function selectSlide(idx) {
             activeSlideIdx = idx;
-            renderSlides();
+            renderPPT();
         }
+
         function addSlide() {
-            pptSlides.push({title: `Yangi Slayd ${pptSlides.length + 1}`, text: "Bu yerga matn kiritiladi..."});
+            pptSlides.push({title: `Yangi Slayd ${pptSlides.length + 1}`, text: "Ma'lumotlar...", bg: "#ffffff", color: "#201f1e"});
             activeSlideIdx = pptSlides.length - 1;
-            renderSlides();
+            renderPPT();
         }
-        function deleteCurrentSlide() {
+
+        function deleteSlide() {
             if(pptSlides.length > 1) {
                 pptSlides.splice(activeSlideIdx, 1);
                 if(activeSlideIdx >= pptSlides.length) activeSlideIdx = pptSlides.length - 1;
-                renderSlides();
+                renderPPT();
             } else {
                 alert("Oxirgi slaydni o'chirib bo'lmaydi!");
             }
         }
-        function updateSlideContent() {
+
+        function changeSlideTheme(bg, color) {
+            pptSlides[activeSlideIdx].bg = bg;
+            pptSlides[activeSlideIdx].color = color;
+            renderPPT();
+        }
+
+        function updateSlideData() {
             pptSlides[activeSlideIdx].title = document.getElementById('slideTitleInput').value;
             pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput').value;
-            renderSlides();
+            renderPPT();
         }
+
         function startSlideShow() {
             let w = window.open("", "_blank");
-            w.document.write(`<html><head><title>Slayd-shou</title><style>body{background:#111;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:50px;}h1{font-size:48px;color:#61dafb;margin-bottom:20px;}p{font-size:24px;line-height:1.6;white-space:pre-wrap;}</style></head><body><div><h1>${pptSlides[activeSlideIdx].title}</h1><p>${pptSlides[activeSlideIdx].text}</p></div></body></html>`);
-        }
-        function savePPT() {
-            localStorage.setItem('webOffice_PPT', JSON.stringify(pptSlides));
-            showStatus('pptStatus');
+            let s = pptSlides[activeSlideIdx];
+            w.document.write(`<html><head><title>Slayd-shou</title><style>body{background:${s.bg};color:${s.color};display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:60px;}h1{font-size:46px;margin-bottom:25px;}p{font-size:24px;line-height:1.6;white-space:pre-wrap;}</style></head><body><div><h1>${s.title}</h1><p>${s.text}</p></div></body></html>`);
         }
 
-        // Umumiy status xabari
-        function showStatus(elementId) {
-            const el = document.getElementById(elementId);
-            el.innerHTML = "Saqlandi ✓";
-            setTimeout(() => { el.innerHTML = "Faol ✓"; }, 1500);
-        }
-
-        // Dastur ishga tushganda ma'lumotlarni yuklash
+        // Ishga tushganda ma'lumotlarni yuklash
         window.onload = function() {
-            const w = localStorage.getItem('webOffice_Word');
+            let w = localStorage.getItem('webOffice_Word');
             if(w) document.getElementById('wordEditor').innerHTML = w;
             updateWordStats();
 
-            const ex = localStorage.getItem('webOffice_Excel');
+            let ex = localStorage.getItem('webOffice_Excel');
             if(ex) excelData = JSON.parse(ex);
-            renderExcel();
+            initExcel();
 
-            const ac = localStorage.getItem('webOffice_Access');
-            if(ac) accessData = JSON.parse(ac);
+            let st = localStorage.getItem('webOffice_Staff');
+            let ord = localStorage.getItem('webOffice_Orders');
+            if(st) staffData = JSON.parse(st);
+            if(ord) ordersData = JSON.parse(ord);
             renderAccess();
 
-            const pt = localStorage.getItem('webOffice_PPT');
+            let pt = localStorage.getItem('webOffice_PPT');
             if(pt) pptSlides = JSON.parse(pt);
-            renderSlides();
+            renderPPT();
         };
     </script>
 </body>
