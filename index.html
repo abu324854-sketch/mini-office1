@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Ultimate Enterprise - Professional Platform</title>
+    <title>Web Office Ultimate Enterprise - Desktop Mode</title>
     <style>
         :root {
             --primary: #0078d4;
@@ -17,20 +17,26 @@
         body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
 
         /* Professional Sidebar */
-        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: 4px 0 20px rgba(0,0,0,0.2); z-index: 10; }
+        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: 4px 0 20px rgba(0,0,0,0.2); z-index: 10; transition: transform 0.3s ease; }
         .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: #4cc9f0; margin-bottom: 25px; padding-left: 10px; }
         .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; width: 100%; }
         .sidebar button:hover { background: rgba(255,255,255,0.06); color: #fff; }
         .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.4); }
 
         /* Main Content Area */
-        .content { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; }
-        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow-y: auto; border: 1px solid var(--border); }
+        .content { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        /* Panel Window Mode */
+        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow-y: auto; border: 1px solid var(--border); position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; z-index: 5; }
         .panel.active { display: flex; animation: fadeIn 0.2s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
 
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
-        .panel-header h3 { color: #201f1e; font-size: 19px; font-weight: 600; }
+        .panel-header h3 { color: #201f1e; font-size: 19px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+
+        /* Window Navigation Back Button */
+        .back-btn { background: #e1dfdd; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 13px; color: #323130; display: inline-flex; align-items: center; gap: 6px; transition: 0.15s; }
+        .back-btn:hover { background: #c8c6c4; }
 
         /* Ribbon Toolbar */
         .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #faf9f8; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
@@ -43,6 +49,11 @@
 
         .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: #fff; font-size: 13px; color: #323130; }
         .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; }
+
+        /* Home Welcome Screen inside Content */
+        #home-welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; color: #605e5c; gap: 15px; }
+        #home-welcome h1 { font-size: 28px; color: #201f1e; }
+        #home-welcome p { font-size: 16px; max-width: 500px; }
 
         /* 1. WORD */
         .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; min-height: 350px; }
@@ -79,42 +90,50 @@
 <body>
 
     <!-- Sidebar Menu -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebarMenu">
         <div class="sidebar-brand">
             <span>⚡ Enterprise Suite</span>
         </div>
-        <button id="navWord" class="active" onclick="switchApp('word', this)">📄 Word Professional</button>
-        <button id="navExcel" onclick="switchApp('excel', this)">📊 Excel Engine</button>
-        <button id="navAccess" onclick="switchApp('access', this)">🗄️ Access Relational DB</button>
-        <button id="navPpt" onclick="switchApp('ppt', this)">📽️ PowerPoint Studio</button>
+        <button id="navWord" onclick="switchApp('word')">📄 Word Professional</button>
+        <button id="navExcel" onclick="switchApp('excel')">📊 Excel Engine</button>
+        <button id="navAccess" onclick="switchApp('access')">🗄️ Access Relational DB</button>
+        <button id="navPpt" onclick="switchApp('ppt')">📽️ PowerPoint Studio</button>
     </div>
 
-    <!-- Main Content Panel -->
+    <!-- Main Content Area -->
     <div class="content">
+        <!-- Welcome Screen -->
+        <div id="home-welcome">
+            <h1>Enterprise Office Suite</h1>
+            <p>Ishni boshlash uchun chap tarafdagi dasturlardan birini tanlang. Har bir dastur alohida professional oynada ochiladi.</p>
+        </div>
 
         <!-- WORD PANEL -->
-        <div id="word" class="panel active">
+        <div id="word" class="panel">
             <div class="panel-header">
-                <h3>Word - Matn Muharriri va Hujjatlar</h3>
+                <h3>
+                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
+                    📄 Word - Matn Muharriri
+                </h3>
                 <span id="wordStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
                 <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
                 <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
-                <select id="fontNameSelect" onchange="formatWord('fontName', this.value)">
+                <select onchange="formatWord('fontName', this.value)">
                     <option value="Segoe UI">Shrift turi</option>
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
                 </select>
-                <select id="fontSizeSelect" onchange="formatWord('fontSize', this.value)">
+                <select onchange="formatWord('fontSize', this.value)">
                     <option value="3">Hajm</option>
                     <option value="2">Kichik (12px)</option>
                     <option value="3">O'rta (16px)</option>
                     <option value="5">Katta (22px)</option>
                 </select>
-                <input type="color" id="fontColorPicker" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding: 0; cursor: pointer;">
+                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding: 0; cursor: pointer;">
                 <button class="btn" onclick="formatWord('justifyLeft')">Chapga</button>
                 <button class="btn" onclick="formatWord('justifyCenter')">O'rtaga</button>
                 <button class="btn" onclick="formatWord('justifyRight')">O'ngga</button>
@@ -134,12 +153,15 @@
         <!-- EXCEL PANEL -->
         <div id="excel" class="panel">
             <div class="panel-header">
-                <h3>Excel - Professional Hisob-kitob Muhiti</h3>
+                <h3>
+                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
+                    📊 Excel - Hisob-kitob Muhiti
+                </h3>
                 <span id="excelStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="formula-bar">
                 <label id="activeCellLabel">A1</label>
-                <input type="text" id="formulaInput" placeholder="Qiymat kiriting (masalan: 100 yoki matn)" onkeypress="handleFormula(event)">
+                <input type="text" id="formulaInput" placeholder="Qiymat yoki raqam kiriting..." onkeypress="handleFormula(event)">
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addExcelRow()">+ Qator</button>
@@ -159,16 +181,19 @@
         <!-- ACCESS PANEL -->
         <div id="access" class="panel">
             <div class="panel-header">
-                <h3>Access - Relyatsion Ma'lumotlar Bazasi (SQL Bog'lanish)</h3>
+                <h3>
+                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
+                    🗄️ Access - Ma'lumotlar Bazasi
+                </h3>
                 <span id="accessStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="ribbon">
-                <button class="btn btn-primary" onclick="addAccessRecord()">+ Yangi munosabat qo'shish</button>
-                <span style="font-size: 13px; color: #605e5c;">Jadvallar Foreign Key orqali to'g'ridan-to'g'ri sinxronlashgan.</span>
+                <button class="btn btn-primary" onclick="addAccessRecord()">+ Yangi yozuv qo'shish</button>
+                <span style="font-size: 13px; color: #605e5c;">Jadvallar o'zaro bog'langan va sinxron ishlaydi.</span>
             </div>
             <div class="access-grid">
                 <div class="access-table-box">
-                    <div class="access-table-title"><span>Jadval 1: Mijozlar / Xodimlar</span></div>
+                    <div class="access-table-title"><span>Jadval 1: Xodimlar</span></div>
                     <div style="overflow-y: auto; flex: 1;">
                         <table>
                             <thead><tr><th>ID</th><th>F.I.Sh</th><th>Bo'lim</th></tr></thead>
@@ -180,7 +205,7 @@
                     <div class="access-table-title"><span>Jadval 2: Operatsiyalar (Bog'langan)</span></div>
                     <div style="overflow-y: auto; flex: 1;">
                         <table>
-                            <thead><tr><th>Operatsiya ID</th><th>Bog'langan ID</th><th>Mahsulot / Xizmat</th><th>Qiymat</th></tr></thead>
+                            <thead><tr><th>ID</th><th>Bog'langan ID</th><th>Xizmat / Mahsulot</th><th>Qiymat</th></tr></thead>
                             <tbody id="ordersBody"></tbody>
                         </table>
                     </div>
@@ -191,14 +216,17 @@
         <!-- POWERPOINT PANEL -->
         <div id="ppt" class="panel">
             <div class="panel-header">
-                <h3>PowerPoint - Taqdimot va Dizayn Studio</h3>
+                <h3>
+                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
+                    📽️ PowerPoint - Taqdimot Studio
+                </h3>
                 <span id="pptStatus" class="status-msg">Saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addSlide()">+ Yangi Slayd</button>
                 <button class="btn" onclick="setSlideTheme('#ffffff', '#201f1e')">Oq Tema</button>
                 <button class="btn" onclick="setSlideTheme('#1f1f1f', '#ffffff')" style="background:#1f1f1f; color:#fff;">Qora Tema</button>
-                <button class="btn" onclick="setSlideTheme('#0078d4', '#ffffff')" style="background:#0078d4; color:#fff;">Korporativ Ko'k</button>
+                <button class="btn" onclick="setSlideTheme('#0078d4', '#ffffff')" style="background:#0078d4; color:#fff;">Ko'k Tema</button>
                 <button class="btn btn-danger" onclick="deleteSlide()">O'chirish</button>
                 <button class="btn" onclick="startSlideShow()" style="background: #107c41; color:#fff; border:none;">▶ Slayd-shou</button>
                 <span id="slideIndicator" style="margin-left: auto; font-weight: 600;">Slayd: 1 / 1</span>
@@ -208,7 +236,7 @@
                 <div class="ppt-workspace">
                     <div class="slide-canvas" id="slideCanvasBox">
                         <input type="text" id="slideTitleInput" placeholder="Slayd sarlavhasi..." oninput="updateSlideData()">
-                        <textarea id="slideTextInput" placeholder="Asosiy matn va elementlar..." oninput="updateSlideData()"></textarea>
+                        <textarea id="slideTextInput" placeholder="Asosiy matn..." oninput="updateSlideData()"></textarea>
                     </div>
                 </div>
             </div>
@@ -217,11 +245,20 @@
     </div>
 
     <script>
-        function switchApp(appId, btn) {
+        function switchApp(appId) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
+            
             document.getElementById(appId).classList.add('active');
+            let btn = document.getElementById('nav' + appId.charAt(0).toUpperCase() + appId.slice(1));
             if(btn) btn.classList.add('active');
+
+            // Hide sidebar or keep it minimal if needed, here keeping it as system dock
+        }
+
+        function closeApp() {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
         }
 
         // --- WORD LOGIC ---
@@ -241,9 +278,7 @@
         }
         function saveWord() {
             const editor = document.getElementById('wordEditor');
-            if(editor) {
-                localStorage.setItem('enterprise_Word', editor.innerHTML);
-            }
+            if(editor) localStorage.setItem('enterprise_Word', editor.innerHTML);
         }
         function clearWord() {
             if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
@@ -292,7 +327,6 @@
                 body.appendChild(tr);
             }
 
-            // Event delegation to avoid binding issues
             body.querySelectorAll('input').forEach(input => {
                 let cellId = input.getAttribute('data-cell');
                 input.onclick = () => selectExcelCell(cellId);
@@ -375,7 +409,6 @@
                 ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b> (Bog'langan)</td><td><input type="text" value="${o.product}" data-ord-prod="${idx}"></td><td><input type="number" value="${o.amount}" data-ord-amt="${idx}"></td></tr>`;
             });
 
-            // Bind inputs safely
             staffBody.querySelectorAll('[data-st-name]').forEach(inp => {
                 inp.oninput = (e) => { staffData[inp.getAttribute('data-st-name')].name = e.target.value; saveAccess(); };
             });
@@ -482,9 +515,7 @@
             updateWordStats();
 
             let ex = localStorage.getItem('enterprise_Excel');
-            if(ex) {
-                try { excelData = JSON.parse(ex); } catch(e) {}
-            }
+            if(ex) { try { excelData = JSON.parse(ex); } catch(e) {} }
             initExcel();
 
             let st = localStorage.getItem('enterprise_Staff');
