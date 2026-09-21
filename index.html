@@ -3,698 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Ultimate Enterprise V3 - All-in-One Suite</title>
+    <title>Web Word Ultimate - Microsoft Word Style & Beyond</title>
     <style>
         :root {
-            --primary: #0078d4;
-            --primary-dark: #106ebe;
-            --bg-sidebar: #121212;
-            --bg-main: #f3f2f1;
+            --ribbon-bg: #f3f2f1;
+            --panel-bg: #ffffff;
             --text-main: #201f1e;
             --border: #c8c6c4;
-            --panel-bg: #ffffff;
-            --ribbon-bg: #faf9f8;
-            --hover-bg: #f3f2f1;
-            --shadow: rgba(0,0,0,0.08);
+            --primary: #2b579a; /* Word Blue */
+            --primary-hover: #103f7e;
+            --hover-bg: #edebe9;
+            --shadow: rgba(0,0,0,0.1);
         }
         .dark {
-            --primary: #2b88d8;
-            --primary-dark: #115ea3;
-            --bg-sidebar: #0b0b0b;
-            --bg-main: #181818;
+            --ribbon-bg: #1f1f1f;
+            --panel-bg: #181818;
             --text-main: #f3f2f1;
             --border: #3b3a39;
-            --panel-bg: #202020;
-            --ribbon-bg: #282828;
+            --primary: #418ab3;
+            --primary-hover: #2b6a90;
             --hover-bg: #323130;
             --shadow: rgba(0,0,0,0.4);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.2s, color 0.2s; }
-        body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { display: flex; flex-direction: column; height: 100vh; background: var(--panel-bg); color: var(--text-main); overflow: hidden; }
+
+        /* Top Title Bar */
+        .title-bar { display: flex; align-items: center; justify-content: space-between; background: var(--primary); color: #fff; padding: 6px 15px; font-size: 13px; }
+        .title-left { display: flex; align-items: center; gap: 10px; }
+        .title-left img { width: 18px; height: 18px; }
+        .window-controls { display: flex; gap: 15px; cursor: pointer; }
+
+        /* Ribbon Tabs */
+        .ribbon-tabs { display: flex; background: var(--ribbon-bg); border-bottom: 1px solid var(--border); padding: 0 10px; }
+        .tab-btn { background: transparent; border: none; padding: 6px 14px; font-size: 13px; cursor: pointer; color: var(--text-main); font-weight: 500; }
+        .tab-btn.active { background: var(--panel-bg); border-top: 3px solid var(--primary); border-left: 1px solid var(--border); border-right: 1px solid var(--border); font-weight: 600; }
+
+        /* Ribbon Toolbar */
+        .ribbon-toolbar { display: flex; background: var(--panel-bg); border-bottom: 1px solid var(--border); padding: 6px 12px; gap: 15px; align-items: center; flex-wrap: wrap; min-height: 85px; }
+        .ribbon-group { display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--border); padding-right: 12px; gap: 5px; }
+        .group-tools { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+        .group-title { font-size: 11px; text-align: center; opacity: 0.7; font-weight: 600; }
+
+        .r-btn { background: transparent; border: 1px solid transparent; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 13px; color: var(--text-main); display: inline-flex; align-items: center; gap: 4px; }
+        .r-btn:hover { background: var(--hover-bg); border-color: var(--border); }
+        .r-btn.active-tool { background: var(--hover-bg); border-color: var(--primary); }
+        .r-select, .r-input { padding: 3px 6px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel-bg); color: var(--text-main); font-size: 13px; outline: none; }
         
-        /* Sidebar */
-        .sidebar { width: 300px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 20px rgba(0,0,0,0.3); z-index: 10; }
-        .sidebar-brand { display: flex; align-items: center; justify-content: space-between; font-size: 16px; font-weight: 700; color: #4cc9f0; margin-bottom: 20px; padding-left: 10px; }
-        .theme-toggle-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
-        .theme-toggle-btn:hover { background: rgba(255,255,255,0.2); }
-        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 13px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 14px; display: flex; align-items: center; gap: 14px; width: 100%; }
-        .sidebar button:hover { background: rgba(255,255,255,0.06); color: #fff; }
-        .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.4); }
+        /* Styles Gallery */
+        .styles-box { display: flex; gap: 5px; align-items: center; overflow-x: auto; max-width: 400px; padding: 2px; }
+        .style-item { border: 1px solid var(--border); padding: 4px 8px; border-radius: 3px; font-size: 12px; cursor: pointer; background: var(--panel-bg); white-space: nowrap; }
+        .style-item:hover { background: var(--hover-bg); }
 
-        /* Main Workspace */
-        .content { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px var(--shadow); overflow-y: auto; border: 1px solid var(--border); position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; z-index: 5; }
-        .panel.active { display: flex; animation: fadeIn 0.2s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
+        /* Workspace & Document Page */
+        .workspace { flex: 1; background: var(--ribbon-bg); overflow-y: auto; padding: 30px; display: flex; justify-content: center; }
+        .document-page { width: 850px; min-height: 1100px; background: #ffffff; color: #201f1e; padding: 60px 80px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); outline: none; font-size: 16px; line-height: 1.6; border: 1px solid #d3d3d3; }
         
-        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
-        .panel-header h3 { font-size: 19px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--text-main); }
-        .back-btn { background: var(--border); border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-main); display: inline-flex; align-items: center; gap: 6px; }
-        .back-btn:hover { opacity: 0.8; }
-        
-        /* Ribbon */
-        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--ribbon-bg); padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
-        .btn { background: var(--panel-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
-        .btn:hover { background: var(--hover-bg); border-color: var(--primary); }
-        .btn-primary { background: var(--primary); color: #fff; border: none; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-danger { background: #d13438; color: #fff; border: none; }
-        .btn-danger:hover { background: #a80000; }
-        .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: var(--panel-bg); font-size: 13px; color: var(--text-main); }
-        .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; }
-
-        /* Welcome */
-        #home-welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; gap: 15px; }
-        #home-welcome h1 { font-size: 34px; font-weight: 800; color: var(--primary); }
-        #home-welcome p { font-size: 16px; max-width: 600px; opacity: 0.8; line-height: 1.6; }
-
-        /* Word Module */
-        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; min-height: 350px; }
-        .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 850px; margin: 0 auto; width: 100%; color: var(--text-main); }
-        .word-footer { background: var(--ribbon-bg); padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; display: flex; justify-content: space-between; opacity: 0.8; }
-
-        /* Excel Module */
-        .formula-bar { display: flex; align-items: center; background: var(--panel-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; gap: 12px; }
-        .formula-bar label { font-weight: bold; font-size: 14px; color: var(--primary); }
-        .formula-bar input { flex: 1; border: none; outline: none; font-size: 14px; font-family: monospace; background: transparent; color: var(--text-main); }
-        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; min-height: 300px; background: var(--panel-bg); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { border: 1px solid var(--border); padding: 6px 8px; font-size: 13px; }
-        th { background: var(--ribbon-bg); color: var(--text-main); font-weight: 600; position: sticky; top: 0; z-index: 5; text-align: center; }
-        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 13px; color: var(--text-main); }
-        td.cell-selected { background: rgba(0, 120, 212, 0.15) !important; border: 2px solid var(--primary); }
-
-        /* Access Module */
-        .access-grid { display: flex; gap: 15px; flex: 1; overflow: hidden; min-height: 350px; }
-        .access-table-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; }
-        .access-table-title { background: var(--ribbon-bg); padding: 10px 14px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-
-        /* PowerPoint Module */
-        .ppt-layout { display: flex; gap: 15px; flex: 1; min-height: 350px; }
-        .ppt-sidebar { width: 230px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-        .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--ribbon-bg); transition: 0.15s; }
-        .slide-card.active { border-color: var(--primary); background: rgba(0,120,212,0.1); font-weight: 600; }
-        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; background: var(--ribbon-bg); border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
-        .slide-canvas { width: 100%; max-width: 720px; height: 360px; border-radius: 6px; box-shadow: 0 4px 20px var(--shadow); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
-        .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed var(--border); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
-        .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.6; }
-
-        /* Task Planner Module */
-        .task-container { display: flex; flex-direction: column; gap: 15px; flex: 1; overflow-y: auto; }
-        .task-form { display: flex; gap: 10px; flex-wrap: wrap; background: var(--ribbon-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--border); }
-        .task-form input, .task-form select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel-bg); color: var(--text-main); font-size: 13px; }
-        .task-form input[type="text"] { flex: 1; min-width: 200px; }
-        .task-list { display: flex; flex-direction: column; gap: 8px; }
-        .task-item { display: flex; align-items: center; justify-content: space-between; background: var(--panel-bg); border: 1px solid var(--border); padding: 12px 16px; border-radius: 6px; gap: 15px; }
-        .task-item.completed { opacity: 0.6; text-decoration: line-through; }
-        .task-info { display: flex; align-items: center; gap: 12px; flex: 1; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
-        .badge-high { background: #d13438; color: #fff; }
-        .badge-mid { background: #ff8c00; color: #fff; }
-        .badge-low { background: #107c41; color: #fff; }
+        /* Status Bar */
+        .status-bar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: #fff; padding: 4px 15px; font-size: 12px; }
+        .status-left, .status-right { display: flex; gap: 15px; align-items: center; }
+        .status-bar button { background: transparent; border: none; color: #fff; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body>
-    <div class="sidebar" id="sidebarMenu">
-        <div class="sidebar-brand">
-            <span>⚡ Ultimate Suite V3</span>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌓 Tema</button>
+
+    <!-- Title Bar -->
+    <div class="title-bar">
+        <div class="title-left">
+            <span>📄</span>
+            <span>ofise 1.docx - Web Word Ultimate</span>
         </div>
-        <button id="navWord" onclick="switchApp('word')">📄 Word Pro Muharrir</button>
-        <button id="navExcel" onclick="switchApp('excel')">📊 Excel Formula Engine</button>
-        <button id="navAccess" onclick="switchApp('access')">🗄️ Access Relational DB</button>
-        <button id="navPpt" onclick="switchApp('ppt')">📽️ PowerPoint Studio</button>
-        <button id="navTasks" onclick="switchApp('tasks')">🎯 Vazifalar Rejasi (Planner)</button>
+        <div class="window-controls">
+            <button onclick="toggleTheme()" style="background:rgba(255,255,255,0.2); border:none; color:#fff; padding:2px 8px; border-radius:3px; cursor:pointer; font-size:11px;">🌓 Tema</button>
+            <span>🗕</span> <span>🗖</span> <span>✕</span>
+        </div>
     </div>
 
-    <div class="content">
-        <div id="home-welcome">
-            <h1>Web Office Ultimate Enterprise V3</h1>
-            <p>Hozirgi zamonaviy ofis dasturlaridan ancha ustun, matn muharriri, jadval hisob-kitoblari, ma'lumotlar bazasi, taqdimot studiyasi hamda to'laqonli vazifalar rejasini o'z ichiga olgan yagona professional tizim.</p>
+    <!-- Ribbon Tabs -->
+    <div class="ribbon-tabs">
+        <button class="tab-btn active" onclick="switchTab('home')">Главная</button>
+        <button class="tab-btn" onclick="switchTab('insert')">Вставка</button>
+        <button class="tab-btn" onclick="switchTab('layout')">Разметка страницы</button>
+        <button class="tab-btn" onclick="switchTab('review')">Рецензирование</button>
+        <button class="tab-btn" onclick="switchTab('view')">Вид</button>
+    </div>
+
+    <!-- Ribbon Toolbar -->
+    <div class="ribbon-toolbar" id="ribbonHome">
+        <!-- Буфер обмена -->
+        <div class="ribbon-group">
+            <div class="group-tools">
+                <button class="r-btn" onclick="document.execCommand('paste')">📋 Вставить</button>
+                <button class="r-btn" onclick="document.execCommand('copy')">✂ Копировать</button>
+            </div>
+            <div class="group-title">Буфер обмена</div>
         </div>
 
-        <!-- WORD -->
-        <div id="word" class="panel">
-            <div class="panel-header">
-                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 📄 Word Pro - Matn Muharriri</h3>
-                <span id="wordStatus" class="status-msg">Avto-saqlangan ✓</span>
-            </div>
-            <div class="ribbon">
-                <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
-                <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
-                <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
-                <select onchange="formatWord('fontName', this.value)">
-                    <option value="Segoe UI">Shrift</option>
+        <!-- Шрифт -->
+        <div class="ribbon-group">
+            <div class="group-tools">
+                <select class="r-select" id="fontFamily" onchange="formatDoc('fontName', this.value)">
+                    <option value="Calibri">Calibri</option>
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
+                    <option value="Segoe UI">Segoe UI</option>
                 </select>
-                <select onchange="formatWord('fontSize', this.value)">
-                    <option value="3">Hajm</option>
-                    <option value="2">Kichik</option>
-                    <option value="3">O'rta</option>
-                    <option value="5">Katta</option>
+                <select class="r-select" id="fontSize" onchange="formatDoc('fontSize', this.value)">
+                    <option value="3">11</option>
+                    <option value="1">8</option>
+                    <option value="2">10</option>
+                    <option value="4">14</option>
+                    <option value="5">18</option>
+                    <option value="6">24</option>
+                    <option value="7">36</option>
                 </select>
-                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding:0; cursor:pointer;">
-                <button class="btn" onclick="formatWord('justifyLeft')">Chapga</button>
-                <button class="btn" onclick="formatWord('justifyCenter')">O'rtaga</button>
-                <button class="btn" onclick="formatWord('justifyRight')">O'ngga</button>
-                <button class="btn btn-primary" onclick="downloadWordDoc()">Yuklab olish (.doc)</button>
-                <button class="btn btn-danger" onclick="clearWord()">Tozalash</button>
             </div>
-            <div class="word-wrapper">
-                <div id="wordEditor" class="word-editor" contenteditable="true" oninput="updateWordStats()"></div>
-                <div class="word-footer">
-                    <span id="wordChars">So'zlar: 0 | Belgilar: 0</span>
-                    <span>Sahifa: 1 / 1</span>
-                </div>
+            <div class="group-tools">
+                <button class="r-btn" onclick="formatDoc('bold')"><b>Ж</b></button>
+                <button class="r-btn" onclick="formatDoc('italic')"><i>К</i></button>
+                <button class="r-btn" onclick="formatDoc('underline')"><u>Ч</u></button>
+                <button class="r-btn" onclick="formatDoc('strikeThrough')"><s>abc</s></button>
+                <input type="color" onchange="formatDoc('foreColor', this.value)" style="width:26px; height:24px; border:1px solid var(--border); padding:0; cursor:pointer;" title="Цвет текста">
             </div>
+            <div class="group-title">Шрифт</div>
         </div>
 
-        <!-- EXCEL -->
-        <div id="excel" class="panel">
-            <div class="panel-header">
-                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 📊 Excel Engine - Hisob-kitob</h3>
-                <span id="excelStatus" class="status-msg">Avto-saqlangan ✓</span>
+        <!-- Абзац -->
+        <div class="ribbon-group">
+            <div class="group-tools">
+                <button class="r-btn" onclick="formatDoc('insertUnorderedList')">• Список</button>
+                <button class="r-btn" onclick="formatDoc('insertOrderedList')">1. Нумерация</button>
             </div>
-            <div class="formula-bar">
-                <label id="activeCellLabel">A1</label>
-                <input type="text" id="formulaInput" placeholder="Masalan: 10+20 yoki =SUM(A1:A5)" onkeypress="handleFormula(event)">
+            <div class="group-tools">
+                <button class="r-btn" onclick="formatDoc('justifyLeft')">⬅ Слева</button>
+                <button class="r-btn" onclick="formatDoc('justifyCenter')">🗚 По центру</button>
+                <button class="r-btn" onclick="formatDoc('justifyRight')">➡ Справа</button>
+                <button class="r-btn" onclick="formatDoc('justifyFull')">☷ По ширине</button>
             </div>
-            <div class="ribbon">
-                <button class="btn btn-primary" onclick="addExcelRow()">+ Qator</button>
-                <button class="btn btn-primary" onclick="addExcelCol()">+ Ustun</button>
-                <button class="btn" onclick="calcExcelFunc('SUM')" style="background:#107c41; color:#fff; border:none;">SUM</button>
-                <button class="btn" onclick="calcExcelFunc('AVERAGE')" style="background:#0078d4; color:#fff; border:none;">AVERAGE</button>
-                <button class="btn" onclick="calcExcelFunc('MAX')" style="background:#d83b01; color:#fff; border:none;">MAX</button>
-                <button class="btn btn-primary" onclick="exportCSVFile()">CSV Export</button>
-                <button class="btn btn-danger" onclick="clearExcel()">Tozalash</button>
-                <span style="font-weight:600; margin-left:auto;">Natija: <span id="excelResult" style="color:var(--primary);">0</span></span>
-            </div>
-            <div class="table-wrap">
-                <table id="excelTable">
-                    <thead id="excelHead"></thead>
-                    <tbody id="excelBody"></tbody>
-                </table>
-            </div>
+            <div class="group-title">Абзац</div>
         </div>
 
-        <!-- ACCESS -->
-        <div id="access" class="panel">
-            <div class="panel-header">
-                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 🗄️ Access - Ma'lumotlar Bazasi</h3>
-                <span id="accessStatus" class="status-msg">Avto-saqlangan ✓</span>
+        <!-- Стили -->
+        <div class="ribbon-group">
+            <div class="styles-box">
+                <div class="style-item" onclick="applyStyle('p')"><b>Обычный</b></div>
+                <div class="style-item" onclick="applyStyle('h1')"><b>Заголовок 1</b></div>
+                <div class="style-item" onclick="applyStyle('h2')"><b>Заголовок 2</b></div>
+                <div class="style-item" onclick="applyStyle('blockquote')"><i>Цитата</i></div>
             </div>
-            <div class="ribbon">
-                <button class="btn btn-primary" onclick="addAccessRecord()">+ Yangi yozuv qo'shish</button>
-                <span style="font-size: 13px; opacity: 0.8;">Jadvallar o'zaro bog'langan va sinxron ishlaydi.</span>
-            </div>
-            <div class="access-grid">
-                <div class="access-table-box">
-                    <div class="access-table-title"><span>Jadval 1: Xodimlar</span></div>
-                    <div style="overflow-y: auto; flex: 1;">
-                        <table>
-                            <thead><tr><th>ID</th><th>F.I.Sh</th><th>Bo'lim</th></tr></thead>
-                            <tbody id="staffBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="access-table-box">
-                    <div class="access-table-title"><span>Jadval 2: Operatsiyalar (Bog'langan)</span></div>
-                    <div style="overflow-y: auto; flex: 1;">
-                        <table>
-                            <thead><tr><th>ID</th><th>Bog'langan ID</th><th>Xizmat / Mahsulot</th><th>Qiymat</th></tr></thead>
-                            <tbody id="ordersBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <div class="group-title">Стили</div>
         </div>
 
-        <!-- POWERPOINT -->
-        <div id="ppt" class="panel">
-            <div class="panel-header">
-                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 📽️ PowerPoint - Taqdimot Studio</h3>
-                <span id="pptStatus" class="status-msg">Avto-saqlangan ✓</span>
+        <!-- Экспорт и Действия -->
+        <div class="ribbon-group" style="border:none;">
+            <div class="group-tools">
+                <button class="r-btn" style="background:var(--primary); color:#fff; border:none;" onclick="downloadWord()">💾 Скачать (.doc)</button>
+                <button class="r-btn" style="background:#d13438; color:#fff; border:none;" onclick="clearDoc()">🗑 Очистить</button>
             </div>
-            <div class="ribbon">
-                <button class="btn btn-primary" onclick="addSlide()">+ Yangi Slayd</button>
-                <button class="btn" onclick="setSlideTheme('#ffffff', '#201f1e')">Oq Tema</button>
-                <button class="btn" onclick="setSlideTheme('#1f1f1f', '#ffffff')">Qora Tema</button>
-                <button class="btn" onclick="setSlideTheme('#0078d4', '#ffffff')">Ko'k Tema</button>
-                <button class="btn btn-danger" onclick="deleteSlide()">O'chirish</button>
-                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color:#fff; border:none;">▶ To'liq Slayd-shou</button>
-                <span id="slideIndicator" style="margin-left: auto; font-weight: 600;">Slayd: 1 / 1</span>
-            </div>
-            <div class="ppt-layout">
-                <div class="ppt-sidebar" id="slidesThumbList"></div>
-                <div class="ppt-workspace">
-                    <div class="slide-canvas" id="slideCanvasBox">
-                        <input type="text" id="slideTitleInput" placeholder="Slayd sarlavhasi..." oninput="updateSlideData()">
-                        <textarea id="slideTextInput" placeholder="Asosiy matn..." oninput="updateSlideData()"></textarea>
-                    </div>
-                </div>
-            </div>
+            <div class="group-title">Файл</div>
         </div>
+    </div>
 
-        <!-- TASKS PLANNER -->
-        <div id="tasks" class="panel">
-            <div class="panel-header">
-                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 🎯 Vazifalar va Loyihalar Rejasi</h3>
-                <span id="taskStatus" class="status-msg">Avto-saqlangan ✓</span>
-            </div>
-            <div class="task-container">
-                <div class="task-form">
-                    <input type="text" id="taskTitleInput" placeholder="Yangi vazifa nomi...">
-                    <select id="taskPriorityInput">
-                        <option value="high">Muhim (Yuqori)</option>
-                        <option value="mid" selected>O'rta</option>
-                        <option value="low">Past</option>
-                    </select>
-                    <input type="date" id="taskDateInput">
-                    <button class="btn btn-primary" onclick="addNewTask()">+ Vazifa qo'shish</button>
-                </div>
-                <div class="task-list" id="taskListView"></div>
-            </div>
+    <!-- Workspace / Document Editor -->
+    <div class="workspace">
+        <div id="wordEditor" class="document-page" contenteditable="true" oninput="updateStats()">
+            <h2>Добро пожаловать в Web Word Ultimate!</h2>
+            <p>Этот редактор создан по подобию Microsoft Word, но работает намного быстрее и прямо в вашем браузере. Вы можете форматировать текст, менять шрифты, использовать списки и стили.</p>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span id="wordStats">Слов: 0 | Знаков: 0</span>
+            <span>Страница 1 из 1</span>
+        </div>
+        <div class="status-right">
+            <span>Русский (Россия)</span>
+            <span>📖 Режим разметки</span>
+            <span>🔍 100%</span>
         </div>
     </div>
 
     <script>
-        function toggleTheme() {
-            let html = document.documentElement;
-            if(html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-        function switchApp(appId) {
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
-            document.getElementById(appId).classList.add('active');
-            let btn = document.getElementById('nav' + appId.charAt(0).toUpperCase() + appId.slice(1));
-            if(btn) btn.classList.add('active');
-        }
-        function closeApp() {
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
         }
 
-        // --- WORD ---
-        function formatWord(cmd, val = null) {
+        function formatDoc(cmd, val = null) {
             document.execCommand(cmd, false, val);
-            updateWordStats();
-            saveWord();
+            document.getElementById('wordEditor').focus();
+            updateStats();
         }
-        function updateWordStats() {
-            const editor = document.getElementById('wordEditor');
-            if(!editor) return;
-            const text = editor.innerText.trim();
+
+        function applyStyle(tag) {
+            document.execCommand('formatBlock', false, tag);
+            document.getElementById('wordEditor').focus();
+        }
+
+        function updateStats() {
+            const text = document.getElementById('wordEditor').innerText.trim();
             const words = text ? text.split(/\s+/).length : 0;
             const chars = text.length;
-            document.getElementById('wordChars').innerText = `So'zlar: ${words} | Belgilar: ${chars}`;
-            saveWord();
+            document.getElementById('wordStats').innerText = `Слов: ${words} | Знаков: ${chars}`;
+            localStorage.setItem('web_word_content', document.getElementById('wordEditor').innerHTML);
         }
-        function saveWord() {
-            localStorage.setItem('enterprise_WordV3', document.getElementById('wordEditor').innerHTML);
-        }
-        function clearWord() {
-            if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
+
+        function clearDoc() {
+            if(confirm("Очистить документ?")) {
                 document.getElementById('wordEditor').innerHTML = '';
-                updateWordStats();
+                updateStats();
             }
         }
-        function downloadWordDoc() {
-            const editor = document.getElementById('wordEditor');
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:40px;">${editor.innerHTML}</body></html>`;
+
+        function downloadWord() {
+            const content = document.getElementById('wordEditor').innerHTML;
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Документ</title></head><body style="font-family:Calibri, sans-serif; padding:40px;">${content}</body></html>`;
             const blob = new Blob([html], {type: 'application/msword'});
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'korporativ_hujjat.doc';
+            link.download = 'ofise_1.doc';
             link.click();
         }
 
-        // --- EXCEL ---
-        let excelRows = 8;
-        let excelCols = 8;
-        let excelData = {};
-        let selectedCell = 'A1';
-
-        function initExcel() {
-            const head = document.getElementById('excelHead');
-            const body = document.getElementById('excelBody');
-            if(!head || !body) return;
-            head.innerHTML = '';
-            body.innerHTML = '';
-            let trH = '<tr><th>#</th>';
-            for(let c=0; c<excelCols; c++) {
-                trH += `<th>${String.fromCharCode(65 + c)}</th>`;
-            }
-            trH += '</tr>';
-            head.innerHTML = trH;
-            for(let r=0; r<excelRows; r++) {
-                let tr = document.createElement('tr');
-                tr.innerHTML = `<th>${r+1}</th>`;
-                for(let c=0; c<excelCols; c++) {
-                    let cellId = `${String.fromCharCode(65 + c)}${r+1}`;
-                    let val = excelData[cellId] || '';
-                    tr.innerHTML += `<td><input type="text" id="cell_${cellId}" value="${val}" data-cell="${cellId}"></td>`;
-                }
-                body.appendChild(tr);
-            }
-            body.querySelectorAll('input').forEach(input => {
-                let cellId = input.getAttribute('data-cell');
-                input.onclick = () => selectExcelCell(cellId);
-                input.oninput = (e) => updateExcelCell(cellId, e.target.value);
-            });
-        }
-        function selectExcelCell(cellId) {
-            if(selectedCell) {
-                let prev = document.getElementById(`cell_${selectedCell}`);
-                if(prev && prev.parentElement) prev.parentElement.classList.remove('cell-selected');
-            }
-            selectedCell = cellId;
-            let curr = document.getElementById(`cell_${cellId}`);
-            if(curr && curr.parentElement) curr.parentElement.classList.add('cell-selected');
-            document.getElementById('activeCellLabel').innerText = cellId;
-            document.getElementById('formulaInput').value = excelData[cellId] || '';
-        }
-        function updateExcelCell(cellId, val) {
-            excelData[cellId] = val;
-            localStorage.setItem('enterprise_ExcelV3', JSON.stringify(excelData));
-        }
-        function handleFormula(e) {
-            if(e.key === 'Enter' && selectedCell) {
-                let val = document.getElementById('formulaInput').value;
-                let evaluated = val;
-                if(val.startsWith('=')) {
-                    try {
-                        let exp = val.substring(1).toUpperCase();
-                        if(exp.startsWith('SUM(') || exp.startsWith('AVERAGE(') || exp.startsWith('MAX(')) {
-                            evaluated = evaluateRangeFunc(exp);
-                        } else {
-                            let cleanExp = exp.replace(/[A-Z][0-9]+/g, match => {
-                                let v = parseFloat(excelData[match]);
-                                return isNaN(v) ? 0 : v;
-                            });
-                            evaluated = eval(cleanExp);
-                        }
-                    } catch(err) {
-                        evaluated = "Xato!";
-                    }
-                } else {
-                    try {
-                        evaluated = eval(val);
-                    } catch(err) {
-                        evaluated = val;
-                    }
-                }
-                excelData[selectedCell] = evaluated;
-                let cellInput = document.getElementById(`cell_${selectedCell}`);
-                if(cellInput) cellInput.value = evaluated;
-                updateExcelCell(selectedCell, evaluated);
-                document.getElementById('excelResult').innerText = evaluated;
-            }
-        }
-        function evaluateRangeFunc(exp) {
-            let funcName = exp.substring(0, exp.indexOf('('));
-            let range = exp.substring(exp.indexOf('(') + 1, exp.indexOf(')'));
-            let parts = range.split(':');
-            if(parts.length !== 2) return "Xato diapazon";
-            let startCol = parts[0].charCodeAt(0);
-            let startRow = parseInt(parts[0].substring(1));
-            let endCol = parts[1].charCodeAt(0);
-            let endRow = parseInt(parts[1].substring(1));
-            
-            let values = [];
-            for(let r = startRow; r <= endRow; r++) {
-                for(let c = startCol; c <= endCol; c++) {
-                    let cid = String.fromCharCode(c) + r;
-                    let v = parseFloat(excelData[cid]);
-                    if(!isNaN(v)) values.push(v);
-                }
-            }
-            if(values.length === 0) return 0;
-            if(funcName === 'SUM') return values.reduce((a,b)=>a+b, 0);
-            if(funcName === 'AVERAGE') return values.reduce((a,b)=>a+b, 0) / values.length;
-            if(funcName === 'MAX') return Math.max(...values);
-            return 0;
-        }
-        function calcExcelFunc(func) {
-            let values = [];
-            for(let key in excelData) {
-                let v = parseFloat(excelData[key]);
-                if(!isNaN(v)) values.push(v);
-            }
-            if(values.length === 0) { document.getElementById('excelResult').innerText = 0; return; }
-            let res = 0;
-            if(func === 'SUM') res = values.reduce((a,b)=>a+b,0);
-            if(func === 'AVERAGE') res = values.reduce((a,b)=>a+b,0)/values.length;
-            if(func === 'MAX') res = Math.max(...values);
-            document.getElementById('excelResult').innerText = res;
-        }
-        function addExcelRow() { excelRows++; initExcel(); }
-        function addExcelCol() { if(excelCols < 15) excelCols++; initExcel(); }
-        function clearExcel() {
-            if(confirm("Excel jadvalini tozalaysizmi?")) {
-                excelData = {};
-                initExcel();
-                document.getElementById('excelResult').innerText = '0';
-            }
-        }
-        function exportCSVFile() {
-            let csvContent = "";
-            for(let r=0; r<excelRows; r++) {
-                let row = [];
-                for(let c=0; c<excelCols; c++) {
-                    let cid = `${String.fromCharCode(65 + c)}${r+1}`;
-                    row.push('"' + (excelData[cid] || '') + '"');
-                }
-                csvContent += row.join(",") + "\n";
-            }
-            let blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = "WebOffice_Export.csv";
-            link.click();
-        }
-
-        // --- ACCESS ---
-        let staffData = [{id: 1, name: "Alisher Navoiy", dept: "Direksiya"}, {id: 2, name: "Zuhra Karimova", dept: "Moliya"}];
-        let ordersData = [{orderId: 501, staffId: 1, product: "Litsenziya server", amount: 15000000}, {orderId: 502, staffId: 2, product: "Audit xizmati", amount: 4500000}];
-        
-        function renderAccess() {
-            let staffBody = document.getElementById('staffBody');
-            let ordersBody = document.getElementById('ordersBody');
-            if(!staffBody || !ordersBody) return;
-            staffBody.innerHTML = '';
-            staffData.forEach((s, idx) => {
-                staffBody.innerHTML += `<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" data-st-name="${idx}"></td><td><input type="text" value="${s.dept}" data-st-dept="${idx}"></td></tr>`;
-            });
-            ordersBody.innerHTML = '';
-            ordersData.forEach((o, idx) => {
-                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b></td><td><input type="text" value="${o.product}" data-ord-prod="${idx}"></td><td><input type="number" value="${o.amount}" data-ord-amt="${idx}"></td></tr>`;
-            });
-            staffBody.querySelectorAll('[data-st-name]').forEach(inp => {
-                inp.oninput = (e) => { staffData[inp.getAttribute('data-st-name')].name = e.target.value; saveAccess(); };
-            });
-            staffBody.querySelectorAll('[data-st-dept]').forEach(inp => {
-                inp.oninput = (e) => { staffData[inp.getAttribute('data-st-dept')].dept = e.target.value; saveAccess(); };
-            });
-            ordersBody.querySelectorAll('[data-ord-prod]').forEach(inp => {
-                inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-prod')].product = e.target.value; saveAccess(); };
-            });
-            ordersBody.querySelectorAll('[data-ord-amt]').forEach(inp => {
-                inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-amt')].amount = e.target.value; saveAccess(); };
-            });
-            saveAccess();
-        }
-        function addAccessRecord() {
-            let newId = staffData.length + 1;
-            staffData.push({id: newId, name: "Yangi Xodim", dept: "IT Bo'limi"});
-            ordersData.push({orderId: 500 + newId, staffId: newId, product: "Uskuna", amount: 2000000});
-            renderAccess();
-        }
-        function saveAccess() {
-            localStorage.setItem('enterprise_StaffV3', JSON.stringify(staffData));
-            localStorage.setItem('enterprise_OrdersV3', JSON.stringify(ordersData));
-        }
-
-        // --- POWERPOINT ---
-        let pptSlides = [
-            {title: "Korporativ Taqdimot V3", text: "1. Strategik rejalar va ustuvor vazifalar\n2. Moliyaviy tahlil va prognozlar\n3. Yakuniy natijalar va xulosalar", bg: "#ffffff", color: "#201f1e"}
-        ];
-        let activeSlideIdx = 0;
-
-        function renderPPT() {
-            const list = document.getElementById('slidesThumbList');
-            if(!list) return;
-            list.innerHTML = '';
-            pptSlides.forEach((slide, idx) => {
-                const div = document.createElement('div');
-                div.className = `slide-card ${idx === activeSlideIdx ? 'active' : ''}`;
-                div.innerHTML = `<div style="font-size:11px; opacity:0.7;">Slayd ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Sarlavha'}</div>`;
-                div.onclick = () => selectSlide(idx);
-                list.appendChild(div);
-            });
-            document.getElementById('slideIndicator').innerText = `Slayd: ${activeSlideIdx + 1} / ${pptSlides.length}`;
-            
-            let current = pptSlides[activeSlideIdx];
-            document.getElementById('slideTitleInput').value = current.title;
-            document.getElementById('slideTextInput').value = current.text;
-            
-            let canvas = document.getElementById('slideCanvasBox');
-            canvas.style.backgroundColor = current.bg;
-            canvas.style.color = current.color;
-            document.getElementById('slideTitleInput').style.color = current.color;
-            document.getElementById('slideTextInput').style.color = current.color;
-            
-            localStorage.setItem('enterprise_PPTV3', JSON.stringify(pptSlides));
-        }
-        function selectSlide(idx) { activeSlideIdx = idx; renderPPT(); }
-        function addSlide() {
-            pptSlides.push({title: `Yangi Slayd ${pptSlides.length + 1}`, text: "Asosiy matnni kiriting...", bg: "#ffffff", color: "#201f1e"});
-            activeSlideIdx = pptSlides.length - 1;
-            renderPPT();
-        }
-        function deleteSlide() {
-            if(pptSlides.length > 1) {
-                pptSlides.splice(activeSlideIdx, 1);
-                if(activeSlideIdx >= pptSlides.length) activeSlideIdx = pptSlides.length - 1;
-                renderPPT();
-            } else {
-                alert("Oxirgi slaydni o'chirib bo'lmaydi!");
-            }
-        }
-        function setSlideTheme(bg, color) {
-            pptSlides[activeSlideIdx].bg = bg;
-            pptSlides[activeSlideIdx].color = color;
-            renderPPT();
-        }
-        function updateSlideData() {
-            pptSlides[activeSlideIdx].title = document.getElementById('slideTitleInput').value;
-            pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput').value;
-            renderPPT();
-        }
-        function startSlideShow() {
-            let win = window.open("", "_blank");
-            win.document.write(`<!DOCTYPE html><html><head><title>Taqdimot Slayd-Shou</title><style>
-                body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-                .slide-view { text-align: center; padding: 60px; max-width: 900px; }
-                h1 { font-size: 52px; margin-bottom: 30px; }
-                p { font-size: 26px; line-height: 1.8; white-space: pre-wrap; }
-                .hint { position: fixed; bottom: 20px; font-size: 14px; opacity: 0.5; }
-            </style></head><body>
-                <div class="slide-view" id="slideViewContainer"></div>
-                <div class="hint">Keyingi uchun: O'ng strelka yoki Space | Oldingi uchun: Chap strelka | Chiqish: Esc</div>
-                <script>
-                    let slides = ${JSON.stringify(pptSlides)};
-                    let curIdx = ${activeSlideIdx};
-                    function render() {
-                        let s = slides[curIdx];
-                        document.body.style.background = s.bg;
-                        document.body.style.color = s.color;
-                        document.getElementById('slideViewContainer').innerHTML = '<h1>' + s.title + '</h1><p>' + s.text + '</p>';
-                    }
-                    window.onkeydown = (e) => {
-                        if(e.key === 'ArrowRight' || e.key === ' ') { if(curIdx < slides.length - 1) { curIdx++; render(); } }
-                        if(e.key === 'ArrowLeft') { if(curIdx > 0) { curIdx--; render(); } }
-                        if(e.key === 'Escape') { window.close(); }
-                    };
-                    render();
-                <\/script>
-            </body></html>`);
-        }
-
-        // --- TASKS PLANNER ---
-        let tasksData = [
-            {id: 1, title: "Yangi loyiha arxitekturasini tuzish", priority: "high", date: "2026-09-30", completed: false},
-            {id: 2, title: "Moliyaviy hisobotlarni tayyorlash", priority: "mid", date: "2026-10-02", completed: true}
-        ];
-
-        function renderTasks() {
-            const list = document.getElementById('taskListView');
-            if(!list) return;
-            list.innerHTML = '';
-            tasksData.forEach((t, idx) => {
-                let badgeClass = t.priority === 'high' ? 'badge-high' : (t.priority === 'mid' ? 'badge-mid' : 'badge-low');
-                let badgeText = t.priority === 'high' ? 'Muhim' : (t.priority === 'mid' ? 'O\'rta' : 'Past');
-                
-                list.innerHTML += `
-                    <div class="task-item ${t.completed ? 'completed' : ''}">
-                        <div class="task-info">
-                            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${idx})">
-                            <span style="font-weight:600; font-size:14px;">${t.title}</span>
-                            <span class="badge ${badgeClass}">${badgeText}</span>
-                            <span style="font-size:12px; opacity:0.6; margin-left:auto;">Muddat: ${t.date || 'Belgilanmagan'}</span>
-                        </div>
-                        <button class="btn btn-danger" style="padding:4px 8px; font-size:11px;" onclick="deleteTask(${idx})">O'chirish</button>
-                    </div>
-                `;
-            });
-            localStorage.setItem('enterprise_TasksV3', JSON.stringify(tasksData));
-        }
-
-        function addNewTask() {
-            let titleInput = document.getElementById('taskTitleInput');
-            let priorityInput = document.getElementById('taskPriorityInput');
-            let dateInput = document.getElementById('taskDateInput');
-            
-            if(!titleInput.value.trim()) {
-                alert("Vazifa nomini kiriting!");
-                return;
-            }
-
-            tasksData.push({
-                id: Date.now(),
-                title: titleInput.value,
-                priority: priorityInput.value,
-                date: dateInput.value,
-                completed: false
-            });
-
-            titleInput.value = '';
-            dateInput.value = '';
-            renderTasks();
-        }
-
-        function toggleTask(idx) {
-            tasksData[idx].completed = !tasksData[idx].completed;
-            renderTasks();
-        }
-
-        function deleteTask(idx) {
-            tasksData.splice(idx, 1);
-            renderTasks();
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            let savedTheme = localStorage.getItem('theme');
-            if(savedTheme === 'light') { document.documentElement.classList.remove('dark'); }
-            
-            let w = localStorage.getItem('enterprise_WordV3');
-            if(w) document.getElementById('wordEditor').innerHTML = w;
-            updateWordStats();
-
-            let ex = localStorage.getItem('enterprise_ExcelV3');
-            if(ex) { try { excelData = JSON.parse(ex); } catch(e) {} }
-            initExcel();
-
-            let st = localStorage.getItem('enterprise_StaffV3');
-            let ord = localStorage.getItem('enterprise_OrdersV3');
-            if(st) { try { staffData = JSON.parse(st); } catch(e) {} }
-            if(ord) { try { ordersData = JSON.parse(ord); } catch(e) {} }
-            renderAccess();
-
-            let pt = localStorage.getItem('enterprise_PPTV3');
-            if(pt) { try { pptSlides = JSON.parse(pt); } catch(e) {} }
-            renderPPT();
-
-            let ts = localStorage.getItem('enterprise_TasksV3');
-            if(ts) { try { tasksData = JSON.parse(ts); } catch(e) {} }
-            renderTasks();
+            const saved = localStorage.getItem('web_word_content');
+            if(saved) {
+                document.getElementById('wordEditor').innerHTML = saved;
+            }
+            updateStats();
         });
     </script>
 </body>
