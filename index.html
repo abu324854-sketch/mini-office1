@@ -1,495 +1,742 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="uz" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Ultimate Enterprise V6 - All-in-One Suite</title>
+    <title>Web Office Ultimate Enterprise V8 - World Standard Suite</title>
     <style>
         :root {
-            --ribbon-bg: #f3f2f1;
-            --panel-bg: #ffffff;
+            --primary: #0078d4;
+            --primary-dark: #106ebe;
+            --bg-sidebar: #121212;
+            --bg-main: #f3f2f1;
             --text-main: #201f1e;
             --border: #c8c6c4;
-            --primary: #2b579a;
-            --primary-dark: #103f7e;
-            --hover-bg: #edebe9;
-            --shadow: rgba(0,0,0,0.1);
+            --panel-bg: #ffffff;
+            --ribbon-bg: #faf9f8;
+            --hover-bg: #f3f2f1;
+            --shadow: rgba(0,0,0,0.08);
         }
         .dark {
-            --ribbon-bg: #1f1f1f;
-            --panel-bg: #181818;
+            --primary: #2b88d8;
+            --primary-dark: #115ea3;
+            --bg-sidebar: #0b0b0b;
+            --bg-main: #181818;
             --text-main: #f3f2f1;
             --border: #3b3a39;
-            --primary: #418ab3;
-            --primary-dark: #2b6a90;
+            --panel-bg: #202020;
+            --ribbon-bg: #282828;
             --hover-bg: #323130;
             --shadow: rgba(0,0,0,0.4);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.15s, color 0.15s; }
-        body { display: flex; height: 100vh; background: var(--panel-bg); color: var(--text-main); overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.2s, color 0.2s; }
+        body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
+        
+        /* Sidebar */
+        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 20px rgba(0,0,0,0.3); z-index: 10; }
+        .sidebar-brand { display: flex; align-items: center; justify-content: space-between; font-size: 16px; font-weight: 700; color: #4cc9f0; margin-bottom: 20px; padding-left: 10px; }
+        .theme-toggle-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.2); }
+        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 12px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 14px; display: flex; align-items: center; gap: 14px; width: 100%; }
+        .sidebar button:hover { background: rgba(255,255,255,0.06); color: #fff; }
+        .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.4); }
 
-        /* Sidebar Navigation */
-        .sidebar { width: 280px; background: var(--ribbon-bg); border-right: 1px solid var(--border); padding: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 10; }
-        .sidebar-brand { display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 15px; padding-left: 5px; }
-        .theme-btn { background: var(--border); border: none; color: var(--text-main); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
-        .sidebar button.nav-btn { background: transparent; border: 1px solid transparent; color: var(--text-main); padding: 10px 14px; text-align: left; cursor: pointer; border-radius: 4px; font-size: 13px; display: flex; align-items: center; gap: 10px; width: 100%; font-weight: 500; }
-        .sidebar button.nav-btn:hover { background: var(--hover-bg); }
-        .sidebar button.nav-btn.active { background: var(--primary); color: #fff; font-weight: 600; }
-
-        /* Main Workspace Area */
-        .content { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-        .app-panel { display: none; flex: 1; flex-direction: column; background: var(--panel-bg); position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 5; }
-        .app-panel.active { display: flex; }
-
-        /* Generic Office Header / Ribbon */
-        .office-header { background: var(--primary); color: #fff; padding: 6px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        .office-tabs { display: flex; background: var(--ribbon-bg); border-bottom: 1px solid var(--border); padding: 0 10px; }
-        .o-tab { background: transparent; border: none; padding: 6px 12px; font-size: 13px; cursor: pointer; color: var(--text-main); font-weight: 500; }
-        .o-tab.active { background: var(--panel-bg); border-top: 3px solid var(--primary); border-left: 1px solid var(--border); border-right: 1px solid var(--border); font-weight: 600; }
-
-        .ribbon-toolbar { display: none; background: var(--panel-bg); border-bottom: 1px solid var(--border); padding: 6px 12px; gap: 12px; align-items: center; flex-wrap: wrap; min-height: 80px; }
-        .ribbon-toolbar.active { display: flex; }
-        .r-group { display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--border); padding-right: 10px; gap: 4px; }
-        .r-tools { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-        .r-title { font-size: 10px; text-align: center; opacity: 0.7; font-weight: 600; text-transform: uppercase; }
-
-        .btn { background: transparent; border: 1px solid transparent; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 12px; color: var(--text-main); display: inline-flex; align-items: center; gap: 4px; }
-        .btn:hover { background: var(--hover-bg); border-color: var(--border); }
+        /* Main Workspace */
+        .content { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px var(--shadow); overflow-y: auto; border: 1px solid var(--border); position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; z-index: 5; }
+        .panel.active { display: flex; animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
+        
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+        .panel-header h3 { font-size: 19px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--text-main); }
+        .back-btn { background: var(--border); border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-main); display: inline-flex; align-items: center; gap: 6px; }
+        .back-btn:hover { opacity: 0.8; }
+        
+        /* Ribbon */
+        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--ribbon-bg); padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
+        .btn { background: var(--panel-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:hover { background: var(--hover-bg); border-color: var(--primary); }
         .btn-primary { background: var(--primary); color: #fff; border: none; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-danger { background: #d13438; color: #fff; border: none; }
-        .select-box, .input-box { padding: 3px 6px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel-bg); color: var(--text-main); font-size: 12px; outline: none; }
+        .btn-danger:hover { background: #a80000; }
+        .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: var(--panel-bg); font-size: 13px; color: var(--text-main); }
+        .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; }
 
-        /* Workspace Viewports */
-        .viewport { flex: 1; background: var(--ribbon-bg); overflow-y: auto; padding: 25px; display: flex; justify-content: center; align-items: flex-start; }
-        
-        /* Word Document */
-        .doc-page { width: 800px; min-height: 1050px; background: #ffffff; color: #201f1e; padding: 60px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); outline: none; font-size: 15px; line-height: 1.6; border: 1px solid #ccc; }
-        
-        /* Excel Table */
-        .excel-wrap { flex: 1; display: flex; flex-direction: column; background: var(--panel-bg); padding: 10px; gap: 10px; overflow: hidden; }
-        .formula-bar { display: flex; align-items: center; background: var(--ribbon-bg); border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; gap: 10px; }
-        .table-container { flex: 1; overflow: auto; border: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; text-align: left; background: var(--panel-bg); }
-        th, td { border: 1px solid var(--border); padding: 6px; font-size: 12px; }
-        th { background: var(--ribbon-bg); text-align: center; position: sticky; top: 0; z-index: 2; }
-        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 12px; color: var(--text-main); }
-        td.selected { background: rgba(43, 87, 154, 0.15) !important; border: 2px solid var(--primary); }
+        /* Welcome */
+        #home-welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; gap: 15px; }
+        #home-welcome h1 { font-size: 34px; font-weight: 800; color: var(--primary); }
+        #home-welcome p { font-size: 16px; max-width: 600px; opacity: 0.8; line-height: 1.6; }
 
-        /* Access & Tasks Layout */
-        .grid-box { display: flex; gap: 15px; flex: 1; overflow: hidden; width: 100%; }
-        .sub-card { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; }
-        .sub-title { background: var(--ribbon-bg); padding: 8px 12px; font-weight: 600; border-bottom: 1px solid var(--border); font-size: 13px; }
+        /* Word Module */
+        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; min-height: 350px; }
+        .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 850px; margin: 0 auto; width: 100%; color: var(--text-main); }
+        .word-footer { background: var(--ribbon-bg); padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; display: flex; justify-content: space-between; opacity: 0.8; }
 
-        /* PowerPoint Workspace */
-        .ppt-layout { display: flex; gap: 15px; flex: 1; width: 100%; height: 100%; padding: 15px; background: var(--ribbon-bg); }
-        .ppt-thumb-list { width: 220px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-        .slide-thumb { padding: 10px; border: 2px solid var(--border); border-radius: 4px; cursor: pointer; background: var(--panel-bg); }
-        .slide-thumb.active { border-color: var(--primary); background: rgba(43,87,154,0.08); font-weight: 600; }
-        .ppt-canvas-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .slide-stage { width: 100%; max-width: 700px; height: 380px; border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 30px; display: flex; flex-direction: column; gap: 12px; }
-        .slide-stage input { font-size: 22px; font-weight: bold; border: none; border-bottom: 2px dashed var(--border); outline: none; background: transparent; width: 100%; }
-        .slide-stage textarea { font-size: 15px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.5; }
+        /* Excel Module */
+        .formula-bar { display: flex; align-items: center; background: var(--panel-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; gap: 12px; }
+        .formula-bar label { font-weight: bold; font-size: 14px; color: var(--primary); }
+        .formula-bar input { flex: 1; border: none; outline: none; font-size: 14px; font-family: monospace; background: transparent; color: var(--text-main); }
+        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; min-height: 300px; background: var(--panel-bg); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { border: 1px solid var(--border); padding: 6px 8px; font-size: 13px; }
+        th { background: var(--ribbon-bg); color: var(--text-main); font-weight: 600; position: sticky; top: 0; z-index: 5; text-align: center; }
+        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 13px; color: var(--text-main); }
+        td.cell-selected { background: rgba(0, 120, 212, 0.15) !important; border: 2px solid var(--primary); }
 
-        /* Status bar */
-        .status-bar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: #fff; padding: 4px 12px; font-size: 11px; }
+        /* Access Module */
+        .access-grid { display: flex; gap: 15px; flex: 1; overflow: hidden; min-height: 350px; }
+        .access-table-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; }
+        .access-table-title { background: var(--ribbon-bg); padding: 10px 14px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+
+        /* PowerPoint Module */
+        .ppt-layout { display: flex; gap: 15px; flex: 1; min-height: 350px; }
+        .ppt-sidebar { width: 230px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--ribbon-bg); transition: 0.15s; }
+        .slide-card.active { border-color: var(--primary); background: rgba(0,120,212,0.1); font-weight: 600; }
+        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; background: var(--ribbon-bg); border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
+        .slide-canvas { width: 100%; max-width: 720px; height: 360px; border-radius: 6px; box-shadow: 0 4px 20px var(--shadow); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
+        .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed var(--border); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
+        .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.6; }
+
+        /* Task Planner Module */
+        .task-container { display: flex; flex-direction: column; gap: 15px; flex: 1; overflow-y: auto; }
+        .task-form { display: flex; gap: 10px; flex-wrap: wrap; background: var(--ribbon-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--border); }
+        .task-form input, .task-form select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; background: var(--panel-bg); color: var(--text-main); font-size: 13px; }
+        .task-form input[type="text"] { flex: 1; min-width: 200px; }
+        .task-list { display: flex; flex-direction: column; gap: 8px; }
+        .task-item { display: flex; align-items: center; justify-content: space-between; background: var(--panel-bg); border: 1px solid var(--border); padding: 12px 16px; border-radius: 6px; gap: 15px; }
+        .task-item.completed { opacity: 0.6; text-decoration: line-through; }
+        .task-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-high { background: #d13438; color: #fff; }
+        .badge-mid { background: #ff8c00; color: #fff; }
+        .badge-low { background: #107c41; color: #fff; }
+
+        /* Files Manager Module */
+        .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding: 5px; }
+        .file-card { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 2px 8px var(--shadow); }
+        .file-card h4 { font-size: 15px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .file-card p { font-size: 12px; opacity: 0.7; }
     </style>
 </head>
 <body>
-
-    <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebarMenu">
         <div class="sidebar-brand">
-            <span>⚡ Office Suite V6</span>
-            <button class="theme-btn" onclick="toggleTheme()">🌓 Тема</button>
+            <span>⚡ Ultimate Suite V8</span>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌓 Tema</button>
         </div>
-        <button class="nav-btn active" onclick="switchApp('word', this)">📄 Word (Текст)</button>
-        <button class="nav-btn" onclick="switchApp('excel', this)">📊 Excel (Таблицы)</button>
-        <button class="nav-btn" onclick="switchApp('access', this)">🗄️ Access (Базы данных)</button>
-        <button class="nav-btn" onclick="switchApp('ppt', this)">📽️ PowerPoint (Слайды)</button>
-        <button class="nav-btn" onclick="switchApp('tasks', this)">🎯 Планировщик задач</button>
+        <button id="navWord" onclick="switchApp('word')">📄 Word Pro Muharrir</button>
+        <button id="navExcel" onclick="switchApp('excel')">📊 Excel Formula Engine</button>
+        <button id="navAccess" onclick="switchApp('access')">🗄️ Access Relational DB</button>
+        <button id="navPpt" onclick="switchApp('ppt')">📽️ PowerPoint Studio</button>
+        <button id="navTasks" onclick="switchApp('tasks')">🎯 Vazifalar Rejasi</button>
+        <button id="navFiles" onclick="switchApp('files')">📁 Fayllar Markazi</button>
     </div>
 
     <div class="content">
+        <div id="home-welcome">
+            <h1>Web Office Ultimate Enterprise V8</h1>
+            <p>Әлемдік стандарттарға сай жасалған, барлық кеңсе бағдарламаларын (Word, Excel, Access, PowerPoint, Tasks) бір жерге біріктірген түпкілікті кәсіби жүйе.</p>
+        </div>
 
-        <!-- WORD APP PANEL -->
-        <div id="word" class="app-panel active">
-            <div class="office-header">
-                <span>📄 ofise_1.docx - Microsoft Word Professional</span>
-                <span id="wordStatus">Сохранено ✓</span>
+        <!-- WORD -->
+        <div id="word" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Негізгі</button> 📄 Word Pro - Мәтін Мәнісі</h3>
+                <span id="wordStatus" class="status-msg">Авто-сақталды ✓</span>
             </div>
-            <div class="office-tabs">
-                <button class="o-tab active">Главная</button>
-                <button class="o-tab" onclick="insertTableWord()">Вставка таблицы</button>
-                <button class="o-tab" onclick="downloadWord()">Скачать (.doc)</button>
+            <div class="ribbon">
+                <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
+                <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
+                <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
+                <select onchange="formatWord('fontName', this.value)">
+                    <option value="Segoe UI">Шрифт</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <select onchange="formatWord('fontSize', this.value)">
+                    <option value="3">Көлемі</option>
+                    <option value="2">Кіші</option>
+                    <option value="3">Орташа</option>
+                    <option value="5">Үлкен</option>
+                </select>
+                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding:0; cursor:pointer;">
+                <button class="btn" onclick="formatWord('justifyLeft')">Солға</button>
+                <button class="btn" onclick="formatWord('justifyCenter')">Ортаға</button>
+                <button class="btn" onclick="formatWord('justifyRight')">Оңға</button>
+                <button class="btn btn-primary" onclick="downloadWordDoc()">Жүктеу (.doc)</button>
+                <button class="btn btn-danger" onclick="clearWord()">Тазарту</button>
             </div>
-            <div class="ribbon-toolbar active">
-                <div class="r-group">
-                    <div class="r-tools">
-                        <select class="select-box" onchange="docCmd('fontName', this.value)">
-                            <option value="Calibri">Calibri</option>
-                            <option value="Arial">Arial</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                        </select>
-                        <select class="select-box" onchange="docCmd('fontSize', this.value)">
-                            <option value="3">11 pt</option>
-                            <option value="4">14 pt</option>
-                            <option value="5">18 pt</option>
-                        </select>
-                    </div>
-                    <div class="r-tools">
-                        <button class="btn" onclick="docCmd('bold')"><b>Ж</b></button>
-                        <button class="btn" onclick="docCmd('italic')"><i>К</i></button>
-                        <button class="btn" onclick="docCmd('underline')"><u>Ч</u></button>
-                        <input type="color" onchange="docCmd('foreColor', this.value)" style="width:24px; height:22px; border:none; cursor:pointer;" title="Цвет">
-                    </div>
-                    <div class="r-title">Шрифт</div>
+            <div class="word-wrapper">
+                <div id="wordEditor" class="word-editor" contenteditable="true" oninput="updateWordStats()"></div>
+                <div class="word-footer">
+                    <span id="wordChars">Сөздер: 0 | Таңбалар: 0</span>
+                    <span>Бет: 1 / 1</span>
                 </div>
-                <div class="r-group">
-                    <div class="r-tools">
-                        <button class="btn" onclick="docCmd('insertUnorderedList')">• Список</button>
-                        <button class="btn" onclick="docCmd('insertOrderedList')">1. Нумерация</button>
-                    </div>
-                    <div class="r-tools">
-                        <button class="btn" onclick="docCmd('justifyLeft')">⬅ Слева</button>
-                        <button class="btn" onclick="docCmd('justifyCenter')">🗚 По центру</button>
-                        <button class="btn" onclick="docCmd('justifyRight')">➡ Справа</button>
-                    </div>
-                    <div class="r-title">Абзац</div>
-                </div>
-                <div class="r-group" style="border:none;">
-                    <div class="r-tools">
-                        <button class="btn btn-danger" onclick="clearWordDoc()">Очистить</button>
-                    </div>
-                    <div class="r-title">Файл</div>
-                </div>
-            </div>
-            <div class="viewport">
-                <div id="wordEditor" class="doc-page" contenteditable="true" oninput="updateWordStats()">
-                    <h2>Документ Microsoft Word Professional</h2>
-                    <p>Начните вводить текст, настраивайте форматирование, добавляйте списки и таблицы прямо в браузере[cite: 3].</p>
-                </div>
-            </div>
-            <div class="status-bar">
-                <span id="wordStats">Слов: 0 | Знаков: 0</span>
-                <span>Страница 1 из 1</span>
             </div>
         </div>
 
-        <!-- EXCEL APP PANEL -->
-        <div id="excel" class="app-panel">
-            <div class="office-header">
-                <span>📊 Таблица.xlsx - Excel Engine</span>
-                <span id="excelStatus">Сохранено ✓</span>
+        <!-- EXCEL -->
+        <div id="excel" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Негізгі</button> 📊 Excel Engine - Есептеу ортасы</h3>
+                <span id="excelStatus" class="status-msg">Авто-сақталды ✓</span>
             </div>
             <div class="formula-bar">
-                <b id="activeCellLabel" style="color:var(--primary);">A1</b>
-                <input type="text" id="formulaInput" class="input-box" style="flex:1;" placeholder="Введите число или формулу (=SUM(A1:A5))" onkeypress="handleExcelFormula(event)">
+                <label id="activeCellLabel">A1</label>
+                <input type="text" id="formulaInput" placeholder="Мысалы: 10+20 немесе =SUM(A1:A5)" onkeypress="handleFormula(event)">
             </div>
-            <div class="office-tabs">
-                <button class="btn btn-primary" onclick="addExcelRow()" style="margin:4px;">+ Строка</button>
-                <button class="btn btn-primary" onclick="addExcelCol()" style="margin:4px;">+ Столбец</button>
-                <button class="btn" onclick="calcExcel('SUM')" style="background:#107c41; color:#fff;">SUM</button>
-                <button class="btn" onclick="calcExcel('AVERAGE')" style="background:#2b579a; color:#fff;">AVERAGE</button>
-                <button class="btn btn-danger" onclick="clearExcelData()">Очистить</button>
-                <button class="btn btn-primary" onclick="exportCSV()" style="margin-left:auto;">CSV Экспорт</button>
+            <div class="ribbon">
+                <button class="btn btn-primary" onclick="addExcelRow()">+ Қатар</button>
+                <button class="btn btn-primary" onclick="addExcelCol()">+ Баған</button>
+                <button class="btn" onclick="calcExcelFunc('SUM')" style="background:#107c41; color:#fff; border:none;">SUM</button>
+                <button class="btn" onclick="calcExcelFunc('AVERAGE')" style="background:#0078d4; color:#fff; border:none;">AVERAGE</button>
+                <button class="btn" onclick="calcExcelFunc('MAX')" style="background:#d83b01; color:#fff; border:none;">MAX</button>
+                <button class="btn btn-primary" onclick="exportCSVFile()">CSV Export</button>
+                <button class="btn btn-danger" onclick="clearExcel()">Тазарту</button>
+                <span style="font-weight:600; margin-left:auto;">Нәтиже: <span id="excelResult" style="color:var(--primary);">0</span></span>
             </div>
-            <div class="excel-wrap">
-                <div class="table-container">
-                    <table id="excelTable">
-                        <thead id="excelHead"></thead>
-                        <tbody id="excelBody"></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="status-bar">
-                <span>Результат вычислений: <b id="excelResult">0</b></span>
-                <span>Готов</span>
+            <div class="table-wrap">
+                <table id="excelTable">
+                    <thead id="excelHead"></thead>
+                    <tbody id="excelBody"></tbody>
+                </table>
             </div>
         </div>
 
-        <!-- ACCESS APP PANEL -->
-        <div id="access" class="app-panel">
-            <div class="office-header">
-                <span>🗄️ БазаДанных.accdb - Access Relational DB</span>
-                <span>Синхронизировано ✓</span>
+        <!-- ACCESS -->
+        <div id="access" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Негізгі</button> 🗄️ Access - Деректер базасы</h3>
+                <span id="accessStatus" class="status-msg">Авто-сақталды ✓</span>
             </div>
-            <div class="office-tabs">
-                <button class="btn btn-primary" onclick="addAccessRow()" style="margin:6px;">+ Добавить запись</button>
+            <div class="ribbon">
+                <button class="btn btn-primary" onclick="addAccessRecord()">+ Жаңа жазба қосу</button>
+                <span style="font-size: 13px; opacity: 0.8;">Кестелер өзара байланысқан және синхронды жұмыс істейді.</span>
             </div>
-            <div class="viewport" style="background:var(--panel-bg);">
-                <div class="grid-box">
-                    <div class="sub-card">
-                        <div class="sub-title">Таблица 1: Сотрудники</div>
-                        <div style="overflow:auto; flex:1;">
-                            <table>
-                                <thead><tr><th>ID</th><th>Ф.И.О.</th><th>Отдел</th></tr></thead>
-                                <tbody id="staffBody"></tbody>
-                            </table>
-                        </div>
+            <div class="access-grid">
+                <div class="access-table-box">
+                    <div class="access-table-title"><span>Кесте 1: Қызметкерлер</span></div>
+                    <div style="overflow-y: auto; flex: 1;">
+                        <table>
+                            <thead><tr><th>ID</th><th>Аты-жөні</th><th>Бөлім</th></tr></thead>
+                            <tbody id="staffBody"></tbody>
+                        </table>
                     </div>
-                    <div class="sub-card">
-                        <div class="sub-title">Таблица 2: Операции (Связанная)</div>
-                        <div style="overflow:auto; flex:1;">
-                            <table>
-                                <thead><tr><th>ID</th><th>Сотрудник ID</th><th>Услуга / Товар</th><th>Сумма</th></tr></thead>
-                                <tbody id="ordersBody"></tbody>
-                            </table>
-                        </div>
+                </div>
+                <div class="access-table-box">
+                    <div class="access-table-title"><span>Кесте 2: Операциялар (Байланысқан)</span></div>
+                    <div style="overflow-y: auto; flex: 1;">
+                        <table>
+                            <thead><tr><th>ID</th><th>Байланыс ID</th><th>Қызмет / Өнім</th><th>Құны</th></tr></thead>
+                            <tbody id="ordersBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- POWERPOINT APP PANEL -->
-        <div id="ppt" class="app-panel">
-            <div class="office-header">
-                <span>📽️ Презентация.pptx - PowerPoint Studio</span>
-                <span>Слайд-шоу готово</span>
+        <!-- POWERPOINT -->
+        <div id="ppt" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Негізгі</button> 📽️ PowerPoint - Презентация студиясы</h3>
+                <span id="pptStatus" class="status-msg">Авто-сақталды ✓</span>
             </div>
-            <div class="office-tabs">
-                <button class="btn btn-primary" onclick="addSlide()" style="margin:4px;">+ Новый слайд</button>
-                <button class="btn" onclick="setSlideTheme('#ffffff', '#201f1e')">Светлая тема</button>
-                <button class="btn" onclick="setSlideTheme('#1f1f1f', '#ffffff')" style="background:#333; color:#fff;">Тёмная тема</button>
-                <button class="btn btn-danger" onclick="deleteSlide()">Удалить</button>
-                <button class="btn btn-primary" onclick="startSlideShow()" style="background:#107c41; margin-left:auto;">▶ Слайд-шоу (F5)</button>
+            <div class="ribbon">
+                <button class="btn btn-primary" onclick="addSlide()">+ Жаңа Слайд</button>
+                <button class="btn" onclick="setSlideTheme('#ffffff', '#201f1e')">Ақ тақырып</button>
+                <button class="btn" onclick="setSlideTheme('#1f1f1f', '#ffffff')">Қара тақырып</button>
+                <button class="btn" onclick="setSlideTheme('#0078d4', '#ffffff')">Көк тақырып</button>
+                <button class="btn btn-danger" onclick="deleteSlide()">Жою</button>
+                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color:#fff; border:none;">▶ Толық Слайд-шоу</button>
+                <span id="slideIndicator" style="margin-left: auto; font-weight: 600;">Слайд: 1 / 1</span>
             </div>
             <div class="ppt-layout">
-                <div class="ppt-thumb-list" id="pptThumbList"></div>
-                <div class="ppt-canvas-area">
-                    <div class="slide-stage" id="slideStageBox">
-                        <input type="text" id="pptTitle" placeholder="Заголовок слайда..." oninput="updateSlideContent()">
-                        <textarea id="pptText" placeholder="Основной текст презентации..." oninput="updateSlideContent()"></textarea>
+                <div class="ppt-sidebar" id="slidesThumbList"></div>
+                <div class="ppt-workspace">
+                    <div class="slide-canvas" id="slideCanvasBox">
+                        <input type="text" id="slideTitleInput" placeholder="Слайд тақырыбы..." oninput="updateSlideData()">
+                        <textarea id="slideTextInput" placeholder="Негізгі мәтін..." oninput="updateSlideData()"></textarea>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TASKS PLANNER PANEL -->
-        <div id="tasks" class="app-panel">
-            <div class="office-header">
-                <span>🎯 Управление проектами и задачами</span>
-                <span>Активно</span>
+        <!-- TASKS PLANNER -->
+        <div id="tasks" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Негізгі</button> 🎯 Тапсырмалар және Жоспарлау</h3>
+                <span id="taskStatus" class="status-msg">Авто-сақталды ✓</span>
             </div>
-            <div class="viewport" style="background:var(--panel-bg); flex-direction:column; align-items:stretch;">
-                <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-                    <input type="text" id="taskInput" class="input-box" style="flex:1; padding:8px;" placeholder="Название новой задачи...">
-                    <select id="taskPriority" class="select-box">
-                        <option value="high">Высокий приоритет</option>
-                        <option value="mid" selected>Средний</option>
-                        <option value="low">Низкий</option>
+            <div class="task-container">
+                <div class="task-form">
+                    <input type="text" id="taskTitleInput" placeholder="Жаңа тапсырма атауы...">
+                    <select id="taskPriorityInput">
+                        <option value="high">Маңызды (Жоғары)</option>
+                        <option value="mid" selected>Орташа</option>
+                        <option value="low">Төмен</option>
                     </select>
-                    <input type="date" id="taskDate" class="select-box">
-                    <button class="btn btn-primary" onclick="addTask()">Добавить задачу</button>
+                    <input type="date" id="taskDateInput">
+                    <button class="btn btn-primary" onclick="addNewTask()">+ Тапсырма қосу</button>
                 </div>
-                <div style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px;" id="taskListContainer"></div>
+                <div class="task-list" id="taskListView"></div>
             </div>
         </div>
 
+        <!-- FILES MANAGER -->
+        <div id="files" class="panel">
+            <div class="panel-header">
+                <h3><button class="back-btn" onclick="closeApp()">← Негізгі</button> 📁 Файлдар және Құжаттар Орталығы</h3>
+                <button class="btn btn-danger" onclick="resetAllData()">Барлық деректерді тазарту</button>
+            </div>
+            <div class="files-grid">
+                <div class="file-card">
+                    <h4>📄 Корпоративтік Құжат.doc</h4>
+                    <p>Word редакторындағы ағымдағы мәтін деректері.</p>
+                    <button class="btn btn-primary" style="margin-top:auto;" onclick="switchApp('word')">Ашу</button>
+                </div>
+                <div class="file-card">
+                    <h4>📊 Есеп Кестесі.csv</h4>
+                    <p>Excel ортасындағы есептеулер базасы.</p>
+                    <button class="btn btn-primary" style="margin-top:auto;" onclick="switchApp('excel')">Ашу</button>
+                </div>
+                <div class="file-card">
+                    <h4>🗄️ Қызметкерлер Базасы.db</h4>
+                    <p>Access өзара байланысқан кестелер жүйесі.</p>
+                    <button class="btn btn-primary" style="margin-top:auto;" onclick="switchApp('access')">Ашу</button>
+                </div>
+                <div class="file-card">
+                    <h4>📽️ Презентация Студиясы.ppt</h4>
+                    <p>PowerPoint слайдтарының жиынтығы.</p>
+                    <button class="btn btn-primary" style="margin-top:auto;" onclick="switchApp('ppt')">Ашу</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('office_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            let html = document.documentElement;
+            if(html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
         }
-
-        function switchApp(appId, btn) {
-            document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        function switchApp(appId) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
             document.getElementById(appId).classList.add('active');
-            btn.classList.add('active');
+            let btn = document.getElementById('nav' + appId.charAt(0).toUpperCase() + appId.slice(1));
+            if(btn) btn.classList.add('active');
+        }
+        function closeApp() {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
+        }
+        function resetAllData() {
+            if(confirm("Барлық деректерді жоюды және бастапқы күйге қайтаруды растайсыз ба?")) {
+                localStorage.clear();
+                location.reload();
+            }
         }
 
-        // --- WORD LOGIC ---
-        function docCmd(cmd, val = null) {
+        // --- WORD ---
+        function formatWord(cmd, val = null) {
             document.execCommand(cmd, false, val);
-            document.getElementById('wordEditor').focus();
             updateWordStats();
+            saveWord();
         }
         function updateWordStats() {
-            const txt = document.getElementById('wordEditor').innerText.trim();
-            const words = txt ? txt.split(/\s+/).length : 0;
-            document.getElementById('wordStats').innerText = `Слов: ${words} | Знаков: ${txt.length}`;
-            localStorage.setItem('office_word_v6', document.getElementById('wordEditor').innerHTML);
+            const editor = document.getElementById('wordEditor');
+            if(!editor) return;
+            const text = editor.innerText.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            const chars = text.length;
+            document.getElementById('wordChars').innerText = `Сөздер: ${words} | Таңбалар: ${chars}`;
+            saveWord();
         }
-        function clearWordDoc() {
-            if(confirm("Очистить документ?")) {
+        function saveWord() {
+            localStorage.setItem('enterprise_WordV8', document.getElementById('wordEditor').innerHTML);
+        }
+        function clearWord() {
+            if(confirm("Құжатты тазартуды қалайсыз ба?")) {
                 document.getElementById('wordEditor').innerHTML = '';
                 updateWordStats();
             }
         }
-        function insertTableWord() {
-            const tbl = `<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr><td style="border:1px solid #000; padding:6px;">Ячейка 1</td><td style="border:1px solid #000; padding:6px;">Ячейка 2</td></tr></table><p><br></p>`;
-            document.execCommand('insertHTML', false, tbl);
-            updateWordStats();
-        }
-        function downloadWord() {
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="font-family:Calibri; padding:40px;">${document.getElementById('wordEditor').innerHTML}</body></html>`;
+        function downloadWordDoc() {
+            const editor = document.getElementById('wordEditor');
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Құжат</title></head><body style="font-family:sans-serif; padding:40px;">${editor.innerHTML}</body></html>`;
             const blob = new Blob([html], {type: 'application/msword'});
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'document.doc';
+            link.download = 'korporativ_qujat.doc';
             link.click();
         }
 
-        // --- EXCEL LOGIC ---
-        let exRows = 8, exCols = 8, exData = {}, selectedCell = 'A1';
+        // --- EXCEL ---
+        let excelRows = 8;
+        let excelCols = 8;
+        let excelData = {};
+        let selectedCell = 'A1';
+
         function initExcel() {
             const head = document.getElementById('excelHead');
             const body = document.getElementById('excelBody');
-            head.innerHTML = '<tr><th>#</th>' + Array.from({length: exCols}, (_, i) => `<th>${String.fromCharCode(65 + i)}</th>`).join('') + '</tr>';
+            if(!head || !body) return;
+            head.innerHTML = '';
             body.innerHTML = '';
-            for(let r=0; r<exRows; r++) {
+            let trH = '<tr><th>#</th>';
+            for(let c=0; c<excelCols; c++) {
+                trH += `<th>${String.fromCharCode(65 + c)}</th>`;
+            }
+            trH += '</tr>';
+            head.innerHTML = trH;
+            for(let r=0; r<excelRows; r++) {
                 let tr = document.createElement('tr');
-                tr.innerHTML = `<th>${r+1}</th>` + Array.from({length: exCols}, (_, c) => {
-                    let cid = `${String.fromCharCode(65 + c)}${r+1}`;
-                    return `<td><input type="text" id="cell_${cid}" value="${exData[cid] || ''}" data-cell="${cid}"></td>`;
-                }).join('');
+                tr.innerHTML = `<th>${r+1}</th>`;
+                for(let c=0; c<excelCols; c++) {
+                    let cellId = `${String.fromCharCode(65 + c)}${r+1}`;
+                    let val = excelData[cellId] || '';
+                    tr.innerHTML += `<td><input type="text" id="cell_${cellId}" value="${val}" data-cell="${cellId}"></td>`;
+                }
                 body.appendChild(tr);
             }
-            body.querySelectorAll('input').forEach(inp => {
-                let cid = inp.getAttribute('data-cell');
-                inp.onclick = () => selectExcelCell(cid);
-                inp.oninput = (e) => { exData[cid] = e.target.value; localStorage.setItem('office_excel_v6', JSON.stringify(exData)); };
+            body.querySelectorAll('input').forEach(input => {
+                let cellId = input.getAttribute('data-cell');
+                input.onclick = () => selectExcelCell(cellId);
+                input.oninput = (e) => updateExcelCell(cellId, e.target.value);
             });
         }
-        function selectExcelCell(cid) {
-            if(selectedCell) document.getElementById(`cell_${selectedCell}`)?.parentElement.classList.remove('selected');
-            selectedCell = cid;
-            document.getElementById(`cell_${cid}`)?.parentElement.classList.add('selected');
-            document.getElementById('activeCellLabel').innerText = cid;
-            document.getElementById('formulaInput').value = exData[cid] || '';
+        function selectExcelCell(cellId) {
+            if(selectedCell) {
+                let prev = document.getElementById(`cell_${selectedCell}`);
+                if(prev && prev.parentElement) prev.parentElement.classList.remove('cell-selected');
+            }
+            selectedCell = cellId;
+            let curr = document.getElementById(`cell_${cellId}`);
+            if(curr && curr.parentElement) curr.parentElement.classList.add('cell-selected');
+            document.getElementById('activeCellLabel').innerText = cellId;
+            document.getElementById('formulaInput').value = excelData[cellId] || '';
         }
-        function handleExcelFormula(e) {
+        function updateExcelCell(cellId, val) {
+            excelData[cellId] = val;
+            localStorage.setItem('enterprise_ExcelV8', JSON.stringify(excelData));
+        }
+        function handleFormula(e) {
             if(e.key === 'Enter' && selectedCell) {
                 let val = document.getElementById('formulaInput').value;
-                let res = val;
+                let evaluated = val;
                 if(val.startsWith('=')) {
                     try {
                         let exp = val.substring(1).toUpperCase();
-                        if(exp.startsWith('SUM(') || exp.startsWith('AVERAGE(')) {
-                            let range = exp.substring(exp.indexOf('(')+1, exp.indexOf(')'));
-                            let [p1, p2] = range.split(':');
-                            let vals = [];
-                            let sc = p1.charCodeAt(0), sr = parseInt(p1.substring(1));
-                            let ec = p2.charCodeAt(0), er = parseInt(p2.substring(1));
-                            for(let r=sr; r<=er; r++) {
-                                for(let c=sc; c<=ec; c++) {
-                                    let v = parseFloat(exData[String.fromCharCode(c)+r]);
-                                    if(!isNaN(v)) vals.push(v);
-                                }
-                            }
-                            res = exp.startsWith('SUM') ? vals.reduce((a,b)=>a+b,0) : (vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0);
+                        if(exp.startsWith('SUM(') || exp.startsWith('AVERAGE(') || exp.startsWith('MAX(')) {
+                            evaluated = evaluateRangeFunc(exp);
                         } else {
-                            res = eval(exp.replace(/[A-Z][0-9]+/g, m => parseFloat(exData[m]) || 0));
+                            let cleanExp = exp.replace(/[A-Z][0-9]+/g, match => {
+                                let v = parseFloat(excelData[match]);
+                                return isNaN(v) ? 0 : v;
+                            });
+                            evaluated = eval(cleanExp);
                         }
-                    } catch(err) { res = "Ошибка"; }
+                    } catch(err) {
+                        evaluated = "Қате!";
+                    }
+                } else {
+                    try {
+                        evaluated = eval(val);
+                    } catch(err) {
+                        evaluated = val;
+                    }
                 }
-                exData[selectedCell] = res;
-                document.getElementById(`cell_${selectedCell}`).value = res;
-                document.getElementById('excelResult').innerText = res;
-                localStorage.setItem('office_excel_v6', JSON.stringify(exData));
+                excelData[selectedCell] = evaluated;
+                let cellInput = document.getElementById(`cell_${selectedCell}`);
+                if(cellInput) cellInput.value = evaluated;
+                updateExcelCell(selectedCell, evaluated);
+                document.getElementById('excelResult').innerText = evaluated;
             }
         }
-        function calcExcel(func) {
-            let vals = Object.values(exData).map(v => parseFloat(v)).filter(v => !isNaN(v));
-            if(!vals.length) return;
-            let res = func === 'SUM' ? vals.reduce((a,b)=>a+b,0) : vals.reduce((a,b)=>a+b,0)/vals.length;
+        function evaluateRangeFunc(exp) {
+            let funcName = exp.substring(0, exp.indexOf('('));
+            let range = exp.substring(exp.indexOf('(') + 1, exp.indexOf(')'));
+            let parts = range.split(':');
+            if(parts.length !== 2) return "Қате диапазон";
+            let startCol = parts[0].charCodeAt(0);
+            let startRow = parseInt(parts[0].substring(1));
+            let endCol = parts[1].charCodeAt(0);
+            let endRow = parseInt(parts[1].substring(1));
+            
+            let values = [];
+            for(let r = startRow; r <= endRow; r++) {
+                for(let c = startCol; c <= endCol; c++) {
+                    let cid = String.fromCharCode(c) + r;
+                    let v = parseFloat(excelData[cid]);
+                    if(!isNaN(v)) values.push(v);
+                }
+            }
+            if(values.length === 0) return 0;
+            if(funcName === 'SUM') return values.reduce((a,b)=>a+b, 0);
+            if(funcName === 'AVERAGE') return values.reduce((a,b)=>a+b, 0) / values.length;
+            if(funcName === 'MAX') return Math.max(...values);
+            return 0;
+        }
+        function calcExcelFunc(func) {
+            let values = [];
+            for(let key in excelData) {
+                let v = parseFloat(excelData[key]);
+                if(!isNaN(v)) values.push(v);
+            }
+            if(values.length === 0) { document.getElementById('excelResult').innerText = 0; return; }
+            let res = 0;
+            if(func === 'SUM') res = values.reduce((a,b)=>a+b,0);
+            if(func === 'AVERAGE') res = values.reduce((a,b)=>a+b,0)/values.length;
+            if(func === 'MAX') res = Math.max(...values);
             document.getElementById('excelResult').innerText = res;
         }
-        function addExcelRow() { exRows++; initExcel(); }
-        function addExcelCol() { if(exCols < 15) exCols++; initExcel(); }
-        function clearExcelData() { if(confirm("Очистить таблицу?")) { exData = {}; initExcel(); } }
-        function exportCSV() {
-            let csv = "";
-            for(let r=0; r<exRows; r++) {
-                let row = [];
-                for(let c=0; c<exCols; c++) row.push('"' + (exData[String.fromCharCode(65+c)+(r+1)] || '') + '"');
-                csv += row.join(",") + "\n";
+        function addExcelRow() { excelRows++; initExcel(); }
+        function addExcelCol() { if(excelCols < 15) excelCols++; initExcel(); }
+        function clearExcel() {
+            if(confirm("Excel кестесін тазалайсыз ба?")) {
+                excelData = {};
+                initExcel();
+                document.getElementById('excelResult').innerText = '0';
             }
-            let blob = new Blob([csv], {type: 'text/csv'});
-            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "table.csv"; a.click();
+        }
+        function exportCSVFile() {
+            let csvContent = "";
+            for(let r=0; r<excelRows; r++) {
+                let row = [];
+                for(let c=0; c<excelCols; c++) {
+                    let cid = `${String.fromCharCode(65 + c)}${r+1}`;
+                    row.push('"' + (excelData[cid] || '') + '"');
+                }
+                csvContent += row.join(",") + "\n";
+            }
+            let blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "WebOffice_Export.csv";
+            link.click();
         }
 
-        // --- ACCESS LOGIC ---
-        let staff = [{id: 1, name: "Алишер Навоий", dept: "Дирекция"}, {id: 2, name: "Зухра Каримова", dept: "Финансы"}];
-        let orders = [{id: 501, staffId: 1, prod: "Лицензия сервера", amt: 15000000}, {id: 502, staffId: 2, prod: "Аудит", amt: 4500000}];
+        // --- ACCESS ---
+        let staffData = [{id: 1, name: "Әлішер Наууаи", dept: "Дирекция"}, {id: 2, name: "Зухра Каримова", dept: "Қаржы"}];
+        let ordersData = [{orderId: 501, staffId: 1, product: "Сервер лицензиясы", amount: 15000000}, {orderId: 502, staffId: 2, product: "Аудит қызметі", amount: 4500000}];
+        
         function renderAccess() {
-            document.getElementById('staffBody').innerHTML = staff.map((s,i)=>`<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" oninput="staff[${i}].name=this.value"></td><td><input type="text" value="${s.dept}" oninput="staff[${i}].dept=this.value"></td></tr>`).join('');
-            document.getElementById('ordersBody').innerHTML = orders.map((o,i)=>`<tr><td>${o.id}</td><td><b>${o.staffId}</b></td><td><input type="text" value="${o.prod}" oninput="orders[${i}].prod=this.value"></td><td><input type="number" value="${o.amt}" oninput="orders[${i}].amt=this.value"></td></tr>`).join('');
+            let staffBody = document.getElementById('staffBody');
+            let ordersBody = document.getElementById('ordersBody');
+            if(!staffBody || !ordersBody) return;
+            staffBody.innerHTML = '';
+            staffData.forEach((s, idx) => {
+                staffBody.innerHTML += `<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" data-st-name="${idx}"></td><td><input type="text" value="${s.dept}" data-st-dept="${idx}"></td></tr>`;
+            });
+            ordersBody.innerHTML = '';
+            ordersData.forEach((o, idx) => {
+                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b></td><td><input type="text" value="${o.product}" data-ord-prod="${idx}"></td><td><input type="number" value="${o.amount}" data-ord-amt="${idx}"></td></tr>`;
+            });
+            staffBody.querySelectorAll('[data-st-name]').forEach(inp => {
+                inp.oninput = (e) => { staffData[inp.getAttribute('data-st-name')].name = e.target.value; saveAccess(); };
+            });
+            staffBody.querySelectorAll('[data-st-dept]').forEach(inp => {
+                inp.oninput = (e) => { staffData[inp.getAttribute('data-st-dept')].dept = e.target.value; saveAccess(); };
+            });
+            ordersBody.querySelectorAll('[data-ord-prod]').forEach(inp => {
+                inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-prod')].product = e.target.value; saveAccess(); };
+            });
+            ordersBody.querySelectorAll('[data-ord-amt]').forEach(inp => {
+                inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-amt')].amount = e.target.value; saveAccess(); };
+            });
+            saveAccess();
         }
-        function addAccessRow() {
-            let id = staff.length + 1;
-            staff.push({id, name: "Новый сотрудник", dept: "IT"});
-            orders.push({id: 500+id, staffId: id, prod: "Оборудование", amt: 2000000});
+        function addAccessRecord() {
+            let newId = staffData.length + 1;
+            staffData.push({id: newId, name: "Жаңа Қызметкер", dept: "IT Бөлімі"});
+            ordersData.push({orderId: 500 + newId, staffId: newId, product: "Жабдық", amount: 2000000});
             renderAccess();
         }
-
-        // --- PPT LOGIC ---
-        let slides = [{title: "Корпоративная презентация", text: "1. Стратегия\n2. Анализ\n3. Итоги", bg: "#ffffff", color: "#201f1e"}];
-        let activeSlide = 0;
-        function renderPPT() {
-            document.getElementById('pptThumbList').innerHTML = slides.map((s,i)=>`<div class="slide-thumb ${i===activeSlide?'active':''}" onclick="activeSlide=${i}; renderPPT();"><div style="font-size:10px;opacity:0.6">Слайд ${i+1}</div><div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div></div>`).join('');
-            let s = slides[activeSlide];
-            document.getElementById('pptTitle').value = s.title;
-            document.getElementById('pptText').value = s.text;
-            let stage = document.getElementById('slideStageBox');
-            stage.style.background = s.bg; stage.style.color = s.color;
-            document.getElementById('pptTitle').style.color = s.color;
-            document.getElementById('pptText').style.color = s.color;
+        function saveAccess() {
+            localStorage.setItem('enterprise_StaffV8', JSON.stringify(staffData));
+            localStorage.setItem('enterprise_OrdersV8', JSON.stringify(ordersData));
         }
-        function addSlide() { slides.push({title: "Новый слайд", text: "Текст...", bg: "#ffffff", color: "#201f1e"}); activeSlide = slides.length-1; renderPPT(); }
-        function deleteSlide() { if(slides.length>1) { slides.splice(activeSlide, 1); activeSlide = Math.max(0, activeSlide-1); renderPPT(); } }
-        function setSlideTheme(bg, color) { slides[activeSlide].bg = bg; slides[activeSlide].color = color; renderPPT(); }
-        function updateSlideContent() {
-            slides[activeSlide].title = document.getElementById('pptTitle').value;
-            slides[activeSlide].text = document.getElementById('pptText').value;
+
+        // --- POWERPOINT ---
+        let pptSlides = [
+            {title: "Корпоративтік Презентация V8", text: "1. Стратегиялық жоспарлар\n2. Қаржылық талдау\n3. Қорытынды нәтижелер", bg: "#ffffff", color: "#201f1e"}
+        ];
+        let activeSlideIdx = 0;
+
+        function renderPPT() {
+            const list = document.getElementById('slidesThumbList');
+            if(!list) return;
+            list.innerHTML = '';
+            pptSlides.forEach((slide, idx) => {
+                const div = document.createElement('div');
+                div.className = `slide-card ${idx === activeSlideIdx ? 'active' : ''}`;
+                div.innerHTML = `<div style="font-size:11px; opacity:0.7;">Слайд ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Тақырып'}</div>`;
+                div.onclick = () => selectSlide(idx);
+                list.appendChild(div);
+            });
+            document.getElementById('slideIndicator').innerText = `Слайд: ${activeSlideIdx + 1} / ${pptSlides.length}`;
+            
+            let current = pptSlides[activeSlideIdx];
+            document.getElementById('slideTitleInput').value = current.title;
+            document.getElementById('slideTextInput').value = current.text;
+            
+            let canvas = document.getElementById('slideCanvasBox');
+            canvas.style.backgroundColor = current.bg;
+            canvas.style.color = current.color;
+            document.getElementById('slideTitleInput').style.color = current.color;
+            document.getElementById('slideTextInput').style.color = current.color;
+            
+            localStorage.setItem('enterprise_PPTV8', JSON.stringify(pptSlides));
+        }
+        function selectSlide(idx) { activeSlideIdx = idx; renderPPT(); }
+        function addSlide() {
+            pptSlides.push({title: `Жаңа Слайд ${pptSlides.length + 1}`, text: "Мәтінді осында енгізіңіз...", bg: "#ffffff", color: "#201f1e"});
+            activeSlideIdx = pptSlides.length - 1;
+            renderPPT();
+        }
+        function deleteSlide() {
+            if(pptSlides.length > 1) {
+                pptSlides.splice(activeSlideIdx, 1);
+                if(activeSlideIdx >= pptSlides.length) activeSlideIdx = pptSlides.length - 1;
+                renderPPT();
+            } else {
+                alert("Соңғы слайдты жоюға болмайды!");
+            }
+        }
+        function setSlideTheme(bg, color) {
+            pptSlides[activeSlideIdx].bg = bg;
+            pptSlides[activeSlideIdx].color = color;
+            renderPPT();
+        }
+        function updateSlideData() {
+            pptSlides[activeSlideIdx].title = document.getElementById('slideTitleInput').value;
+            pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput').value;
             renderPPT();
         }
         function startSlideShow() {
             let win = window.open("", "_blank");
-            win.document.write(`<!DOCTYPE html><html><body style="background:#000;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:50px;">
-                <div id="view"></div><script>
-                let slides = ${JSON.stringify(slides)}, idx = ${activeSlide};
-                function show() { let s = slides[idx]; document.body.style.background=s.bg; document.body.style.color=s.color; document.getElementById('view').innerHTML='<h1 style="font-size:45px;margin-bottom:20px">'+s.title+'</h1><p style="font-size:24px;white-space:pre-wrap;line-height:1.6">'+s.text+'</p>'; }
-                window.onkeydown = e => { if(e.key==='ArrowRight'&&idx<slides.length-1){idx++;show();} if(e.key==='ArrowLeft'&&idx>0){idx--;show();} if(e.key==='Escape')window.close(); };
-                show();<\/script></body></html>`);
+            win.document.write(`<!DOCTYPE html><html><head><title>Слайд-шоу</title><style>
+                body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+                .slide-view { text-align: center; padding: 60px; max-width: 900px; }
+                h1 { font-size: 52px; margin-bottom: 30px; }
+                p { font-size: 26px; line-height: 1.8; white-space: pre-wrap; }
+                .hint { position: fixed; bottom: 20px; font-size: 14px; opacity: 0.5; }
+            </style></head><body>
+                <div class="slide-view" id="slideViewContainer"></div>
+                <div class="hint">Келесі үшін: Оң жақ көрсеткі немесе Space | Алдыңғы үшін: Сол жақ көрсеткі | Шығу: Esc</div>
+                <script>
+                    let slides = ${JSON.stringify(pptSlides)};
+                    let curIdx = ${activeSlideIdx};
+                    function render() {
+                        let s = slides[curIdx];
+                        document.body.style.background = s.bg;
+                        document.body.style.color = s.color;
+                        document.getElementById('slideViewContainer').innerHTML = '<h1>' + s.title + '</h1><p>' + s.text + '</p>';
+                    }
+                    window.onkeydown = (e) => {
+                        if(e.key === 'ArrowRight' || e.key === ' ') { if(curIdx < slides.length - 1) { curIdx++; render(); } }
+                        if(e.key === 'ArrowLeft') { if(curIdx > 0) { curIdx--; render(); } }
+                        if(e.key === 'Escape') { window.close(); }
+                    };
+                    render();
+                <\/script>
+            </body></html>`);
         }
 
-        // --- TASKS LOGIC ---
-        let tasks = [{title: "Разработать архитектуру системы", priority: "high", date: "2026-09-30", done: false}];
+        // --- TASKS PLANNER ---
+        let tasksData = [
+            {id: 1, title: "Жаңа жоба архитектурасын құру", priority: "high", date: "2026-09-30", completed: false},
+            {id: 2, title: "Қаржылық есептерді дайындау", priority: "mid", date: "2026-10-02", completed: true}
+        ];
+
         function renderTasks() {
-            document.getElementById('taskListContainer').innerHTML = tasks.map((t,i)=>`
-                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--panel-bg); border:1px solid var(--border); padding:10px 14px; border-radius:4px; ${t.done?'opacity:0.5;text-decoration:line-through':''}">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <input type="checkbox" ${t.done?'checked':''} onchange="tasks[${i}].done=!tasks[${i}].done; renderTasks();">
-                        <b>${t.title}</b>
-                        <span style="font-size:10px; padding:2px 6px; border-radius:3px; background:${t.priority==='high'?'#d13438':'#ff8c00'}; color:#fff">${t.priority}</span>
-                        <span style="font-size:11px; opacity:0.6">Срок: ${t.date}</span>
+            const list = document.getElementById('taskListView');
+            if(!list) return;
+            list.innerHTML = '';
+            tasksData.forEach((t, idx) => {
+                let badgeClass = t.priority === 'high' ? 'badge-high' : (t.priority === 'mid' ? 'badge-mid' : 'badge-low');
+                let badgeText = t.priority === 'high' ? 'Маңызды' : (t.priority === 'mid' ? 'Орташа' : 'Төмен');
+                
+                list.innerHTML += `
+                    <div class="task-item ${t.completed ? 'completed' : ''}">
+                        <div class="task-info">
+                            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${idx})">
+                            <span style="font-weight:600; font-size:14px;">${t.title}</span>
+                            <span class="badge ${badgeClass}">${badgeText}</span>
+                            <span style="font-size:12px; opacity:0.6; margin-left:auto;">Мерзімі: ${t.date || 'Белгіленбеген'}</span>
+                        </div>
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:11px;" onclick="deleteTask(${idx})">Жою</button>
                     </div>
-                    <button class="btn btn-danger" onclick="tasks.splice(${i},1); renderTasks();">Удалить</button>
-                </div>`).join('');
-            localStorage.setItem('office_tasks_v6', JSON.stringify(tasks));
+                `;
+            });
+            localStorage.setItem('enterprise_TasksV8', JSON.stringify(tasksData));
         }
-        function addTask() {
-            let t = document.getElementById('taskInput').value;
-            if(!t) return;
-            tasks.push({title: t, priority: document.getElementById('taskPriority').value, date: document.getElementById('taskDate').value, done: false});
-            document.getElementById('taskInput').value = '';
+
+        function addNewTask() {
+            let titleInput = document.getElementById('taskTitleInput');
+            let priorityInput = document.getElementById('taskPriorityInput');
+            let dateInput = document.getElementById('taskDateInput');
+            
+            if(!titleInput.value.trim()) {
+                alert("Тапсырма атауын енгізіңіз!");
+                return;
+            }
+
+            tasksData.push({
+                id: Date.now(),
+                title: titleInput.value,
+                priority: priorityInput.value,
+                date: dateInput.value,
+                completed: false
+            });
+
+            titleInput.value = '';
+            dateInput.value = '';
             renderTasks();
         }
 
-        // Initialization
+        function toggleTask(idx) {
+            tasksData[idx].completed = !tasksData[idx].completed;
+            renderTasks();
+        }
+
+        function deleteTask(idx) {
+            tasksData.splice(idx, 1);
+            renderTasks();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            if(localStorage.getItem('office_theme') === 'light') document.documentElement.classList.remove('dark');
-            let sw = localStorage.getItem('office_word_v6'); if(sw) document.getElementById('wordEditor').innerHTML = sw;
+            let savedTheme = localStorage.getItem('theme');
+            if(savedTheme === 'light') { document.documentElement.classList.remove('dark'); }
+            
+            let w = localStorage.getItem('enterprise_WordV8');
+            if(w) document.getElementById('wordEditor').innerHTML = w;
             updateWordStats();
-            let se = localStorage.getItem('office_excel_v6'); if(se) { try{exData = JSON.parse(se);}catch(e){} }
+
+            let ex = localStorage.getItem('enterprise_ExcelV8');
+            if(ex) { try { excelData = JSON.parse(ex); } catch(e) {} }
             initExcel();
+
+            let st = localStorage.getItem('enterprise_StaffV8');
+            let ord = localStorage.getItem('enterprise_OrdersV8');
+            if(st) { try { staffData = JSON.parse(st); } catch(e) {} }
+            if(ord) { try { ordersData = JSON.parse(ord); } catch(e) {} }
             renderAccess();
+
+            let pt = localStorage.getItem('enterprise_PPTV8');
+            if(pt) { try { pptSlides = JSON.parse(pt); } catch(e) {} }
             renderPPT();
-            let st = localStorage.getItem('office_tasks_v6'); if(st) { try{tasks = JSON.parse(st);}catch(e){} }
+
+            let ts = localStorage.getItem('enterprise_TasksV8');
+            if(ts) { try { tasksData = JSON.parse(ts); } catch(e) {} }
             renderTasks();
         });
     </script>
