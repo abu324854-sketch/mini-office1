@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Office Desktop - Oflayn</title>
+    <title>Professional Mini Office</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { display: flex; height: 100vh; background: #f0f2f5; }
-        .sidebar { width: 220px; background: #1e1e2f; color: #fff; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar { width: 240px; background: #1e1e2f; color: #fff; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .sidebar h2 { font-size: 18px; margin-bottom: 20px; color: #4f46e5; }
         .sidebar button { background: none; border: none; color: #cbd5e1; padding: 10px; text-align: left; cursor: pointer; border-radius: 5px; font-size: 14px; transition: 0.2s; }
         .sidebar button:hover, .sidebar button.active { background: #4f46e5; color: #fff; }
@@ -15,7 +15,13 @@
         .panel { display: none; flex: 1; flex-direction: column; gap: 15px; }
         .panel.active { display: flex; }
         h3 { color: #1e1e2f; }
-        textarea { flex: 1; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; resize: none; outline: none; }
+        
+        /* Professional Matn muharriri paneli */
+        .editor-toolbar { display: flex; gap: 5px; background: #fff; padding: 8px; border-radius: 8px 8px 0 0; border: 1px solid #cbd5e1; border-bottom: none; }
+        .editor-toolbar button { background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .editor-toolbar button:hover { background: #e2e8f0; }
+        .editable-area { flex: 1; background: #fff; padding: 15px; border: 1px solid #cbd5e1; border-radius: 0 0 8px 8px; outline: none; overflow-y: auto; font-size: 16px; }
+
         .toolbar { display: flex; gap: 10px; align-items: center; }
         button.btn { background: #4f46e5; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; }
         button.btn:hover { background: #4338ca; }
@@ -33,37 +39,45 @@
 <body>
 
     <div class="sidebar">
-        <h2>Mini Office</h2>
-        <button class="active" onclick="switchTab('writer', this)">📄 Matn Muharriri</button>
-        <button onclick="switchTab('calc', this)">📊 Jadval (Excel)</button>
+        <h2>Pro Office</h2>
+        <button class="active" onclick="switchTab('writer', this)">📄 Pro Matn Muharriri</button>
+        <button onclick="switchTab('calc', this)">📊 Professional Jadval</button>
         <button onclick="switchTab('todo', this)">✅ Vazifalar</button>
     </div>
 
     <div class="content">
-        <!-- 1. Matn muharriri -->
+        <!-- 1. Pro Matn muharriri -->
         <div id="writer" class="panel active">
-            <h3>Matn Muharriri (Avto-saqlanadi)</h3>
-            <textarea id="textDoc" placeholder="Matningizni shu yerga yozing..." oninput="saveTextData()"></textarea>
+            <h3>Hujjat Muharriri (Word uslubida)</h3>
+            <div class="editor-toolbar">
+                <button onclick="formatText('bold')"><b>B</b></button>
+                <button onclick="formatText('italic')"><i>I</i></button>
+                <button onclick="formatText('underline')"><u>U</u></button>
+                <button onclick="formatText('justifyLeft')">Chapga</button>
+                <button onclick="formatText('justifyCenter')">O'rtaga</button>
+                <button onclick="formatText('justifyRight')">O'ngga</button>
+            </div>
+            <div id="textDoc" class="editable-area" contenteditable="true" oninput="saveTextData()" placeholder="Matningizni shu yerga yozing..."></div>
             <div class="toolbar">
-                <button class="btn" onclick="downloadText()">Faylga saqlash (.txt)</button>
+                <button class="btn" onclick="downloadText()">Hujjatni yuklab olish (.html)</button>
                 <span id="saveStatus" class="status-msg"></span>
             </div>
         </div>
 
         <!-- 2. Jadval -->
         <div id="calc" class="panel">
-            <h3>Oddiy Hisob-kitob Jadvali</h3>
+            <h3>Professional Hisob-kitob Jadvali</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Mahsulot nomi</th>
+                        <th>Mahsulot / Xizmat</th>
                         <th>Soni</th>
                         <th>Narxi (so'm)</th>
                         <th>Umumiy summa</th>
                     </tr>
                 </thead>
                 <tbody id="calcBody">
-                    <tr><td><input type="text" value="Mahsulot 1" oninput="saveCalcData()"></td><td><input type="number" value="2" oninput="calcRow(this)"></td><td><input type="number" value="15000" oninput="calcRow(this)"></td><td class="total">30000</td></tr>
+                    <tr><td><input type="text" value="Mahsulot 1"></td><td><input type="number" value="2" oninput="calcRow(this)"></td><td><input type="number" value="15000" oninput="calcRow(this)"></td><td class="total">30000</td></tr>
                 </tbody>
             </table>
             <button class="btn" style="width: max-content;" onclick="addRow()">Qator qo'shish</button>
@@ -81,15 +95,11 @@
     </div>
 
     <script>
-        // Dastur ochilganda saqlangan ma'lumotlarni joylash
         window.onload = function() {
-            // 1. Matnni yuklash
-            const savedText = localStorage.getItem('miniOfficeText');
+            const savedText = localStorage.getItem('proOfficeText');
             if (savedText !== null) {
-                document.getElementById('textDoc').value = savedText;
+                document.getElementById('textDoc').innerHTML = savedText;
             }
-
-            // 2. Vazifalarni yuklash
             loadTasks();
         };
 
@@ -100,21 +110,26 @@
             btn.classList.add('active');
         }
 
-        // Matnni brauzer xotirasida saqlash
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            saveTextData();
+        }
+
         function saveTextData() {
-            const text = document.getElementById('textDoc').value;
-            localStorage.setItem('miniOfficeText', text);
+            const content = document.getElementById('textDoc').innerHTML;
+            localStorage.setItem('proOfficeText', content);
             const status = document.getElementById('saveStatus');
             status.innerText = "Saqlandi ✓";
             setTimeout(() => { status.innerText = ""; }, 1500);
         }
 
         function downloadText() {
-            const text = document.getElementById('textDoc').value;
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const content = document.getElementById('textDoc').innerHTML;
+            const fullHtml = `<!DOCTYPE html><html lang="uz"><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:20px;">${content}</body></html>`;
+            const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'hujjat.txt';
+            link.download = 'hujjat.html';
             link.click();
         }
 
@@ -123,30 +138,21 @@
             const qty = row.querySelectorAll('input')[1].value || 0;
             const price = row.querySelectorAll('input')[2].value || 0;
             row.querySelector('.total').innerText = qty * price;
-            saveCalcData();
         }
 
         function addRow() {
             const tbody = document.getElementById('calcBody');
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><input type="text" value="Yangi mahsulot" oninput="saveCalcData()"></td><td><input type="number" value="1" oninput="calcRow(this)"></td><td><input type="number" data-price="0" value="0" oninput="calcRow(this)"></td><td class="total">0</td>`;
+            tr.innerHTML = `<td><input type="text" value="Yangi mahsulot"></td><td><input type="number" value="1" oninput="calcRow(this)"></td><td><input type="number" value="0" oninput="calcRow(this)"></td><td class="total">0</td>`;
             tbody.appendChild(tr);
-            saveCalcData();
         }
 
-        function saveCalcData() {
-            // Jadval ma'lumotlarini kelgusida kengaytirish mumkin
-        }
-
-        // Vazifalarni LocalStorage da saqlash va yuklash
         function addTask() {
             const input = document.getElementById('taskInput');
             if(!input.value.trim()) return;
-            
-            let tasks = JSON.parse(localStorage.getItem('miniOfficeTasks')) || [];
+            let tasks = JSON.parse(localStorage.getItem('proOfficeTasks')) || [];
             tasks.push(input.value);
-            localStorage.setItem('miniOfficeTasks', JSON.stringify(tasks));
-            
+            localStorage.setItem('proOfficeTasks', JSON.stringify(tasks));
             input.value = '';
             loadTasks();
         }
@@ -154,8 +160,7 @@
         function loadTasks() {
             const list = document.getElementById('taskList');
             list.innerHTML = '';
-            let tasks = JSON.parse(localStorage.getItem('miniOfficeTasks')) || [];
-            
+            let tasks = JSON.parse(localStorage.getItem('proOfficeTasks')) || [];
             tasks.forEach((task, index) => {
                 const li = document.createElement('li');
                 li.innerHTML = `<span>${task}</span> <button class="btn" onclick="deleteTask(${index})" style="background:#ef4444; padding:4px 8px;">O'chirish</button>`;
@@ -164,9 +169,9 @@
         }
 
         function deleteTask(index) {
-            let tasks = JSON.parse(localStorage.getItem('miniOfficeTasks')) || [];
+            let tasks = JSON.parse(localStorage.getItem('proOfficeTasks')) || [];
             tasks.splice(index, 1);
-            localStorage.setItem('miniOfficeTasks', JSON.stringify(tasks));
+            localStorage.setItem('proOfficeTasks', JSON.stringify(tasks));
             loadTasks();
         }
     </script>
