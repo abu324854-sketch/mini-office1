@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Office Ultimate Enterprise - Desktop Mode</title>
+    <title>Web Office Ultimate Enterprise V2 - Next-Gen Suite</title>
     <style>
         :root {
             --primary: #0078d4;
@@ -12,132 +12,138 @@
             --bg-main: #f3f2f1;
             --text-main: #201f1e;
             --border: #c8c6c4;
+            --panel-bg: #ffffff;
+            --ribbon-bg: #faf9f8;
+            --hover-bg: #f3f2f1;
+            --shadow: rgba(0,0,0,0.08);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .dark {
+            --primary: #2b88d8;
+            --primary-dark: #115ea3;
+            --bg-sidebar: #0b0b0b;
+            --bg-main: #181818;
+            --text-main: #f3f2f1;
+            --border: #3b3a39;
+            --panel-bg: #202020;
+            --ribbon-bg: #282828;
+            --hover-bg: #323130;
+            --shadow: rgba(0,0,0,0.4);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.2s, color 0.2s; }
         body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
-
-        /* Professional Sidebar */
-        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: 4px 0 20px rgba(0,0,0,0.2); z-index: 10; transition: transform 0.3s ease; }
-        .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: #4cc9f0; margin-bottom: 25px; padding-left: 10px; }
-        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; width: 100%; }
+        
+        /* Sidebar */
+        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 4px 0 20px rgba(0,0,0,0.3); z-index: 10; }
+        .sidebar-brand { display: flex; align-items: center; justify-content: space-between; font-size: 17px; font-weight: 700; color: #4cc9f0; margin-bottom: 20px; padding-left: 10px; }
+        .theme-toggle-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.2); }
+        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; display: flex; align-items: center; gap: 14px; width: 100%; }
         .sidebar button:hover { background: rgba(255,255,255,0.06); color: #fff; }
         .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.4); }
 
-        /* Main Content Area */
+        /* Main Workspace */
         .content { flex: 1; padding: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-        
-        /* Panel Window Mode */
-        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow-y: auto; border: 1px solid var(--border); position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; z-index: 5; }
+        .panel { display: none; flex: 1; flex-direction: column; gap: 12px; background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px var(--shadow); overflow-y: auto; border: 1px solid var(--border); position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; z-index: 5; }
         .panel.active { display: flex; animation: fadeIn 0.2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
-
+        
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
-        .panel-header h3 { color: #201f1e; font-size: 19px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-
-        /* Window Navigation Back Button */
-        .back-btn { background: #e1dfdd; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 13px; color: #323130; display: inline-flex; align-items: center; gap: 6px; transition: 0.15s; }
-        .back-btn:hover { background: #c8c6c4; }
-
-        /* Ribbon Toolbar */
-        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #faf9f8; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
-        .btn { background: #fff; color: #323130; border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; transition: 0.15s; display: inline-flex; align-items: center; gap: 6px; }
-        .btn:hover { background: #f3f2f1; border-color: #8a8886; }
+        .panel-header h3 { font-size: 19px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--text-main); }
+        .back-btn { background: var(--border); border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 13px; color: var(--text-main); display: inline-flex; align-items: center; gap: 6px; }
+        .back-btn:hover { opacity: 0.8; }
+        
+        /* Ribbon */
+        .ribbon { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--ribbon-bg); padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); }
+        .btn { background: var(--panel-bg); color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:hover { background: var(--hover-bg); border-color: var(--primary); }
         .btn-primary { background: var(--primary); color: #fff; border: none; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-danger { background: #d13438; color: #fff; border: none; }
         .btn-danger:hover { background: #a80000; }
-
-        .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: #fff; font-size: 13px; color: #323130; }
+        .ribbon select, .ribbon input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; outline: none; background: var(--panel-bg); font-size: 13px; color: var(--text-main); }
         .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; }
 
-        /* Home Welcome Screen inside Content */
-        #home-welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; color: #605e5c; gap: 15px; }
-        #home-welcome h1 { font-size: 28px; color: #201f1e; }
-        #home-welcome p { font-size: 16px; max-width: 500px; }
+        /* Welcome */
+        #home-welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; gap: 15px; }
+        #home-welcome h1 { font-size: 32px; font-weight: 800; color: var(--primary); }
+        #home-welcome p { font-size: 16px; max-width: 550px; opacity: 0.8; line-height: 1.5; }
 
-        /* 1. WORD */
-        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; min-height: 350px; }
-        .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 850px; margin: 0 auto; width: 100%; box-shadow: 0 0 15px rgba(0,0,0,0.03); }
-        .word-footer { background: #faf9f8; padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; }
+        /* Word Module */
+        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; min-height: 350px; }
+        .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 850px; margin: 0 auto; width: 100%; color: var(--text-main); }
+        .word-footer { background: var(--ribbon-bg); padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; display: flex; justify-content: space-between; opacity: 0.8; }
 
-        /* 2. EXCEL */
-        .formula-bar { display: flex; align-items: center; background: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; gap: 12px; }
-        .formula-bar label { font-weight: bold; color: #605e5c; font-size: 14px; }
-        .formula-bar input { flex: 1; border: none; outline: none; font-size: 14px; font-family: monospace; }
-        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; min-height: 300px; }
-        table { width: 100%; border-collapse: collapse; background: #fff; text-align: left; }
-        th, td { border: 1px solid var(--border); padding: 8px 10px; font-size: 13px; }
-        th { background: #f3f2f1; color: #323130; font-weight: 600; position: sticky; top: 0; z-index: 5; text-align: center; }
-        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 13px; }
-        td.cell-selected { background: #edebe9 !important; border: 2px solid var(--primary); }
+        /* Excel Module */
+        .formula-bar { display: flex; align-items: center; background: var(--panel-bg); border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; gap: 12px; }
+        .formula-bar label { font-weight: bold; font-size: 14px; color: var(--primary); }
+        .formula-bar input { flex: 1; border: none; outline: none; font-size: 14px; font-family: monospace; background: transparent; color: var(--text-main); }
+        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; min-height: 300px; background: var(--panel-bg); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { border: 1px solid var(--border); padding: 6px 8px; font-size: 13px; }
+        th { background: var(--ribbon-bg); color: var(--text-main); font-weight: 600; position: sticky; top: 0; z-index: 5; text-align: center; }
+        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 13px; color: var(--text-main); }
+        td.cell-selected { background: rgba(0, 120, 212, 0.15) !important; border: 2px solid var(--primary); }
 
-        /* 3. ACCESS */
+        /* Access Module */
         .access-grid { display: flex; gap: 15px; flex: 1; overflow: hidden; min-height: 350px; }
-        .access-table-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; }
-        .access-table-title { background: #faf9f8; padding: 10px 14px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .access-table-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: var(--panel-bg); overflow: hidden; }
+        .access-table-title { background: var(--ribbon-bg); padding: 10px 14px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
-        /* 4. POWERPOINT */
+        /* PowerPoint Module */
         .ppt-layout { display: flex; gap: 15px; flex: 1; min-height: 350px; }
         .ppt-sidebar { width: 230px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-        .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: #faf9f8; transition: 0.15s; }
-        .slide-card.active { border-color: var(--primary); background: #eff6fc; font-weight: 600; }
-        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; background: #faf9f8; border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
-        .slide-canvas { width: 100%; max-width: 720px; height: 360px; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
-        .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed rgba(0,0,0,0.1); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
+        .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--ribbon-bg); transition: 0.15s; }
+        .slide-card.active { border-color: var(--primary); background: rgba(0,120,212,0.1); font-weight: 600; }
+        .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; background: var(--ribbon-bg); border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
+        .slide-canvas { width: 100%; max-width: 720px; height: 360px; border-radius: 6px; box-shadow: 0 4px 20px var(--shadow); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
+        .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed var(--border); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
         .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.6; }
     </style>
 </head>
 <body>
-
-    <!-- Sidebar Menu -->
     <div class="sidebar" id="sidebarMenu">
         <div class="sidebar-brand">
-            <span>⚡ Enterprise Suite</span>
+            <span>⚡ Ultimate Suite V2</span>
+            <button class="theme-toggle-btn" onclick="toggleTheme()">🌓 Tema</button>
         </div>
-        <button id="navWord" onclick="switchApp('word')">📄 Word Professional</button>
-        <button id="navExcel" onclick="switchApp('excel')">📊 Excel Engine</button>
+        <button id="navWord" onclick="switchApp('word')">📄 Word Pro Muharrir</button>
+        <button id="navExcel" onclick="switchApp('excel')">📊 Excel Formula Engine</button>
         <button id="navAccess" onclick="switchApp('access')">🗄️ Access Relational DB</button>
         <button id="navPpt" onclick="switchApp('ppt')">📽️ PowerPoint Studio</button>
     </div>
 
-    <!-- Main Content Area -->
     <div class="content">
-        <!-- Welcome Screen -->
         <div id="home-welcome">
-            <h1>Enterprise Office Suite</h1>
-            <p>Ishni boshlash uchun chap tarafdagi dasturlardan birini tanlang. Har bir dastur alohida professional oynada ochiladi.</p>
+            <h1>Web Office Ultimate Enterprise V2</h1>
+            <p>Hozirgi zamonaviy ofis dasturlaridan qolishmaydigan, formulalarni hisoblovchi, CSV eksporti va to'laqonli slayd-shou imkoniyatiga ega professional veb-ofis muhiti.</p>
         </div>
 
-        <!-- WORD PANEL -->
+        <!-- WORD -->
         <div id="word" class="panel">
             <div class="panel-header">
-                <h3>
-                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
-                    📄 Word - Matn Muharriri
-                </h3>
-                <span id="wordStatus" class="status-msg">Saqlangan ✓</span>
+                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 📄 Word Pro - Matn Muharriri</h3>
+                <span id="wordStatus" class="status-msg">Avto-saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
                 <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
                 <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
                 <select onchange="formatWord('fontName', this.value)">
-                    <option value="Segoe UI">Shrift turi</option>
+                    <option value="Segoe UI">Shrift</option>
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
                 </select>
                 <select onchange="formatWord('fontSize', this.value)">
                     <option value="3">Hajm</option>
-                    <option value="2">Kichik (12px)</option>
-                    <option value="3">O'rta (16px)</option>
-                    <option value="5">Katta (22px)</option>
+                    <option value="2">Kichik</option>
+                    <option value="3">O'rta</option>
+                    <option value="5">Katta</option>
                 </select>
-                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding: 0; cursor: pointer;">
+                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding:0; cursor:pointer;">
                 <button class="btn" onclick="formatWord('justifyLeft')">Chapga</button>
                 <button class="btn" onclick="formatWord('justifyCenter')">O'rtaga</button>
                 <button class="btn" onclick="formatWord('justifyRight')">O'ngga</button>
-                <button class="btn" onclick="formatWord('insertUnorderedList')">• Ro'yxat</button>
                 <button class="btn btn-primary" onclick="downloadWordDoc()">Yuklab olish (.doc)</button>
                 <button class="btn btn-danger" onclick="clearWord()">Tozalash</button>
             </div>
@@ -150,25 +156,25 @@
             </div>
         </div>
 
-        <!-- EXCEL PANEL -->
+        <!-- EXCEL -->
         <div id="excel" class="panel">
             <div class="panel-header">
-                <h3>
-                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
-                    📊 Excel - Hisob-kitob Muhiti
-                </h3>
-                <span id="excelStatus" class="status-msg">Saqlangan ✓</span>
+                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 📊 Excel Engine - Hisob-kitob</h3>
+                <span id="excelStatus" class="status-msg">Avto-saqlangan ✓</span>
             </div>
             <div class="formula-bar">
                 <label id="activeCellLabel">A1</label>
-                <input type="text" id="formulaInput" placeholder="Qiymat yoki raqam kiriting..." onkeypress="handleFormula(event)">
+                <input type="text" id="formulaInput" placeholder="Masalan: 10+20 yoki =SUM(A1:A5)" onkeypress="handleFormula(event)">
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addExcelRow()">+ Qator</button>
                 <button class="btn btn-primary" onclick="addExcelCol()">+ Ustun</button>
-                <button class="btn" onclick="calculateExcelSummary()" style="background:#107c41; color:#fff; border:none;">Avtomatik Hisob (SUM)</button>
-                <button class="btn btn-danger" onclick="clearExcel()">Jadvalni tozalash</button>
-                <span style="font-weight: 600; margin-left: auto;">Umumiy Natija: <span id="excelResult" style="color:var(--primary);">0</span></span>
+                <button class="btn" onclick="calcExcelFunc('SUM')" style="background:#107c41; color:#fff; border:none;">SUM</button>
+                <button class="btn" onclick="calcExcelFunc('AVERAGE')" style="background:#0078d4; color:#fff; border:none;">AVERAGE</button>
+                <button class="btn" onclick="calcExcelFunc('MAX')" style="background:#d83b01; color:#fff; border:none;">MAX</button>
+                <button class="btn btn-primary" onclick="exportCSVFile()">CSV Export</button>
+                <button class="btn btn-danger" onclick="clearExcel()">Tozalash</button>
+                <span style="font-weight:600; margin-left:auto;">Natija: <span id="excelResult" style="color:var(--primary);">0</span></span>
             </div>
             <div class="table-wrap">
                 <table id="excelTable">
@@ -178,18 +184,15 @@
             </div>
         </div>
 
-        <!-- ACCESS PANEL -->
+        <!-- ACCESS -->
         <div id="access" class="panel">
             <div class="panel-header">
-                <h3>
-                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
-                    🗄️ Access - Ma'lumotlar Bazasi
-                </h3>
-                <span id="accessStatus" class="status-msg">Saqlangan ✓</span>
+                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 🗄️ Access - Ma'lumotlar Bazasi</h3>
+                <span id="accessStatus" class="status-msg">Avto-saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addAccessRecord()">+ Yangi yozuv qo'shish</button>
-                <span style="font-size: 13px; color: #605e5c;">Jadvallar o'zaro bog'langan va sinxron ishlaydi.</span>
+                <span style="font-size: 13px; opacity: 0.8;">Jadvallar o'zaro bog'langan va sinxron ishlaydi.</span>
             </div>
             <div class="access-grid">
                 <div class="access-table-box">
@@ -213,22 +216,19 @@
             </div>
         </div>
 
-        <!-- POWERPOINT PANEL -->
+        <!-- POWERPOINT -->
         <div id="ppt" class="panel">
             <div class="panel-header">
-                <h3>
-                    <button class="back-btn" onclick="closeApp()">← Asosiy menyu</button>
-                    📽️ PowerPoint - Taqdimot Studio
-                </h3>
-                <span id="pptStatus" class="status-msg">Saqlangan ✓</span>
+                <h3><button class="back-btn" onclick="closeApp()">← Asosiy</button> 📽️ PowerPoint - Taqdimot Studio</h3>
+                <span id="pptStatus" class="status-msg">Avto-saqlangan ✓</span>
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addSlide()">+ Yangi Slayd</button>
                 <button class="btn" onclick="setSlideTheme('#ffffff', '#201f1e')">Oq Tema</button>
-                <button class="btn" onclick="setSlideTheme('#1f1f1f', '#ffffff')" style="background:#1f1f1f; color:#fff;">Qora Tema</button>
-                <button class="btn" onclick="setSlideTheme('#0078d4', '#ffffff')" style="background:#0078d4; color:#fff;">Ko'k Tema</button>
+                <button class="btn" onclick="setSlideTheme('#1f1f1f', '#ffffff')">Qora Tema</button>
+                <button class="btn" onclick="setSlideTheme('#0078d4', '#ffffff')">Ko'k Tema</button>
                 <button class="btn btn-danger" onclick="deleteSlide()">O'chirish</button>
-                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color:#fff; border:none;">▶ Slayd-shou</button>
+                <button class="btn" onclick="startSlideShow()" style="background: #107c41; color:#fff; border:none;">▶ To'liq Slayd-shou</button>
                 <span id="slideIndicator" style="margin-left: auto; font-weight: 600;">Slayd: 1 / 1</span>
             </div>
             <div class="ppt-layout">
@@ -241,27 +241,32 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
+        function toggleTheme() {
+            let html = document.documentElement;
+            if(html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
         function switchApp(appId) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(appId).classList.add('active');
             let btn = document.getElementById('nav' + appId.charAt(0).toUpperCase() + appId.slice(1));
             if(btn) btn.classList.add('active');
-
-            // Hide sidebar or keep it minimal if needed, here keeping it as system dock
         }
-
         function closeApp() {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
         }
 
-        // --- WORD LOGIC ---
+        // --- WORD ---
         function formatWord(cmd, val = null) {
             document.execCommand(cmd, false, val);
             updateWordStats();
@@ -277,8 +282,7 @@
             saveWord();
         }
         function saveWord() {
-            const editor = document.getElementById('wordEditor');
-            if(editor) localStorage.setItem('enterprise_Word', editor.innerHTML);
+            localStorage.setItem('enterprise_WordV2', document.getElementById('wordEditor').innerHTML);
         }
         function clearWord() {
             if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
@@ -288,7 +292,7 @@
         }
         function downloadWordDoc() {
             const editor = document.getElementById('wordEditor');
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:40px;">${editor ? editor.innerHTML : ''}</body></html>`;
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:40px;">${editor.innerHTML}</body></html>`;
             const blob = new Blob([html], {type: 'application/msword'});
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -296,9 +300,9 @@
             link.click();
         }
 
-        // --- EXCEL LOGIC ---
-        let excelRows = 6;
-        let excelCols = 6;
+        // --- EXCEL ---
+        let excelRows = 8;
+        let excelCols = 8;
         let excelData = {};
         let selectedCell = 'A1';
 
@@ -308,17 +312,15 @@
             if(!head || !body) return;
             head.innerHTML = '';
             body.innerHTML = '';
-
             let trH = '<tr><th>#</th>';
             for(let c=0; c<excelCols; c++) {
                 trH += `<th>${String.fromCharCode(65 + c)}</th>`;
             }
             trH += '</tr>';
             head.innerHTML = trH;
-
             for(let r=0; r<excelRows; r++) {
                 let tr = document.createElement('tr');
-                tr.innerHTML = `<th style="background:#f3f2f1;">${r+1}</th>`;
+                tr.innerHTML = `<th>${r+1}</th>`;
                 for(let c=0; c<excelCols; c++) {
                     let cellId = `${String.fromCharCode(65 + c)}${r+1}`;
                     let val = excelData[cellId] || '';
@@ -326,14 +328,12 @@
                 }
                 body.appendChild(tr);
             }
-
             body.querySelectorAll('input').forEach(input => {
                 let cellId = input.getAttribute('data-cell');
                 input.onclick = () => selectExcelCell(cellId);
                 input.oninput = (e) => updateExcelCell(cellId, e.target.value);
             });
         }
-
         function selectExcelCell(cellId) {
             if(selectedCell) {
                 let prev = document.getElementById(`cell_${selectedCell}`);
@@ -345,70 +345,122 @@
             document.getElementById('activeCellLabel').innerText = cellId;
             document.getElementById('formulaInput').value = excelData[cellId] || '';
         }
-
         function updateExcelCell(cellId, val) {
             excelData[cellId] = val;
-            localStorage.setItem('enterprise_Excel', JSON.stringify(excelData));
+            localStorage.setItem('enterprise_ExcelV2', JSON.stringify(excelData));
         }
-
         function handleFormula(e) {
             if(e.key === 'Enter' && selectedCell) {
                 let val = document.getElementById('formulaInput').value;
-                excelData[selectedCell] = val;
+                let evaluated = val;
+                if(val.startsWith('=')) {
+                    try {
+                        let exp = val.substring(1).toUpperCase();
+                        if(exp.startsWith('SUM(') || exp.startsWith('AVERAGE(') || exp.startsWith('MAX(')) {
+                            evaluated = evaluateRangeFunc(exp);
+                        } else {
+                            let cleanExp = exp.replace(/[A-Z][0-9]+/g, match => {
+                                let v = parseFloat(excelData[match]);
+                                return isNaN(v) ? 0 : v;
+                            });
+                            evaluated = eval(cleanExp);
+                        }
+                    } catch(err) {
+                        evaluated = "Xato!";
+                    }
+                } else {
+                    try {
+                        evaluated = eval(val);
+                    } catch(err) {
+                        evaluated = val;
+                    }
+                }
+                excelData[selectedCell] = evaluated;
                 let cellInput = document.getElementById(`cell_${selectedCell}`);
-                if(cellInput) cellInput.value = val;
-                updateExcelCell(selectedCell, val);
+                if(cellInput) cellInput.value = evaluated;
+                updateExcelCell(selectedCell, evaluated);
+                document.getElementById('excelResult').innerText = evaluated;
             }
         }
-
-        function calculateExcelSummary() {
-            let sum = 0;
-            let count = 0;
-            for(let key in excelData) {
-                let num = parseFloat(excelData[key]);
-                if(!isNaN(num)) {
-                    sum += num;
-                    count++;
+        function evaluateRangeFunc(exp) {
+            let funcName = exp.substring(0, exp.indexOf('('));
+            let range = exp.substring(exp.indexOf('(') + 1, exp.indexOf(')'));
+            let parts = range.split(':');
+            if(parts.length !== 2) return "Xato diapazon";
+            let startCol = parts[0].charCodeAt(0);
+            let startRow = parseInt(parts[0].substring(1));
+            let endCol = parts[1].charCodeAt(0);
+            let endRow = parseInt(parts[1].substring(1));
+            
+            let values = [];
+            for(let r = startRow; r <= endRow; r++) {
+                for(let c = startCol; c <= endCol; c++) {
+                    let cid = String.fromCharCode(c) + r;
+                    let v = parseFloat(excelData[cid]);
+                    if(!isNaN(v)) values.push(v);
                 }
             }
-            document.getElementById('excelResult').innerText = sum.toLocaleString();
+            if(values.length === 0) return 0;
+            if(funcName === 'SUM') return values.reduce((a,b)=>a+b, 0);
+            if(funcName === 'AVERAGE') return values.reduce((a,b)=>a+b, 0) / values.length;
+            if(funcName === 'MAX') return Math.max(...values);
+            return 0;
         }
-
+        function calcExcelFunc(func) {
+            let values = [];
+            for(let key in excelData) {
+                let v = parseFloat(excelData[key]);
+                if(!isNaN(v)) values.push(v);
+            }
+            if(values.length === 0) { document.getElementById('excelResult').innerText = 0; return; }
+            let res = 0;
+            if(func === 'SUM') res = values.reduce((a,b)=>a+b,0);
+            if(func === 'AVERAGE') res = values.reduce((a,b)=>a+b,0)/values.length;
+            if(func === 'MAX') res = Math.max(...values);
+            document.getElementById('excelResult').innerText = res;
+        }
         function addExcelRow() { excelRows++; initExcel(); }
-        function addExcelCol() { if(excelCols < 10) excelCols++; initExcel(); }
+        function addExcelCol() { if(excelCols < 15) excelCols++; initExcel(); }
         function clearExcel() {
-            if(confirm("Jadvalni tozalashni tasdiqlaysizmi?")) {
+            if(confirm("Excel jadvalini tozalaysizmi?")) {
                 excelData = {};
                 initExcel();
                 document.getElementById('excelResult').innerText = '0';
             }
         }
+        function exportCSVFile() {
+            let csvContent = "";
+            for(let r=0; r<excelRows; r++) {
+                let row = [];
+                for(let c=0; c<excelCols; c++) {
+                    let cid = `${String.fromCharCode(65 + c)}${r+1}`;
+                    row.push('"' + (excelData[cid] || '') + '"');
+                }
+                csvContent += row.join(",") + "\n";
+            }
+            let blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "WebOffice_Export.csv";
+            link.click();
+        }
 
-        // --- ACCESS LOGIC ---
-        let staffData = [
-            {id: 1, name: "Alisher Navoiy", dept: "Direksiya"},
-            {id: 2, name: "Zuhra Karimova", dept: "Moliya"}
-        ];
-        let ordersData = [
-            {orderId: 501, staffId: 1, product: "Litsenziya server", amount: 15000000},
-            {orderId: 502, staffId: 2, product: "Audit xizmati", amount: 4500000}
-        ];
-
+        // --- ACCESS ---
+        let staffData = [{id: 1, name: "Alisher Navoiy", dept: "Direksiya"}, {id: 2, name: "Zuhra Karimova", dept: "Moliya"}];
+        let ordersData = [{orderId: 501, staffId: 1, product: "Litsenziya server", amount: 15000000}, {orderId: 502, staffId: 2, product: "Audit xizmati", amount: 4500000}];
+        
         function renderAccess() {
             let staffBody = document.getElementById('staffBody');
             let ordersBody = document.getElementById('ordersBody');
             if(!staffBody || !ordersBody) return;
-
             staffBody.innerHTML = '';
             staffData.forEach((s, idx) => {
                 staffBody.innerHTML += `<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" data-st-name="${idx}"></td><td><input type="text" value="${s.dept}" data-st-dept="${idx}"></td></tr>`;
             });
-
             ordersBody.innerHTML = '';
             ordersData.forEach((o, idx) => {
-                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b> (Bog'langan)</td><td><input type="text" value="${o.product}" data-ord-prod="${idx}"></td><td><input type="number" value="${o.amount}" data-ord-amt="${idx}"></td></tr>`;
+                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b></td><td><input type="text" value="${o.product}" data-ord-prod="${idx}"></td><td><input type="number" value="${o.amount}" data-ord-amt="${idx}"></td></tr>`;
             });
-
             staffBody.querySelectorAll('[data-st-name]').forEach(inp => {
                 inp.oninput = (e) => { staffData[inp.getAttribute('data-st-name')].name = e.target.value; saveAccess(); };
             });
@@ -421,25 +473,22 @@
             ordersBody.querySelectorAll('[data-ord-amt]').forEach(inp => {
                 inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-amt')].amount = e.target.value; saveAccess(); };
             });
-
             saveAccess();
         }
-
         function addAccessRecord() {
             let newId = staffData.length + 1;
             staffData.push({id: newId, name: "Yangi Xodim", dept: "IT Bo'limi"});
             ordersData.push({orderId: 500 + newId, staffId: newId, product: "Uskuna", amount: 2000000});
             renderAccess();
         }
-
         function saveAccess() {
-            localStorage.setItem('enterprise_Staff', JSON.stringify(staffData));
-            localStorage.setItem('enterprise_Orders', JSON.stringify(ordersData));
+            localStorage.setItem('enterprise_StaffV2', JSON.stringify(staffData));
+            localStorage.setItem('enterprise_OrdersV2', JSON.stringify(ordersData));
         }
 
-        // --- POWERPOINT LOGIC ---
+        // --- POWERPOINT ---
         let pptSlides = [
-            {title: "Korporativ Taqdimot", text: "1. Strategik rejalar\n2. Moliyaviy tahlil\n3. Natijalar", bg: "#ffffff", color: "#201f1e"}
+            {title: "Korporativ Taqdimot V2", text: "1. Strategik rejalar va ustuvor vazifalar\n2. Moliyaviy tahlil va prognozlar\n3. Yakuniy natijalar va xulosalar", bg: "#ffffff", color: "#201f1e"}
         ];
         let activeSlideIdx = 0;
 
@@ -450,7 +499,7 @@
             pptSlides.forEach((slide, idx) => {
                 const div = document.createElement('div');
                 div.className = `slide-card ${idx === activeSlideIdx ? 'active' : ''}`;
-                div.innerHTML = `<div style="font-size:11px; color:#605e5c;">Slayd ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Sarlavha'}</div>`;
+                div.innerHTML = `<div style="font-size:11px; opacity:0.7;">Slayd ${idx + 1}</div><div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${slide.title || 'Sarlavha'}</div>`;
                 div.onclick = () => selectSlide(idx);
                 list.appendChild(div);
             });
@@ -466,20 +515,14 @@
             document.getElementById('slideTitleInput').style.color = current.color;
             document.getElementById('slideTextInput').style.color = current.color;
             
-            localStorage.setItem('enterprise_PPT', JSON.stringify(pptSlides));
+            localStorage.setItem('enterprise_PPTV2', JSON.stringify(pptSlides));
         }
-
-        function selectSlide(idx) {
-            activeSlideIdx = idx;
-            renderPPT();
-        }
-
+        function selectSlide(idx) { activeSlideIdx = idx; renderPPT(); }
         function addSlide() {
-            pptSlides.push({title: `Yangi Slayd ${pptSlides.length + 1}`, text: "Matnni shu yerga kiriting...", bg: "#ffffff", color: "#201f1e"});
+            pptSlides.push({title: `Yangi Slayd ${pptSlides.length + 1}`, text: "Asosiy matnni kiriting...", bg: "#ffffff", color: "#201f1e"});
             activeSlideIdx = pptSlides.length - 1;
             renderPPT();
         }
-
         function deleteSlide() {
             if(pptSlides.length > 1) {
                 pptSlides.splice(activeSlideIdx, 1);
@@ -489,42 +532,65 @@
                 alert("Oxirgi slaydni o'chirib bo'lmaydi!");
             }
         }
-
         function setSlideTheme(bg, color) {
             pptSlides[activeSlideIdx].bg = bg;
             pptSlides[activeSlideIdx].color = color;
             renderPPT();
         }
-
         function updateSlideData() {
             pptSlides[activeSlideIdx].title = document.getElementById('slideTitleInput').value;
             pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput').value;
             renderPPT();
         }
-
         function startSlideShow() {
-            let w = window.open("", "_blank");
-            let s = pptSlides[activeSlideIdx];
-            w.document.write(`<html><head><title>Slayd-shou</title><style>body{background:${s.bg};color:${s.color};display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:60px;}h1{font-size:48px;margin-bottom:25px;}p{font-size:24px;line-height:1.6;white-space:pre-wrap;}</style></head><body><div><h1>${s.title}</h1><p>${s.text}</p></div></body></html>`);
+            let win = window.open("", "_blank");
+            win.document.write(`<!DOCTYPE html><html><head><title>Taqdimot Slayd-Shou</title><style>
+                body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+                .slide-view { text-align: center; padding: 60px; max-width: 900px; }
+                h1 { font-size: 52px; margin-bottom: 30px; }
+                p { font-size: 26px; line-height: 1.8; white-space: pre-wrap; }
+                .hint { position: fixed; bottom: 20px; font-size: 14px; opacity: 0.5; }
+            </style></head><body>
+                <div class="slide-view" id="slideViewContainer"></div>
+                <div class="hint">Keyingi uchun: O'ng strelka yoki Space | Oldingi uchun: Chap strelka | Chiqish: Esc</div>
+                <script>
+                    let slides = ${JSON.stringify(pptSlides)};
+                    let curIdx = ${activeSlideIdx};
+                    function render() {
+                        let s = slides[curIdx];
+                        document.body.style.background = s.bg;
+                        document.body.style.color = s.color;
+                        document.getElementById('slideViewContainer').innerHTML = '<h1>' + s.title + '</h1><p>' + s.text + '</p>';
+                    }
+                    window.onkeydown = (e) => {
+                        if(e.key === 'ArrowRight' || e.key === ' ') { if(curIdx < slides.length - 1) { curIdx++; render(); } }
+                        if(e.key === 'ArrowLeft') { if(curIdx > 0) { curIdx--; render(); } }
+                        if(e.key === 'Escape') { window.close(); }
+                    };
+                    render();
+                <\/script>
+            </body></html>`);
         }
 
-        // Global Initialization on DOM Load
         document.addEventListener('DOMContentLoaded', () => {
-            let w = localStorage.getItem('enterprise_Word');
+            let savedTheme = localStorage.getItem('theme');
+            if(savedTheme === 'light') { document.documentElement.classList.remove('dark'); }
+            
+            let w = localStorage.getItem('enterprise_WordV2');
             if(w) document.getElementById('wordEditor').innerHTML = w;
             updateWordStats();
 
-            let ex = localStorage.getItem('enterprise_Excel');
+            let ex = localStorage.getItem('enterprise_ExcelV2');
             if(ex) { try { excelData = JSON.parse(ex); } catch(e) {} }
             initExcel();
 
-            let st = localStorage.getItem('enterprise_Staff');
-            let ord = localStorage.getItem('enterprise_Orders');
+            let st = localStorage.getItem('enterprise_StaffV2');
+            let ord = localStorage.getItem('enterprise_OrdersV2');
             if(st) { try { staffData = JSON.parse(st); } catch(e) {} }
             if(ord) { try { ordersData = JSON.parse(ord); } catch(e) {} }
             renderAccess();
 
-            let pt = localStorage.getItem('enterprise_PPT');
+            let pt = localStorage.getItem('enterprise_PPTV2');
             if(pt) { try { pptSlides = JSON.parse(pt); } catch(e) {} }
             renderPPT();
         });
