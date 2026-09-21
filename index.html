@@ -17,9 +17,9 @@
         body { display: flex; height: 100vh; background: var(--bg-main); color: var(--text-main); overflow: hidden; }
 
         /* Professional Sidebar */
-        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: 4px 0 20px rgba(0,0,0,0.2); }
+        .sidebar { width: 290px; background: var(--bg-sidebar); color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 6px; box-shadow: 4px 0 20px rgba(0,0,0,0.2); z-index: 10; }
         .sidebar-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: #4cc9f0; margin-bottom: 25px; padding-left: 10px; }
-        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; }
+        .sidebar button { background: transparent; border: none; color: #a19f9d; padding: 14px 16px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; width: 100%; }
         .sidebar button:hover { background: rgba(255,255,255,0.06); color: #fff; }
         .sidebar button.active { background: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,120,212,0.4); }
 
@@ -45,7 +45,7 @@
         .status-msg { font-size: 13px; color: #107c41; font-weight: 600; margin-left: auto; }
 
         /* 1. WORD */
-        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; }
+        .word-wrapper { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; min-height: 350px; }
         .word-editor { flex: 1; padding: 40px; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.7; max-width: 850px; margin: 0 auto; width: 100%; box-shadow: 0 0 15px rgba(0,0,0,0.03); }
         .word-footer { background: #faf9f8; padding: 8px 15px; border-top: 1px solid var(--border); font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; }
 
@@ -53,7 +53,7 @@
         .formula-bar { display: flex; align-items: center; background: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; gap: 12px; }
         .formula-bar label { font-weight: bold; color: #605e5c; font-size: 14px; }
         .formula-bar input { flex: 1; border: none; outline: none; font-size: 14px; font-family: monospace; }
-        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
+        .table-wrap { flex: 1; overflow: auto; border: 1px solid var(--border); border-radius: 6px; min-height: 300px; }
         table { width: 100%; border-collapse: collapse; background: #fff; text-align: left; }
         th, td { border: 1px solid var(--border); padding: 8px 10px; font-size: 13px; }
         th { background: #f3f2f1; color: #323130; font-weight: 600; position: sticky; top: 0; z-index: 5; text-align: center; }
@@ -61,19 +61,19 @@
         td.cell-selected { background: #edebe9 !important; border: 2px solid var(--primary); }
 
         /* 3. ACCESS */
-        .access-grid { display: flex; gap: 15px; flex: 1; overflow: hidden; }
+        .access-grid { display: flex; gap: 15px; flex: 1; overflow: hidden; min-height: 350px; }
         .access-table-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; background: #fff; overflow: hidden; }
         .access-table-title { background: #faf9f8; padding: 10px 14px; font-weight: 600; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
         /* 4. POWERPOINT */
-        .ppt-layout { display: flex; gap: 15px; flex: 1; }
+        .ppt-layout { display: flex; gap: 15px; flex: 1; min-height: 350px; }
         .ppt-sidebar { width: 230px; border-right: 1px solid var(--border); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
         .slide-card { padding: 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; background: #faf9f8; transition: 0.15s; }
         .slide-card.active { border-color: var(--primary); background: #eff6fc; font-weight: 600; }
         .ppt-workspace { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; background: #faf9f8; border: 1px solid var(--border); border-radius: 8px; padding: 15px; }
-        .slide-canvas { width: 100%; max-width: 720px; height: 400px; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
+        .slide-canvas { width: 100%; max-width: 720px; height: 360px; border-radius: 6px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 35px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border); transition: 0.3s; }
         .slide-canvas input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed rgba(0,0,0,0.1); outline: none; padding-bottom: 5px; width: 100%; background: transparent; }
-        .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 200px; background: transparent; line-height: 1.6; }
+        .slide-canvas textarea { font-size: 16px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -83,10 +83,10 @@
         <div class="sidebar-brand">
             <span>⚡ Enterprise Suite</span>
         </div>
-        <button class="active" onclick="switchApp('word', this)">📄 Word Professional</button>
-        <button onclick="switchApp('excel', this)">📊 Excel Engine</button>
-        <button onclick="switchApp('access', this)">🗄️ Access Relational DB</button>
-        <button onclick="switchApp('ppt', this)">📽️ PowerPoint Studio</button>
+        <button id="navWord" class="active" onclick="switchApp('word', this)">📄 Word Professional</button>
+        <button id="navExcel" onclick="switchApp('excel', this)">📊 Excel Engine</button>
+        <button id="navAccess" onclick="switchApp('access', this)">🗄️ Access Relational DB</button>
+        <button id="navPpt" onclick="switchApp('ppt', this)">📽️ PowerPoint Studio</button>
     </div>
 
     <!-- Main Content Panel -->
@@ -102,19 +102,19 @@
                 <button class="btn" onclick="formatWord('bold')"><b>B</b></button>
                 <button class="btn" onclick="formatWord('italic')"><i>I</i></button>
                 <button class="btn" onclick="formatWord('underline')"><u>U</u></button>
-                <select onchange="formatWord('fontName', this.value)">
+                <select id="fontNameSelect" onchange="formatWord('fontName', this.value)">
                     <option value="Segoe UI">Shrift turi</option>
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
                 </select>
-                <select onchange="formatWord('fontSize', this.value)">
+                <select id="fontSizeSelect" onchange="formatWord('fontSize', this.value)">
                     <option value="3">Hajm</option>
                     <option value="2">Kichik (12px)</option>
                     <option value="3">O'rta (16px)</option>
                     <option value="5">Katta (22px)</option>
                 </select>
-                <input type="color" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding: 0; cursor: pointer;">
+                <input type="color" id="fontColorPicker" onchange="formatWord('foreColor', this.value)" style="width: 32px; height: 30px; padding: 0; cursor: pointer;">
                 <button class="btn" onclick="formatWord('justifyLeft')">Chapga</button>
                 <button class="btn" onclick="formatWord('justifyCenter')">O'rtaga</button>
                 <button class="btn" onclick="formatWord('justifyRight')">O'ngga</button>
@@ -139,12 +139,12 @@
             </div>
             <div class="formula-bar">
                 <label id="activeCellLabel">A1</label>
-                <input type="text" id="formulaInput" placeholder="Qiymat yoki formula kiriting (masalan: =SUM(A1:A3) yoki oddiy matn)" onkeypress="handleFormula(event)">
+                <input type="text" id="formulaInput" placeholder="Qiymat kiriting (masalan: 100 yoki matn)" onkeypress="handleFormula(event)">
             </div>
             <div class="ribbon">
                 <button class="btn btn-primary" onclick="addExcelRow()">+ Qator</button>
                 <button class="btn btn-primary" onclick="addExcelCol()">+ Ustun</button>
-                <button class="btn" onclick="calculateExcelSummary()" style="background:#107c41; color:#fff; border:none;">Avtomatik Hisob (SUM/AVG)</button>
+                <button class="btn" onclick="calculateExcelSummary()" style="background:#107c41; color:#fff; border:none;">Avtomatik Hisob (SUM)</button>
                 <button class="btn btn-danger" onclick="clearExcel()">Jadvalni tozalash</button>
                 <span style="font-weight: 600; margin-left: auto;">Umumiy Natija: <span id="excelResult" style="color:var(--primary);">0</span></span>
             </div>
@@ -221,7 +221,7 @@
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.sidebar button').forEach(b => b.classList.remove('active'));
             document.getElementById(appId).classList.add('active');
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
         }
 
         // --- WORD LOGIC ---
@@ -231,14 +231,19 @@
             saveWord();
         }
         function updateWordStats() {
-            const text = document.getElementById('wordEditor').innerText.trim();
+            const editor = document.getElementById('wordEditor');
+            if(!editor) return;
+            const text = editor.innerText.trim();
             const words = text ? text.split(/\s+/).length : 0;
             const chars = text.length;
             document.getElementById('wordChars').innerText = `So'zlar: ${words} | Belgilar: ${chars}`;
             saveWord();
         }
         function saveWord() {
-            localStorage.setItem('enterprise_Word', document.getElementById('wordEditor').innerHTML);
+            const editor = document.getElementById('wordEditor');
+            if(editor) {
+                localStorage.setItem('enterprise_Word', editor.innerHTML);
+            }
         }
         function clearWord() {
             if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
@@ -247,7 +252,8 @@
             }
         }
         function downloadWordDoc() {
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:40px;">${document.getElementById('wordEditor').innerHTML}</body></html>`;
+            const editor = document.getElementById('wordEditor');
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hujjat</title></head><body style="font-family:sans-serif; padding:40px;">${editor ? editor.innerHTML : ''}</body></html>`;
             const blob = new Blob([html], {type: 'application/msword'});
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -259,11 +265,12 @@
         let excelRows = 6;
         let excelCols = 6;
         let excelData = {};
-        let selectedCell = null;
+        let selectedCell = 'A1';
 
         function initExcel() {
             const head = document.getElementById('excelHead');
             const body = document.getElementById('excelBody');
+            if(!head || !body) return;
             head.innerHTML = '';
             body.innerHTML = '';
 
@@ -280,19 +287,27 @@
                 for(let c=0; c<excelCols; c++) {
                     let cellId = `${String.fromCharCode(65 + c)}${r+1}`;
                     let val = excelData[cellId] || '';
-                    tr.innerHTML += `<td><input type="text" id="cell_${cellId}" value="${val}" onclick="selectExcelCell('${cellId}')" oninput="updateExcelCell('${cellId}', this.value)"></td>`;
+                    tr.innerHTML += `<td><input type="text" id="cell_${cellId}" value="${val}" data-cell="${cellId}"></td>`;
                 }
                 body.appendChild(tr);
             }
+
+            // Event delegation to avoid binding issues
+            body.querySelectorAll('input').forEach(input => {
+                let cellId = input.getAttribute('data-cell');
+                input.onclick = () => selectExcelCell(cellId);
+                input.oninput = (e) => updateExcelCell(cellId, e.target.value);
+            });
         }
 
         function selectExcelCell(cellId) {
             if(selectedCell) {
                 let prev = document.getElementById(`cell_${selectedCell}`);
-                if(prev) prev.parentElement.classList.remove('cell-selected');
+                if(prev && prev.parentElement) prev.parentElement.classList.remove('cell-selected');
             }
             selectedCell = cellId;
-            document.getElementById(`cell_${cellId}`).parentElement.classList.add('cell-selected');
+            let curr = document.getElementById(`cell_${cellId}`);
+            if(curr && curr.parentElement) curr.parentElement.classList.add('cell-selected');
             document.getElementById('activeCellLabel').innerText = cellId;
             document.getElementById('formulaInput').value = excelData[cellId] || '';
         }
@@ -306,7 +321,8 @@
             if(e.key === 'Enter' && selectedCell) {
                 let val = document.getElementById('formulaInput').value;
                 excelData[selectedCell] = val;
-                document.getElementById(`cell_${selectedCell}`).value = val;
+                let cellInput = document.getElementById(`cell_${selectedCell}`);
+                if(cellInput) cellInput.value = val;
                 updateExcelCell(selectedCell, val);
             }
         }
@@ -330,6 +346,7 @@
             if(confirm("Jadvalni tozalashni tasdiqlaysizmi?")) {
                 excelData = {};
                 initExcel();
+                document.getElementById('excelResult').innerText = '0';
             }
         }
 
@@ -345,16 +362,33 @@
 
         function renderAccess() {
             let staffBody = document.getElementById('staffBody');
+            let ordersBody = document.getElementById('ordersBody');
+            if(!staffBody || !ordersBody) return;
+
             staffBody.innerHTML = '';
             staffData.forEach((s, idx) => {
-                staffBody.innerHTML += `<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" oninput="staffData[${idx}].name=this.value; saveAccess();"></td><td><input type="text" value="${s.dept}" oninput="staffData[${idx}].dept=this.value; saveAccess();"></td></tr>`;
+                staffBody.innerHTML += `<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" data-st-name="${idx}"></td><td><input type="text" value="${s.dept}" data-st-dept="${idx}"></td></tr>`;
             });
 
-            let ordersBody = document.getElementById('ordersBody');
             ordersBody.innerHTML = '';
             ordersData.forEach((o, idx) => {
-                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b> (Bog'langan)</td><td><input type="text" value="${o.product}" oninput="ordersData[${idx}].product=this.value; saveAccess();"></td><td><input type="number" value="${o.amount}" oninput="ordersData[${idx}].amount=this.value; saveAccess();"></td></tr>`;
+                ordersBody.innerHTML += `<tr><td>${o.orderId}</td><td><b>${o.staffId}</b> (Bog'langan)</td><td><input type="text" value="${o.product}" data-ord-prod="${idx}"></td><td><input type="number" value="${o.amount}" data-ord-amt="${idx}"></td></tr>`;
             });
+
+            // Bind inputs safely
+            staffBody.querySelectorAll('[data-st-name]').forEach(inp => {
+                inp.oninput = (e) => { staffData[inp.getAttribute('data-st-name')].name = e.target.value; saveAccess(); };
+            });
+            staffBody.querySelectorAll('[data-st-dept]').forEach(inp => {
+                inp.oninput = (e) => { staffData[inp.getAttribute('data-st-dept')].dept = e.target.value; saveAccess(); };
+            });
+            ordersBody.querySelectorAll('[data-ord-prod]').forEach(inp => {
+                inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-prod')].product = e.target.value; saveAccess(); };
+            });
+            ordersBody.querySelectorAll('[data-ord-amt]').forEach(inp => {
+                inp.oninput = (e) => { ordersData[inp.getAttribute('data-ord-amt')].amount = e.target.value; saveAccess(); };
+            });
+
             saveAccess();
         }
 
@@ -378,6 +412,7 @@
 
         function renderPPT() {
             const list = document.getElementById('slidesThumbList');
+            if(!list) return;
             list.innerHTML = '';
             pptSlides.forEach((slide, idx) => {
                 const div = document.createElement('div');
@@ -430,7 +465,7 @@
 
         function updateSlideData() {
             pptSlides[activeSlideIdx].title = document.getElementById('slideTitleInput').value;
-            pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput'].value;
+            pptSlides[activeSlideIdx].text = document.getElementById('slideTextInput').value;
             renderPPT();
         }
 
@@ -440,26 +475,28 @@
             w.document.write(`<html><head><title>Slayd-shou</title><style>body{background:${s.bg};color:${s.color};display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:60px;}h1{font-size:48px;margin-bottom:25px;}p{font-size:24px;line-height:1.6;white-space:pre-wrap;}</style></head><body><div><h1>${s.title}</h1><p>${s.text}</p></div></body></html>`);
         }
 
-        // Initialization on Load
-        window.onload = function() {
+        // Global Initialization on DOM Load
+        document.addEventListener('DOMContentLoaded', () => {
             let w = localStorage.getItem('enterprise_Word');
             if(w) document.getElementById('wordEditor').innerHTML = w;
             updateWordStats();
 
             let ex = localStorage.getItem('enterprise_Excel');
-            if(ex) excelData = JSON.parse(ex);
+            if(ex) {
+                try { excelData = JSON.parse(ex); } catch(e) {}
+            }
             initExcel();
 
             let st = localStorage.getItem('enterprise_Staff');
             let ord = localStorage.getItem('enterprise_Orders');
-            if(st) staffData = JSON.parse(st);
-            if(ord) ordersData = JSON.parse(ord);
+            if(st) { try { staffData = JSON.parse(st); } catch(e) {} }
+            if(ord) { try { ordersData = JSON.parse(ord); } catch(e) {} }
             renderAccess();
 
             let pt = localStorage.getItem('enterprise_PPT');
-            if(pt) pptSlides = JSON.parse(pt);
+            if(pt) { try { pptSlides = JSON.parse(pt); } catch(e) {} }
             renderPPT();
-        };
+        });
     </script>
 </body>
 </html>
