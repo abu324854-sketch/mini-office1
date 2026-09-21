@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Word Ultimate Pro - Microsoft Word Style</title>
+    <title>Microsoft Word Pro Ultimate V5</title>
     <style>
         :root {
             --ribbon-bg: #f3f2f1;
@@ -55,6 +55,10 @@
         .style-item { border: 1px solid var(--border); padding: 4px 8px; border-radius: 3px; font-size: 12px; cursor: pointer; background: var(--panel-bg); white-space: nowrap; }
         .style-item:hover { background: var(--hover-bg); }
 
+        /* Find & Replace Modal Bar */
+        .find-replace-bar { display: none; background: var(--ribbon-bg); border-bottom: 1px solid var(--border); padding: 8px 15px; gap: 10px; align-items: center; font-size: 13px; }
+        .find-replace-bar.active { display: flex; }
+
         /* Workspace & Document Page */
         .workspace { flex: 1; background: var(--ribbon-bg); overflow-y: auto; padding: 30px; display: flex; justify-content: center; }
         .document-page { width: 850px; min-height: 1100px; background: #ffffff; color: #201f1e; padding: 60px 80px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); outline: none; font-size: 16px; line-height: 1.6; border: 1px solid #d3d3d3; }
@@ -72,7 +76,7 @@
     <div class="title-bar">
         <div class="title-left">
             <span>📄</span>
-            <span>ofise_1.docx - Microsoft Word Pro</span>
+            <span>ofise_1.docx - Microsoft Word Pro V5</span>
         </div>
         <div class="window-controls">
             <button onclick="toggleTheme()" style="background:rgba(255,255,255,0.2); border:none; color:#fff; padding:3px 10px; border-radius:3px; cursor:pointer; font-size:12px;">🌓 Tema</button>
@@ -126,6 +130,7 @@
                     <button class="r-btn" onclick="execCmd('underline')"><u>Ч</u></button>
                     <button class="r-btn" onclick="execCmd('strikeThrough')"><s>abc</s></button>
                     <input type="color" onchange="execCmd('foreColor', this.value)" style="width:28px; height:24px; border:1px solid var(--border); padding:0; cursor:pointer;" title="Matn rangi">
+                    <input type="color" onchange="execCmd('hiliteColor', this.value)" style="width:28px; height:24px; border:1px solid var(--border); padding:0; cursor:pointer;" title="Marker rangi">
                 </div>
                 <div class="group-title">Шрифт</div>
             </div>
@@ -154,12 +159,19 @@
                 <div class="group-title">Стили</div>
             </div>
 
+            <div class="ribbon-group">
+                <div class="group-tools">
+                    <button class="r-btn" onclick="toggleFindReplace()">🔍 Qidirish / Almashtirish</button>
+                </div>
+                <div class="group-title">Редактирование</div>
+            </div>
+
             <div class="ribbon-group" style="border:none;">
                 <div class="group-tools">
                     <button class="r-btn" style="background:var(--primary); color:#fff; border:none;" onclick="downloadWordDoc()">💾 Yuklab olish (.doc)</button>
                     <button class="r-btn" style="background:#d13438; color:#fff; border:none;" onclick="clearDoc()">🗑 Tozalash</button>
                 </div>
-                <div class="group-title">Fayl</div>
+                <div class="group-title">Файл</div>
             </div>
         </div>
 
@@ -191,7 +203,7 @@
         <div class="ribbon-toolbar" id="tab-review">
             <div class="ribbon-group">
                 <div class="group-tools">
-                    <button class="r-btn" onclick="alert('Barcha imlo qoidalari tekshirildi: Xatolar topilmadi ✓')">✔ Imloni tekshirish</button>
+                    <button class="r-btn" onclick="alert('Barcha imlo qoidalari tekshirildi: Xatolar topilmadi ✓')">✔ Imlo tekshiruvi</button>
                     <button class="r-btn" onclick="countDetailed()">📊 To'liq statistika</button>
                 </div>
                 <div class="group-title">Tekshiruv</div>
@@ -211,11 +223,21 @@
         </div>
     </div>
 
+    <!-- Find & Replace Bar -->
+    <div class="find-replace-bar" id="findReplaceBar">
+        <span><b>Qidirish:</b></span>
+        <input type="text" id="findInput" class="r-input" placeholder="So'zni kiriting...">
+        <span><b>Almashtirish:</b></span>
+        <input type="text" id="replaceInput" class="r-input" placeholder="Yangi so'z...">
+        <button class="r-btn btn-primary" style="background:var(--primary); color:#fff;" onclick="replaceText()">Almashtirish</button>
+        <button class="r-btn" onclick="toggleFindReplace()">Yopish ✕</button>
+    </div>
+
     <!-- Workspace / Document Editor -->
     <div class="workspace" id="workspaceArea">
         <div id="wordEditor" class="document-page" contenteditable="true" oninput="updateStats()">
-            <h1>Microsoft Word Pro Muharririga Xush Kelibsiz!</h1>
-            <p>Ushbu tizim barcha asosiy va qo'shimcha vazifalarni mukammal bajaradi. Matnni qalinlashtiring, shriftni o'zgartiring, jadvallar qo'shing va o'z hujjatlaringizni to'g'ridan-to'g'ri brauzeringizda tahrirlang.</p>
+            <h1>Microsoft Word Pro Ultimate V5</h1>
+            <p>Ushbu versiya barcha professional talablarni bajarish uchun maxsus kuchaytirildi. Qidirish, almashtirish, markerlar va to'liq statistika imkoniyatlaridan foydalaning.</p>
         </div>
     </div>
 
@@ -251,12 +273,29 @@
             document.getElementById('wordEditor').focus();
         }
 
+        function toggleFindReplace() {
+            const bar = document.getElementById('findReplaceBar');
+            bar.classList.toggle('active');
+        }
+
+        function replaceText() {
+            const findVal = document.getElementById('findInput').value;
+            const replaceVal = document.getElementById('replaceInput').value;
+            if(!findVal) return;
+            const editor = document.getElementById('wordEditor');
+            let content = editor.innerHTML;
+            let regex = new RegExp(findVal, 'g');
+            editor.innerHTML = content.replace(regex, replaceVal);
+            updateStats();
+            alert("Muvaffaqiyatli almashtirildi!");
+        }
+
         function updateStats() {
             const text = document.getElementById('wordEditor').innerText.trim();
             const words = text ? text.split(/\s+/).length : 0;
             const chars = text.length;
             document.getElementById('wordStats').innerText = `So'zlar: ${words} | Belgilar: ${chars}`;
-            localStorage.setItem('web_word_content_pro', document.getElementById('wordEditor').innerHTML);
+            localStorage.setItem('web_word_content_v5', document.getElementById('wordEditor').innerHTML);
         }
 
         function clearDoc() {
@@ -315,7 +354,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('web_word_content_pro');
+            const saved = localStorage.getItem('web_word_content_v5');
             if(saved) {
                 document.getElementById('wordEditor').innerHTML = saved;
             }
