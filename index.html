@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfraGuard AI — Dinamik Infratuzilma Monitoring Tizimi</title>
+    <title>InfraGuard AI — Sun'iy Yo'ldosh Va AI Monitoring Tizimi</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js Grafika uchun -->
@@ -11,7 +11,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-panel { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .radar-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
@@ -20,20 +22,20 @@
     <header class="glass-panel sticky top-0 z-50 border-b border-slate-800 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">InfraGuard AI</span>
-                    <p class="text-xs text-slate-400">Autonomous Neural Infrastructure Core</p>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">InfraGuard Satellite AI</span>
+                    <p class="text-xs text-slate-400">Orbital SAR & Neural Network Core</p>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
                 <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-full border border-slate-800 text-xs text-slate-300">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>AI Model: ResNet-CV v4.2 Active</span>
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 radar-pulse"></span>
+                    <span>Sentinel-2 / SAR Link: Online</span>
                 </div>
-                <button onclick="scrollToAdd()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-lg shadow-blue-600/20 cursor-pointer">+ Yangi obyekt qo'shish</button>
+                <button onclick="scrollToAdd()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-lg shadow-cyan-600/20 cursor-pointer">+ Sun'iy Yo'ldoshdan Qo'shish</button>
             </div>
         </div>
     </header>
@@ -43,146 +45,177 @@
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-blue-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Jami obyektlar</p>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-cyan-500">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kuzatuvdagi Obyektlar</p>
                 <h3 id="stat-total" class="text-3xl font-extrabold mt-2 text-white">482</h3>
-                <p class="text-xs text-emerald-400 mt-1">Real vaqt rejimida sinxronizatsiya</p>
+                <p class="text-xs text-cyan-400 mt-1">Orbital sinxronizatsiya faol</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-red-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kritik nuqsonlar</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kritik Deformatsiya</p>
                 <h3 id="stat-critical" class="text-3xl font-extrabold mt-2 text-white">12</h3>
-                <p class="text-xs text-red-400 mt-1">Zudlik bilan ta'mirlash zarur</p>
+                <p class="text-xs text-red-400 mt-1">SAR radar ogohlantirishi</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-amber-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">O'rtacha xavfli</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">O'rtacha Siljish</p>
                 <h3 id="stat-medium" class="text-3xl font-extrabold mt-2 text-white">45</h3>
                 <p class="text-xs text-amber-400 mt-1">Nazorat ostidagi hududlar</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-emerald-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Barqaror inshootlar</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Barqaror Inshootlar</p>
                 <h3 id="stat-stable" class="text-3xl font-extrabold mt-2 text-white">425</h3>
-                <p class="text-xs text-slate-400 mt-1">Xavfsizlik darajasi yuqori</p>
+                <p class="text-xs text-slate-400 mt-1">Kosmik tahlil: OK</p>
             </div>
         </div>
 
-        <!-- AI Analyzer and Object Creator Section -->
+        <!-- AI & Satellite Input Section -->
         <div id="add-section" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Left: AI Object Adder Form & Scanner -->
+            <!-- Left: Form -->
             <div class="lg:col-span-2 glass-panel p-6 rounded-3xl flex flex-col justify-between">
                 <div>
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-lg font-bold text-white flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span>Sun'iy Intellekt Orqali Yangi Obyekt Qo'shish</span>
+                            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Sun'iy Yo'ldosh Va AI Skanerlash Paneli</span>
                         </h2>
-                        <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full">AI Auto-Analysis</span>
+                        <span class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1 rounded-full">SAR Telemetry Active</span>
                     </div>
 
                     <form id="ai-form" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-medium text-slate-400 mb-1">Obyekt nomi / Hudud</label>
-                                <input type="text" id="obj-name" required placeholder="Masalan: Farg'ona ko'prigi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                                <input type="text" id="obj-name" required placeholder="Masalan: Farg'ona halqa yo'li ko'prigi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-400 mb-1">Inshoot turi</label>
-                                <select id="obj-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                                <select id="obj-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
                                     <option>Estakada / Ko'prik</option>
                                     <option>Temir-beton ko'prik</option>
-                                    <option>Piyodalar ko'prigi</option>
-                                    <option>Muhandislik inshooti</option>
-                                    <option>Gidrotexnik damba</option>
+                                    <option>Piyodalar o'tkazgichi</option>
+                                    <option>Magistral yo'l qismi</option>
+                                    <option>Gidrotexnik inshoot</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">GPS Kenglik / Uzunlik (Avto yoki qo'lda)</label>
+                                <input type="text" id="obj-coords" placeholder="Masalan: 40.3842° N, 71.7843° E" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Sun'iy yo'ldosh manbasi</label>
+                                <select id="obj-sat" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
+                                    <option>Sentinel-2 (Optical Multispectral)</option>
+                                    <option>Sentinel-1 (SAR Radar Interferometry)</option>
+                                    <option>Maxar WorldView (High-Res Optical)</option>
+                                    <option>Landsat-9 (Thermal & Surface)</option>
                                 </select>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Inshoot suratini yuklang (AI skanerlash uchun)</label>
-                            <input type="file" id="obj-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 cursor-pointer">
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Inshootning obyekt tasviri yoki radar kadrini yuklang</label>
+                            <input type="file" id="obj-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-500 cursor-pointer">
                         </div>
 
-                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-blue-600/30 flex items-center justify-center space-x-2 cursor-pointer">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                            <span>AI Tahlilni Boshlash va Qo'shish</span>
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-cyan-600/30 flex items-center justify-center space-x-2 cursor-pointer">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            <span>Orbital Ma'lumotlarni Skanerlash va Qo'shish</span>
                         </button>
                     </form>
                 </div>
             </div>
 
-            <!-- Right: Risk Analytics Chart Panel -->
+            <!-- Right: Chart -->
             <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
                 <div>
-                    <h2 class="text-lg font-bold text-white mb-4">Xavf Darajalari Nisbati</h2>
-                    <div class="relative h-56 flex items-center justify-center">
+                    <h2 class="text-lg font-bold text-white mb-2">Kosmik Xavf Analizi</h2>
+                    <p class="text-xs text-slate-400 mb-4">Sun'iy yo'ldosh radar o'lchovlari asosida</p>
+                    <div class="relative h-48 flex items-center justify-center">
                         <canvas id="riskChart"></canvas>
                     </div>
                 </div>
                 <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
-                    <span>Dinamik yangilanish</span>
-                    <span class="text-emerald-400 font-semibold">Faol</span>
+                    <span>GPS Telemetriya</span>
+                    <span class="text-cyan-400 font-semibold">Faol Ulanish</span>
                 </div>
             </div>
 
         </div>
 
-        <!-- Infrastructure Tasks Table -->
+        <!-- Table -->
         <div class="glass-panel p-6 rounded-3xl space-y-4">
             <div class="flex justify-between items-center">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Monitoring Qilingan Inshootlar Bazasi</h2>
-                    <p class="text-xs text-slate-400">Sun'iy intellekt tomonidan tahlil qilingan va navbatga qo'shilgan obyektlar</p>
+                    <h2 class="text-lg font-bold text-white">Sun'iy Yo'ldosh Orqali Kuzatilayotgan Obyektlar Bazasi</h2>
+                    <p class="text-xs text-slate-400">Orbital skanerlash va sun'iy intellekt tahlil xulosalari</p>
                 </div>
-                <span id="badge-count" class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-xl font-medium">Jami 5 ta obyekt</span>
+                <span id="badge-count" class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1.5 rounded-xl font-medium">Jami 5 ta obyekt</span>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-slate-800 text-xs text-slate-400 uppercase">
-                            <th class="py-3 px-4">Obyekt nomi / Hudud</th>
-                            <th class="py-3 px-4">Inshoot turi</th>
-                            <th class="py-3 px-4">AI Aniqlagan Nuqson</th>
+                            <th class="py-3 px-4">Obyekt nomi / GPS Koordinata</th>
+                            <th class="py-3 px-4">Sun'iy yo'ldosh / Turi</th>
+                            <th class="py-3 px-4">Kosmik SAR / AI Tahlil Natijasi</th>
                             <th class="py-3 px-4">Xavf darajasi</th>
-                            <th class="py-3 px-4">Mas'ul / Status</th>
+                            <th class="py-3 px-4">Status</th>
                         </tr>
                     </thead>
                     <tbody id="table-body" class="divide-y divide-slate-800/60 text-sm">
-                        <!-- Initial rows -->
                         <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4 font-medium text-white">Qamchiq dovoni A373 magistrali (142-km)</td>
-                            <td class="py-3.5 px-4 text-slate-300">Estakada / Ko'prik</td>
-                            <td class="py-3.5 px-4 text-slate-300">Beton qoplamasida termik yoriqlar (94%)</td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-medium text-white">Qamchiq dovoni A373 magistrali (142-km)</div>
+                                <div class="text-xs text-cyan-400 font-mono">41.1634° N, 70.4521° E</div>
+                            </td>
+                            <td class="py-3.5 px-4 text-slate-300">Sentinel-1 (SAR)</td>
+                            <td class="py-3.5 px-4 text-slate-300">Millimetrlik yer cho'kishi aniqlandi (-4.2 mm/yil)</td>
                             <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">Kritik (Yuqori)</span></td>
-                            <td class="py-3.5 px-4 text-slate-300">Farg'ona Yo'lsozlik / Navbatda</td>
+                            <td class="py-3.5 px-4 text-slate-300"><span class="text-cyan-400">Orbital nazoratda</span></td>
                         </tr>
                         <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4 font-medium text-white">Toshkent halqa avtomobil yo'li (Keles ko'prigi)</td>
-                            <td class="py-3.5 px-4 text-slate-300">Temir-beton ko'prik</td>
-                            <td class="py-3.5 px-4 text-slate-300">Tayanch ustunida korroziya alomatlari</td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-medium text-white">Toshkent halqa avtomobil yo'li (Keles)</div>
+                                <div class="text-xs text-cyan-400 font-mono">41.3654° N, 69.2145° E</div>
+                            </td>
+                            <td class="py-3.5 px-4 text-slate-300">Sentinel-2</td>
+                            <td class="py-3.5 px-4 text-slate-300">Sirtqi termal anomaliya va qoplama eskirishi</td>
                             <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">O'rtacha</span></td>
-                            <td class="py-3.5 px-4 text-slate-300">Toshkent hokimiyati / Tekshiruvda</td>
+                            <td class="py-3.5 px-4 text-slate-300"><span class="text-cyan-400">Orbital nazoratda</span></td>
                         </tr>
                         <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4 font-medium text-white">Farg'ona shahri Sirdaryo ko'chasi o'tkazgichi</td>
-                            <td class="py-3.5 px-4 text-slate-300">Piyodalar ko'prigi</td>
-                            <td class="py-3.5 px-4 text-slate-300">Sirtqi qatlam yemirilishi boshlanishi</td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-medium text-white">Farg'ona shahri Sirdaryo ko'chasi o'tkazgichi</div>
+                                <div class="text-xs text-cyan-400 font-mono">40.3842° N, 71.7843° E</div>
+                            </td>
+                            <td class="py-3.5 px-4 text-slate-300">Maxar WorldView</td>
+                            <td class="py-3.5 px-4 text-slate-300">Kosmik suratda mikro-yoriqlar sezildi</td>
                             <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">O'rtacha</span></td>
-                            <td class="py-3.5 px-4 text-slate-300">Farg'ona filial / Rejada</td>
+                            <td class="py-3.5 px-4 text-slate-300"><span class="text-cyan-400">Orbital nazoratda</span></td>
                         </tr>
                         <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4 font-medium text-white">Andijon-Toshkent yo'nalishi estakadasi</td>
-                            <td class="py-3.5 px-4 text-slate-300">Muhandislik inshooti</td>
-                            <td class="py-3.5 px-4 text-slate-300">Jiddiy nuqsonlar topilmadi (Barqaror)</td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-medium text-white">Andijon-Toshkent yo'nalishi estakadasi</div>
+                                <div class="text-xs text-cyan-400 font-mono">40.7823° N, 72.3412° E</div>
+                            </td>
+                            <td class="py-3.5 px-4 text-slate-300">Landsat-9</td>
+                            <td class="py-3.5 px-4 text-slate-300">Konstruksiya barqaror, deformatsiya yo'q</td>
                             <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Barqaror</span></td>
-                            <td class="py-3.5 px-4 text-slate-300">Avtoyo'l qo'mitasi / Nazoratda</td>
+                            <td class="py-3.5 px-4 text-slate-300"><span class="text-cyan-400">Orbital nazoratda</span></td>
                         </tr>
                         <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4 font-medium text-white">Sirdaryo viloyati Suv ombori damba qismi</td>
-                            <td class="py-3.5 px-4 text-slate-300">Gidrotexnik damba</td>
-                            <td class="py-3.5 px-4 text-slate-300">Plitalar orasida mikro-siljishlar aniqlandi</td>
+                            <td class="py-3.5 px-4">
+                                <div class="font-medium text-white">Sirdaryo viloyati Suv ombori damba qismi</div>
+                                <div class="text-xs text-cyan-400 font-mono">40.4812° N, 68.7812° E</div>
+                            </td>
+                            <td class="py-3.5 px-4 text-slate-300">Sentinel-1 (SAR)</td>
+                            <td class="py-3.5 px-4 text-slate-300">Damba qiyaligida siljish xavfi aniqlandi</td>
                             <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">Kritik (Yuqori)</span></td>
-                            <td class="py-3.5 px-4 text-slate-300">FVV / Tezkor guruh</td>
+                            <td class="py-3.5 px-4 text-slate-300"><span class="text-cyan-400">Orbital nazoratda</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -193,15 +226,13 @@
 
     <!-- Footer -->
     <footer class="glass-panel border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        <p>&copy; 2026 InfraGuard AI. Barcha huquqlar himoyalangan. Sun'iy intellekt tahlil yadrosi.</p>
+        <p>&copy; 2026 InfraGuard Satellite AI. Barcha huquqlar himoyalangan. Kosmik monitoring yadrosi.</p>
     </footer>
 
-    <!-- Script Mantiqi -->
+    <!-- Script -->
     <script>
-        // Statistik ko'rsatkichlar va ma'lumotlar
         let stats = { total: 482, critical: 12, medium: 45, stable: 425 };
 
-        // Chart.js init
         const ctx = document.getElementById('riskChart').getContext('2d');
         const riskChart = new Chart(ctx, {
             type: 'doughnut',
@@ -226,54 +257,56 @@
             document.getElementById('add-section').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // AI Obyekt qo'shish va tahlil qilish mantiqi
         document.getElementById('ai-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const name = document.getElementById('obj-name').value;
             const type = document.getElementById('obj-type').value;
-            const fileInput = document.getElementById('obj-file');
+            let coords = document.getElementById('obj-coords').value;
+            const sat = document.getElementById('obj-sat').value;
 
-            // AI simulyatsiyasi: Tasodifiy xavf darajasini tanlash yoki aniqlash
+            if(!coords) {
+                // Agar koordinata kiritilmagan bo'lsa, avtomatik tasodifiy O'zbekiston koordinatasini beramiz
+                coords = (40 + Math.random()*2).toFixed(4) + '° N, ' + (67 + Math.random()*5).toFixed(4) + '° E';
+            }
+
             const riskLevels = [
-                { label: 'Kritik (Yuqori)', badge: 'bg-red-500/20 text-red-400 border border-red-500/30', typeKey: 'critical', defect: 'AI tahlili: Chuqur mikroyoriqlar va yemirilish (91%)' },
-                { label: 'O\'rtacha', badge: 'bg-amber-500/20 text-amber-400 border border-amber-500/30', typeKey: 'medium', defect: 'AI tahlili: Sirtqi qatlam eskirishi va kichik yoriq' },
-                { label: 'Barqaror', badge: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30', typeKey: 'stable', defect: 'AI tahlili: Jiddiy nuqsonlar aniqlanmadi' }
+                { label: 'Kritik (Yuqori)', badge: 'bg-red-500/20 text-red-400 border border-red-500/30', typeKey: 'critical', analysis: 'SAR radar: Yuqori darajadagi millimetrlik siljish (-3.8 mm/yil)' },
+                { label: 'O\'rtacha', badge: 'bg-amber-500/20 text-amber-400 border border-amber-500/30', typeKey: 'medium', analysis: 'Optik spektr: Sirtqi qatlamda kichik termal o‘zgarish' },
+                { label: 'Barqaror', badge: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30', typeKey: 'stable', analysis: 'Kosmik monitoring: Deformatsiya aniqlanmadi, barqaror' }
             ];
 
             const selectedRisk = riskLevels[Math.floor(Math.random() * riskLevels.length)];
 
-            // Statistikani yangilash
             stats.total += 1;
             if(selectedRisk.typeKey === 'critical') stats.critical += 1;
             else if(selectedRisk.typeKey === 'medium') stats.medium += 1;
             else stats.stable += 1;
 
-            // UI statistikani yangilash
             document.getElementById('stat-total').textContent = stats.total;
             document.getElementById('stat-critical').textContent = stats.critical;
             document.getElementById('stat-medium').textContent = stats.medium;
             document.getElementById('stat-stable').textContent = stats.stable;
 
-            // Chart ma'lumotlarini yangilash
             riskChart.data.datasets[0].data = [stats.critical, stats.medium, stats.stable];
             riskChart.update();
 
-            // Jadvalga yangi qator qo'shish
             const tbody = document.getElementById('table-body');
             const newRow = document.createElement('tr');
-            newRow.className = 'hover:bg-slate-900/40 transition bg-blue-500/5';
+            newRow.className = 'hover:bg-slate-900/40 transition bg-cyan-500/5';
             newRow.innerHTML = `
-                <td class="py-3.5 px-4 font-medium text-white">${name} <span class="text-xs text-blue-400 font-normal">(Yangi)</span></td>
-                <td class="py-3.5 px-4 text-slate-300">${type}</td>
-                <td class="py-3.5 px-4 text-slate-300">${selectedRisk.defect}</td>
+                <td class="py-3.5 px-4">
+                    <div class="font-medium text-white">${name} <span class="text-xs text-cyan-400 font-normal">(Yangi)</span></div>
+                    <div class="text-xs text-cyan-400 font-mono">${coords}</div>
+                </td>
+                <td class="py-3.5 px-4 text-slate-300">${sat}</td>
+                <td class="py-3.5 px-4 text-slate-300">${selectedRisk.analysis}</td>
                 <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold ${selectedRisk.badge}">${selectedRisk.label}</span></td>
-                <td class="py-3.5 px-4 text-slate-300">AI Avto-Tahlil / Navbatda</td>
+                <td class="py-3.5 px-4 text-slate-300"><span class="text-cyan-400">Orbital nazoratda</span></td>
             `;
             tbody.prepend(newRow);
 
-            // Xabarnoma va formani tozalash
-            alert("Sun'iy intellekt obyektni muvaffaqiyatli tahlil qildi va umumiy bazaga qo'shdi!");
+            alert("Sun'iy yo'ldosh telemetriyasi ulandi va AI obyektni muvaffaqiyatli tahlil qildi!");
             document.getElementById('ai-form').reset();
         });
     </script>
