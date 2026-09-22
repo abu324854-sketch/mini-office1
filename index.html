@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfraGuard AI — Professional Infratuzilma Monitoring Tizimi</title>
+    <title>InfraGuard AI — O‘zbekiston va Global Infratuzilma Monitoring Tizimi</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Chart.js Grafika uchun -->
@@ -11,7 +11,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-panel { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-panel { background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
@@ -25,13 +25,13 @@
                 </div>
                 <div>
                     <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">InfraGuard AI</span>
-                    <p class="text-xs text-slate-400">Industrial Defect Detection Core</p>
+                    <p class="text-xs text-slate-400">National Infrastructure Monitoring Core</p>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
                 <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-full border border-slate-800 text-xs text-slate-300">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>AI Server: Faol (Online)</span>
+                    <span>AI Server: Faol (Toshkent/Farg'ona klasteri)</span>
                 </div>
                 <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-lg shadow-blue-600/20 cursor-pointer">+ Yangi obyekt qo'shish</button>
             </div>
@@ -44,24 +44,24 @@
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-blue-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Jami tahlil qilingan</p>
-                <h3 class="text-3xl font-extrabold mt-2 text-white">1,428</h3>
-                <p class="text-xs text-emerald-400 mt-1 flex items-center">↑ 12% bu oyda</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Nazoratdagi obyektlar</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">482</h3>
+                <p class="text-xs text-emerald-400 mt-1 flex items-center">↑ 24 ta yangi ko'prik qo'shildi</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-red-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kritik nuqsonlar</p>
-                <h3 class="text-3xl font-extrabold mt-2 text-white">38</h3>
-                <p class="text-xs text-red-400 mt-1">Zudlik bilan e'tibor talab</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kritik nuqsonlar (O‘zbekiston)</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">12</h3>
+                <p class="text-xs text-red-400 mt-1">Zudlik bilan ta'mirlash talab etiladi</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-amber-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">O'rtacha xavf</p>
-                <h3 class="text-3xl font-extrabold mt-2 text-white">142</h3>
-                <p class="text-xs text-amber-400 mt-1">Nazorat ostida</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">O'rtacha xavfli hududlar</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">45</h3>
+                <p class="text-xs text-amber-400 mt-1">Doimiy monitoring ostida</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-emerald-500">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Barqaror obyektlar</p>
-                <h3 class="text-3xl font-extrabold mt-2 text-white">1,248</h3>
-                <p class="text-xs text-slate-400 mt-1">Xavfsiz darajada</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Barqaror inshootlar</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">425</h3>
+                <p class="text-xs text-slate-400 mt-1">Xavfsizlik darajasi 98%</p>
             </div>
         </div>
 
@@ -74,9 +74,9 @@
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-lg font-bold text-white flex items-center space-x-2">
                             <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                            <span>Sun'iy Intellekt Vizual Skaneri</span>
+                            <span>Sun'iy Intellekt Vizual Skaneri (Computer Vision)</span>
                         </h2>
-                        <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Model: v4.2-ResNet</span>
+                        <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Model: ResNet-CrackDetect v4.2</span>
                     </div>
 
                     <!-- Dropzone -->
@@ -84,8 +84,8 @@
                         <div class="w-16 h-16 rounded-full bg-blue-600/10 flex items-center justify-center mb-4 text-blue-400">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         </div>
-                        <p class="text-base font-semibold text-slate-200">Ko‘prik, yo‘l yoki beton suratini tashlang</p>
-                        <p class="text-xs text-slate-400 mt-1">Yoki fayl tanlash uchun bosing (JPG, PNG, WEBP)</p>
+                        <p class="text-base font-semibold text-slate-200">Ko‘prik, yo‘l yoki beton konstruksiya suratini tashlang</p>
+                        <p class="text-xs text-slate-400 mt-1">Dron yoki kurerlik kamerasidan olingan faylni yuklang (JPG, PNG)</p>
                         <input type="file" id="file-input" class="hidden" accept="image/*">
                     </div>
 
@@ -121,7 +121,7 @@
             <!-- Right: Analytics Chart Panel (1 column) -->
             <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
                 <div>
-                    <h2 class="text-lg font-bold text-white mb-4">Hududlar bo'yicha xavf</h2>
+                    <h2 class="text-lg font-bold text-white mb-4">Respublika bo'yicha xavf tahlili</h2>
                     <div class="relative h-64 flex items-center justify-center">
                         <canvas id="riskChart"></canvas>
                     </div>
@@ -134,11 +134,73 @@
 
         </div>
 
+        <!-- Real World Infrastructure Tasks / Queue Section -->
+        <div class="glass-panel p-6 rounded-3xl space-y-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-lg font-bold text-white">Real Inshootlar Monitoring Navbati va Vazifalari</h2>
+                    <p class="text-xs text-slate-400">Hozirgi kunda tizimga kiritilgan real obyektlar holati va bajarilishi kerak bo'lgan ishlar</p>
+                </div>
+                <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1.5 rounded-xl font-medium">Jami 5 ta ustuvor vazifa</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-xs text-slate-400 uppercase">
+                            <th class="py-3 px-4">Obyekt nomi / Hudud</th>
+                            <th class="py-3 px-4">Inshoot turi</th>
+                            <th class="py-3 px-4">Aniqlangan muammo</th>
+                            <th class="py-3 px-4">Xavf darajasi</th>
+                            <th class="py-3 px-4">Mas'ul / Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-sm">
+                        <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-3.5 px-4 font-medium text-white">Qamchiq dovoni A373 magistrali (142-km)</td>
+                            <td class="py-3.5 px-4 text-slate-300">Estakada / Ko'prik</td>
+                            <td class="py-3.5 px-4 text-slate-300">Beton qoplamasida termik yoriqlar va namlik sizishi</td>
+                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">Kritik (Yuqori)</span></td>
+                            <td class="py-3.5 px-4 text-slate-300">Farg'ona Yo'lsozlik / Navbatda</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-3.5 px-4 font-medium text-white">Toshkent halqa avtomobil yo'li (Keles ko'prigi)</td>
+                            <td class="py-3.5 px-4 text-slate-300">Temir-beton ko'prik</td>
+                            <td class="py-3.5 px-4 text-slate-300">Tayanch ustunida armatura korroziyasi boshlanishi</td>
+                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">O'rtacha</span></td>
+                            <td class="py-3.5 px-4 text-slate-300">Toshkent shahar hokimiyati / Tekshiruvda</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-3.5 px-4 font-medium text-white">Farg'ona shahri Sirdaryo ko'chasi o'tkazgichi</td>
+                            <td class="py-3.5 px-4 text-slate-300">Piyodalar ko'prigi</td>
+                            <td class="py-3.5 px-4 text-slate-300">Sirtqi qatlamning yemirilishi va kichik yoriq</td>
+                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">O'rtacha</span></td>
+                            <td class="py-3.5 px-4 text-slate-300">Farg'ona filial muhandislari / Rejada</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-3.5 px-4 font-medium text-white">Andijon-Toshkent yo'nalishi (Nasos stansiyasi estakadasi)</td>
+                            <td class="py-3.5 px-4 text-slate-300">Muhandislik inshooti</td>
+                            <td class="py-3.5 px-4 text-slate-300">Jiddiy nuqsonlar topilmadi, barqaror holat</td>
+                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Barqaror</span></td>
+                            <td class="py-3.5 px-4 text-slate-300">Avtoyo'l qo'mitasi / Nazoratda</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-3.5 px-4 font-medium text-white">Sirdaryo viloyati Suv ombori damba qismi</td>
+                            <td class="py-3.5 px-4 text-slate-300">Gidrotexnik damba</td>
+                            <td class="py-3.5 px-4 text-slate-300">Beton plitalar orasida mikro-siljishlar</td>
+                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">Kritik (Yuqori)</span></td>
+                            <td class="py-3.5 px-4 text-slate-300">Favqulodda vaziyatlar vazirligi / Tezkor guruh</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer -->
     <footer class="glass-panel border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        <p>&copy; 2026 InfraGuard AI. Barcha huquqlar himoyalangan. O‘zbekiston infratuzilma xavfsizligi uchun.</p>
+        <p>&copy; 2026 InfraGuard AI. Barcha huquqlar himoyalangan. O‘zbekiston va mintaqaviy infratuzilma xavfsizligi tizimi.</p>
     </footer>
 
     <!-- Script Mantiqi -->
@@ -150,7 +212,7 @@
             data: {
                 labels: ['Kritik', 'O‘rtacha', 'Barqaror'],
                 datasets: [{
-                    data: [38, 142, 1248],
+                    data: [12, 45, 425],
                     backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
                     borderWidth: 0
                 }]
@@ -201,7 +263,7 @@
                     const outcomes = [
                         { status: "Kritik shikastlanish", color: "bg-red-500/20 text-red-400 border border-red-500/30", prob: "94.2%", rec: "Beton qoplamasida chuqur mikroyoriqlar va armatura korroziyasi aniqlandi. Zudlik bilan mutaxassislar guruhini yuboring." },
                         { status: "O‘rta darajadagi yemirilish", color: "bg-amber-500/20 text-amber-400 border border-amber-500/30", prob: "61.5%", rec: "Sirtqi qatlamda kichik yoriqlar mavjud. Keyingi rejali ta'mirlash davrida maxsus qoplama bilan yangilash tavsiya etiladi." },
-                        { status: "Normal holat", color: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30", prob: "8.1%", rec: "Konstruksiya barqaror. Jiddiy nuqsonlar aniqlanmadi, standart monitoring davom etadi." }
+                        { status: "Normal holat", color: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30", prob: "8.1%", rec: "Konstruksiya barqaror. Jiddiy nuqsonlar topilmadi, standart monitoring davom etadi." }
                     ];
 
                     const res = outcomes[Math.floor(Math.random() * outcomes.length)];
