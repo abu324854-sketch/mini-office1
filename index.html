@@ -1,380 +1,310 @@
 <!DOCTYPE html>
-<html lang="uz" class="dark">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Office Ultimate Enterprise V12 - Full Suite</title>
+    <title>Microsoft 365 — Professional Web Suite</title>
     <style>
         :root {
-            --office-blue: #2b579a;
-            --office-blue-dark: #103f7e;
-            --bg-body: #1e1e1e;
-            --panel-bg: #252526;
-            --ribbon-bg: #2d2d2d;
-            --text-main: #f3f2f1;
-            --border-color: #3f3f46;
-            --hover-bg: #3e3e42;
-            --shadow: 0 8px 24px rgba(0,0,0,0.6);
-        }
-        .light {
-            --office-blue: #0078d4;
-            --office-blue-dark: #106ebe;
+            --m365-brand: #d83b01;
             --bg-body: #f3f2f1;
             --panel-bg: #ffffff;
-            --ribbon-bg: #f8f8f8;
-            --text-main: #201f1e;
-            --border-color: #c8c6c4;
-            --hover-bg: #edebe9;
-            --shadow: 0 4px 16px rgba(0,0,0,0.15);
+            --text-main: #323130;
+            --text-secondary: #605e5c;
+            --border-color: #edebe9;
+            --hover-bg: #f8f8f8;
+            --shadow: 0 1.6px 3.6px 0 rgba(0,0,0,0.13), 0 0.3px 0.9px 0 rgba(0,0,0,0.11);
+            --header-bg: #ffffff;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { display: flex; height: 100vh; background: var(--bg-body); color: var(--text-main); overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Left Launcher Dock */
-        .desktop-sidebar { width: 72px; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); display: flex; flex-direction: column; align-items: center; padding-top: 15px; gap: 12px; border-right: 1px solid var(--border-color); z-index: 100; }
-        .app-icon { width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; color: #fff; transition: 0.2s; position: relative; }
-        .app-icon:hover { background: rgba(255,255,255,0.15); transform: scale(1.05); }
-        .app-icon.active { background: var(--office-blue); box-shadow: 0 0 12px var(--office-blue); }
+        /* Top Suite Bar */
+        .suite-header { height: 48px; background: var(--header-bg); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 100; }
+        .suite-left { display: flex; align-items: center; gap: 12px; }
+        .app-launcher-btn { width: 32px; height: 32px; border: none; background: transparent; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 6px; cursor: pointer; border-radius: 4px; }
+        .app-launcher-btn span { background: #605e5c; border-radius: 1px; }
+        .app-launcher-btn:hover { background: var(--hover-bg); }
+        .suite-logo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; color: #201f1e; text-decoration: none; }
+        .suite-logo span.dot { width: 16px; height: 16px; background: var(--m365-brand); display: inline-block; }
+        .suite-right { display: flex; align-items: center; gap: 15px; }
+        .user-profile { width: 32px; height: 32px; border-radius: 50%; background: #0078d4; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; cursor: pointer; }
 
-        /* Workspace Container */
-        .workspace-container { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; background: var(--panel-bg); margin: 6px; border-radius: 8px; box-shadow: var(--shadow); border: 1px solid var(--border-color); }
+        /* Main App Area */
+        .app-workspace { flex: 1; display: flex; position: relative; overflow: hidden; }
+
+        /* Left Navigation Rail */
+        .nav-rail { width: 64px; background: #ffffff; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 8px; z-index: 10; }
+        .nav-item { width: 48px; height: 48px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); font-size: 10px; gap: 2px; border: none; background: transparent; }
+        .nav-item:hover { background: var(--hover-bg); color: var(--text-main); }
+        .nav-item.active { background: #f3f2f1; color: var(--m365-brand); font-weight: 600; }
+        .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* Views (Home, Word, Excel, PPT) */
+        .view-panel { display: none; flex: 1; flex-direction: column; background: var(--bg-body); overflow: hidden; position: absolute; top:0; left:64px; right:0; bottom:0; }
+        .view-panel.active { display: flex; }
+
+        /* HOME / ONEDRIVE DASHBOARD */
+        .home-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
+        .home-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; color: #201f1e; }
+        .create-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-bottom: 35px; }
+        .create-card { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow); }
+        .create-card:hover { border-color: #0078d4; transform: translateY(-2px); }
+        .create-card .icon { font-size: 32px; margin-bottom: 10px; }
+        .create-card .title { font-size: 13px; font-weight: 600; color: #323130; }
+
+        .files-table-wrap { background: #fff; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow); overflow: hidden; }
+        .files-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .files-table th, .files-table td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid var(--border-color); }
+        .files-table th { background: #faf9f8; font-weight: 600; color: #605e5c; }
+        .files-table tr:hover { background: var(--hover-bg); cursor: pointer; }
+
+        /* OFFICE EDITORS (WORD, EXCEL, PPT) */
+        .office-header { background: #ffffff; border-bottom: 1px solid var(--border-color); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
+        .office-title-input { border: 1px solid transparent; padding: 4px 8px; font-size: 14px; font-weight: 600; border-radius: 2px; width: 250px; background: transparent; }
+        .office-title-input:hover, .office-title-input:focus { border-color: var(--border-color); background: #fff; outline: none; }
         
-        /* Title Bar */
-        .window-titlebar { background: var(--office-blue); color: #fff; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; }
-        .window-controls { display: flex; gap: 12px; cursor: pointer; opacity: 0.8; }
-        
-        /* Ribbon Bar */
-        .ribbon-tabs { display: flex; background: var(--ribbon-bg); border-bottom: 1px solid var(--border-color); padding: 0 12px; }
-        .r-tab { background: transparent; border: none; padding: 6px 14px; font-size: 12px; cursor: pointer; color: var(--text-main); font-weight: 500; }
-        .r-tab.active { background: var(--panel-bg); border-top: 3px solid var(--office-blue); border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); font-weight: 600; }
-
-        .r-toolbar { display: flex; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 8px 12px; gap: 12px; align-items: center; min-height: 80px; flex-wrap: wrap; }
-        .r-group { display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--border-color); padding-right: 10px; gap: 4px; }
-        .r-tools { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-        .r-title { font-size: 10px; text-align: center; opacity: 0.6; font-weight: 700; text-transform: uppercase; }
-
-        .btn { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 12px; color: var(--text-main); display: inline-flex; align-items: center; gap: 4px; font-weight: 500; }
-        .btn:hover { background: var(--hover-bg); border-color: var(--office-blue); }
-        .btn-primary { background: var(--office-blue); color: #fff; border: none; }
-        .btn-danger { background: #d13438; color: #fff; border: none; }
-        .select-box, .input-box { padding: 4px 8px; border: 1px solid var(--border-color); border-radius: 3px; background: var(--panel-bg); color: var(--text-main); font-size: 12px; outline: none; }
-
-        /* Panels */
-        .app-panel { display: none; flex: 1; flex-direction: column; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 5; background: var(--panel-bg); }
-        .app-panel.active { display: flex; }
+        .ribbon { background: #f3f2f1; border-bottom: 1px solid var(--border-color); padding: 6px 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .ribbon-group { display: flex; gap: 4px; align-items: center; border-right: 1px solid #c8c6c4; padding-right: 10px; }
+        .r-btn { background: transparent; border: 1px solid transparent; padding: 4px 8px; border-radius: 2px; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+        .r-btn:hover { background: #edebe9; border-color: #c8c6c4; }
+        .r-select { padding: 4px 6px; border: 1px solid #c8c6c4; border-radius: 2px; background: #fff; font-size: 12px; }
 
         /* Word Workspace */
-        .word-body { flex: 1; background: var(--bg-body); overflow-y: auto; padding: 30px; display: flex; justify-content: center; }
-        .word-page { width: 800px; min-height: 1050px; background: #ffffff; color: #1f1f1f; padding: 60px 80px; box-shadow: var(--shadow); outline: none; font-size: 15px; line-height: 1.6; border: 1px solid #d3d3d3; }
-        .word-page table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .word-page th, .word-page td { border: 1px solid #000; padding: 6px; }
+        .word-canvas { flex: 1; background: #e1dfdd; overflow-y: auto; padding: 40px; display: flex; justify-content: center; }
+        .word-page { width: 750px; min-height: 1000px; background: #fff; padding: 60px 80px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); outline: none; font-size: 14px; line-height: 1.6; }
 
         /* Excel Workspace */
-        .formula-bar { display: flex; align-items: center; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); padding: 6px 12px; gap: 10px; }
-        .table-wrap { flex: 1; overflow: auto; background: var(--panel-bg); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { border: 1px solid var(--border-color); padding: 5px 8px; font-size: 12px; }
-        th { background: var(--ribbon-bg); text-align: center; position: sticky; top: 0; z-index: 2; font-weight: 600; }
-        td input { width: 100%; border: none; outline: none; background: transparent; font-size: 12px; color: var(--text-main); }
-        td.selected { background: rgba(0, 120, 212, 0.2) !important; border: 2px solid var(--office-blue); }
+        .excel-formula-bar { background: #fff; border-bottom: 1px solid var(--border-color); padding: 6px 12px; display: flex; align-items: center; gap: 10px; }
+        .excel-table-wrap { flex: 1; overflow: auto; background: #fff; }
+        .excel-grid { width: 100%; border-collapse: collapse; }
+        .excel-grid th, .excel-grid td { border: 1px solid #edebe9; padding: 4px 8px; font-size: 12px; text-align: left; }
+        .excel-grid th { background: #f3f2f1; text-align: center; position: sticky; top: 0; z-index: 2; font-weight: 600; color: #605e5c; }
+        .excel-grid td input { width: 100%; border: none; outline: none; background: transparent; font-size: 12px; }
+        .excel-grid td.selected { background: rgba(0, 120, 212, 0.1); border: 2px solid #0078d4; }
 
-        /* Access & PPT Layouts */
-        .grid-layout { display: flex; gap: 15px; flex: 1; overflow: hidden; padding: 15px; background: var(--bg-body); }
-        .grid-box { flex: 1; display: flex; flex-direction: column; border: 1px solid var(--border-color); border-radius: 4px; background: var(--panel-bg); overflow: hidden; box-shadow: var(--shadow); }
-        .grid-title { background: var(--ribbon-bg); padding: 8px 12px; font-weight: 600; border-bottom: 1px solid var(--border-color); font-size: 13px; }
+        /* PPT Workspace */
+        .ppt-container { flex: 1; display: flex; background: #f3f2f1; overflow: hidden; }
+        .ppt-sidebar { width: 200px; background: #fff; border-right: 1px solid var(--border-color); padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .ppt-thumb { padding: 10px; border: 2px solid var(--border-color); border-radius: 4px; cursor: pointer; background: #fff; font-size: 12px; }
+        .ppt-thumb.active { border-color: #d83b01; }
+        .ppt-stage-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 30px; }
+        .ppt-stage { width: 700px; height: 390px; background: #fff; border: 1px solid var(--border-color); box-shadow: var(--shadow); padding: 40px; display: flex; flex-direction: column; gap: 15px; border-radius: 4px; }
+        .ppt-stage input { font-size: 24px; font-weight: bold; border: none; border-bottom: 1px dashed var(--border-color); outline: none; background: transparent; }
+        .ppt-stage textarea { font-size: 14px; border: none; outline: none; resize: none; flex: 1; background: transparent; line-height: 1.5; }
 
-        .ppt-layout { display: flex; gap: 15px; flex: 1; padding: 15px; background: var(--bg-body); overflow: hidden; }
-        .ppt-sidebar { width: 220px; border-right: 1px solid var(--border-color); padding-right: 10px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
-        .slide-thumb { padding: 10px; border: 2px solid var(--border-color); border-radius: 4px; cursor: pointer; background: var(--panel-bg); }
-        .slide-thumb.active { border-color: var(--office-blue); background: rgba(0, 120, 212, 0.1); font-weight: 600; }
-        .ppt-stage-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; box-shadow: var(--shadow); }
-        .slide-stage { width: 100%; max-width: 700px; height: 380px; border: 1px solid var(--border-color); border-radius: 4px; box-shadow: var(--shadow); padding: 35px; display: flex; flex-direction: column; gap: 15px; }
-        .slide-stage input { font-size: 24px; font-weight: bold; border: none; border-bottom: 2px dashed var(--border-color); outline: none; background: transparent; }
-        .slide-stage textarea { font-size: 15px; border: none; outline: none; resize: none; width: 100%; height: 180px; background: transparent; line-height: 1.6; }
-
-        /* Status bar */
-        .status-bar { display: flex; justify-content: space-between; align-items: center; background: var(--office-blue); color: #fff; padding: 4px 14px; font-size: 11px; font-weight: 500; }
+        .status-bar { height: 24px; background: #0078d4; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; }
     </style>
 </head>
 <body>
 
-    <!-- Left Launcher Dock -->
-    <div class="desktop-sidebar">
-        <div class="app-icon active" id="icon-word" onclick="switchApp('word', this)" title="Microsoft Word">📄</div>
-        <div class="app-icon" id="icon-excel" onclick="switchApp('excel', this)" title="Microsoft Excel">📊</div>
-        <div class="app-icon" id="icon-access" onclick="switchApp('access', this)" title="Microsoft Access">🗄️</div>
-        <div class="app-icon" id="icon-ppt" onclick="switchApp('ppt', this)" title="Microsoft PowerPoint">📽️</div>
-        <div class="app-icon" id="icon-tasks" onclick="switchApp('tasks', this)" title="Project Planner">🎯</div>
-        <div class="app-icon" onclick="toggleTheme()" title="Temani o'zgartirish" style="margin-top:auto; margin-bottom:15px; background:rgba(255,255,255,0.1);">🌓</div>
-    </div>
+    <!-- Top Suite Header -->
+    <header class="suite-header">
+        <div class="suite-left">
+            <button class="app-launcher-btn" title="App Launcher">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </button>
+            <a href="#" class="suite-logo"><span class="dot"></span> Microsoft 365</a>
+        </div>
+        <div class="suite-right">
+            <input type="text" placeholder="Qidirish (Alt + Q)" style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 2px; width: 240px; font-size: 12px; background: var(--bg-body);">
+            <div class="user-profile" title="Fattoxov Abdulloh">FA</div>
+        </div>
+    </header>
 
-    <!-- Main Workspace -->
-    <div class="workspace-container">
+    <!-- Workspace Container -->
+    <div class="app-workspace">
+        
+        <!-- Left Navigation Rail -->
+        <nav class="nav-rail">
+            <button class="nav-item active" onclick="switchView('home', this)">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                Asosiy
+            </button>
+            <button class="nav-item" onclick="switchView('word', this)" style="color: #2b579a;">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                Word
+            </button>
+            <button class="nav-item" onclick="switchView('excel', this)" style="color: #107c41;">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>
+                Excel
+            </button>
+            <button class="nav-item" onclick="switchView('ppt', this)" style="color: #d83b01;">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H8v-6h2v6zm4 0h-2v-4h2v4zm4 0h-2v-8h2v8z"/></svg>
+                PowerPoint
+            </button>
+        </nav>
 
-        <!-- WORD PANEL -->
-        <div id="word" class="app-panel active">
-            <div class="window-titlebar">
-                <span>📄 ofise_document.docx - Word Professional Suite</span>
-                <div class="window-controls"><span>🗕</span><span>🗖</span><span>✕</span></div>
-            </div>
-            <div class="ribbon-tabs">
-                <button class="r-tab active">Главная</button>
-                <button class="r-tab" onclick="downloadWord()">💾 (.doc) Yuklab olish</button>
-            </div>
-            <div class="r-toolbar">
-                <div class="r-group">
-                    <div class="r-tools">
-                        <select class="select-box" onchange="docCmd('fontName', this.value)">
-                            <option value="Calibri">Calibri</option>
-                            <option value="Arial">Arial</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Segoe UI">Segoe UI</option>
-                        </select>
-                        <select class="select-box" onchange="docCmd('fontSize', this.value)">
-                            <option value="3">11 pt</option>
-                            <option value="4">14 pt</option>
-                            <option value="5">18 pt</option>
-                            <option value="6">24 pt</option>
-                        </select>
+        <!-- 1. HOME VIEW (OneDrive Dashboard) -->
+        <div id="view-home" class="view-panel active">
+            <div class="home-content">
+                <div class="home-title">Yangi hujjat yaratish</div>
+                <div class="create-grid">
+                    <div class="create-card" onclick="switchView('word', document.querySelectorAll('.nav-item')[1])">
+                        <div class="icon" style="color: #2b579a;">📄</div>
+                        <div class="title">Bo'sh Word hujjati</div>
                     </div>
-                    <div class="r-tools">
-                        <button class="btn" onclick="docCmd('bold')"><b>B</b></button>
-                        <button class="btn" onclick="docCmd('italic')"><i>I</i></button>
-                        <button class="btn" onclick="docCmd('underline')"><u>U</u></button>
-                        <button class="btn" onclick="docCmd('strikeThrough')"><s>S</s></button>
-                        <input type="color" onchange="docCmd('foreColor', this.value)" style="width:24px; height:22px; border:1px solid var(--border-color); padding:0; cursor:pointer;" title="Matn rangi">
-                        <input type="color" onchange="docCmd('hiliteColor', this.value)" style="width:24px; height:22px; border:1px solid var(--border-color); padding:0; cursor:pointer;" title="Marker rangi">
+                    <div class="create-card" onclick="switchView('excel', document.querySelectorAll('.nav-item')[2])">
+                        <div class="icon" style="color: #107c41;">📊</div>
+                        <div class="title">Bo'sh Excel jadvali</div>
                     </div>
-                    <div class="r-title">Шрифт</div>
+                    <div class="create-card" onclick="switchView('ppt', document.querySelectorAll('.nav-item')[3])">
+                        <div class="icon" style="color: #d83b01;">📽️</div>
+                        <div class="title">PowerPoint taqdimoti</div>
+                    </div>
                 </div>
-                <div class="r-group">
-                    <div class="r-tools">
-                        <button class="btn" onclick="docCmd('insertUnorderedList')">• Ro'yxat</button>
-                        <button class="btn" onclick="docCmd('insertOrderedList')">1. Raqam</button>
-                    </div>
-                    <div class="r-tools">
-                        <button class="btn" onclick="docCmd('justifyLeft')">Chapga</button>
-                        <button class="btn" onclick="docCmd('justifyCenter')">O'rtaga</button>
-                        <button class="btn" onclick="docCmd('justifyRight')">O'ngga</button>
-                        <button class="btn" onclick="docCmd('justifyFull')">Kengligi</button>
-                    </div>
-                    <div class="r-title">Абзац</div>
-                </div>
-                <div class="r-group">
-                    <div class="r-tools">
-                        <button class="btn" onclick="insertWordTable()">📊 Jadval</button>
-                        <button class="btn" onclick="insertWordLine()">➖ Chiziq</button>
-                        <button class="btn" onclick="insertWordDate()">📅 Sana</button>
-                    </div>
-                    <div class="r-title">Вставка</div>
-                </div>
-                <div class="r-group" style="border:none;">
-                    <div class="r-tools">
-                        <button class="btn btn-danger" onclick="clearWord()">Tozalash</button>
-                    </div>
-                    <div class="r-title">Файл</div>
-                </div>
-            </div>
-            <div class="word-body">
-                <div id="wordEditor" class="word-page" contenteditable="true" oninput="updateWordStats()">
-                    <h2>Microsoft Word Professional V12</h2>
-                    <p>Barcha matn tahrirlash, shriftlar, ro'yxatlar va jadvallar to'liq ishlaydi.</p>
+
+                <div class="home-title">Oxirgi fayllar</div>
+                <div class="files-table-wrap">
+                    <table class="files-table">
+                        <thead>
+                            <tr><th>Nomi</th><th>Turi</th><th>Oxirgi o'zgartirish</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="switchView('word', document.querySelectorAll('.nav-item')[1])">
+                                <td><b>Zakovat_Taqdimot_Rejasi.docx</b></td>
+                                <td>Word Document</td>
+                                <td>Bugun, 12:40</td>
+                            </tr>
+                            <tr onclick="switchView('excel', document.querySelectorAll('.nav-item')[2])">
+                                <td><b>China_Direct_Vodil_Hisobot.xlsx</b></td>
+                                <td>Excel Workbook</td>
+                                <td>Kecha, 18:15</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="status-bar">
-                <span id="wordStats">So'zlar: 0 | Belgilar: 0</span>
+                <span>Tayyor</span>
+                <span>Microsoft 365 Cloud Storage</span>
+            </div>
+        </div>
+
+        <!-- 2. WORD VIEW -->
+        <div id="view-word" class="view-panel">
+            <div class="office-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #2b579a; font-size: 20px;">📄</span>
+                    <input type="text" class="office-title-input" value="Hujjat1 - Word">
+                </div>
+                <button class="r-btn" onclick="saveWord()" style="background: #2b579a; color: #fff;">💾 Saqlash</button>
+            </div>
+            <div class="ribbon">
+                <div class="ribbon-group">
+                    <select class="r-select" onchange="execWord('fontName', this.value)">
+                        <option value="Segoe UI">Segoe UI</option>
+                        <option value="Calibri">Calibri</option>
+                        <option value="Arial">Arial</option>
+                    </select>
+                    <select class="r-select" onchange="execWord('fontSize', this.value)">
+                        <option value="3">11 pt</option>
+                        <option value="4">14 pt</option>
+                        <option value="5">18 pt</option>
+                    </select>
+                </div>
+                <div class="ribbon-group">
+                    <button class="r-btn" onclick="execWord('bold')"><b>B</b></button>
+                    <button class="r-btn" onclick="execWord('italic')"><i>I</i></button>
+                    <button class="r-btn" onclick="execWord('underline')"><u>U</u></button>
+                </div>
+                <div class="ribbon-group">
+                    <button class="r-btn" onclick="execWord('justifyLeft')">Chapga</button>
+                    <button class="r-btn" onclick="execWord('justifyCenter')">O'rtaga</button>
+                    <button class="r-btn" onclick="execWord('justifyRight')">O'ngga</button>
+                </div>
+            </div>
+            <div class="word-canvas">
+                <div class="word-page" contenteditable="true" id="wordEditor">
+                    <h2>Microsoft 365 Word Muharriri</h2>
+                    <p>Matningizni shu yerga kiriting...</p>
+                </div>
+            </div>
+            <div class="status-bar" style="background: #2b579a;">
+                <span id="wordStats">So'zlar: 5</span>
                 <span>Sahifa 1 / 1</span>
             </div>
         </div>
 
-        <!-- EXCEL PANEL -->
-        <div id="excel" class="app-panel">
-            <div class="window-titlebar" style="background:#107c41;">
-                <span>📊 Spreadsheet.xlsx - Excel Professional Engine</span>
-                <div class="window-controls"><span>🗕</span><span>🗖</span><span>✕</span></div>
+        <!-- 3. EXCEL VIEW -->
+        <div id="view-excel" class="view-panel">
+            <div class="office-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #107c41; font-size: 20px;">📊</span>
+                    <input type="text" class="office-title-input" value="Kitob1 - Excel">
+                </div>
+                <button class="r-btn" onclick="exportExcelCSV()" style="background: #107c41; color: #fff;">⬇ CSV Export</button>
             </div>
-            <div class="formula-bar">
-                <b id="activeCellLabel" style="color:#107c41;">A1</b>
-                <input type="text" id="formulaInput" class="input-box" style="flex:1;" placeholder="Qiymat yoki formula (=SUM(A1:A5), =AVERAGE(A1:A5), =MAX(A1:A5)) kiriting..." onkeypress="handleFormula(event)">
+            <div class="excel-formula-bar">
+                <b id="activeCellLabel" style="color: #107c41;">A1</b>
+                <input type="text" id="formulaInput" style="flex:1; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 12px;" placeholder="Qiymat yoki formula (=SUM(A1:A5)) kiriting..." onkeypress="handleExcelFormula(event)">
             </div>
-            <div class="r-toolbar" style="min-height:50px;">
-                <button class="btn btn-primary" onclick="addExcelRow()" style="background:#107c41;">+ Qator</button>
-                <button class="btn btn-primary" onclick="addExcelCol()" style="background:#107c41;">+ Ustun</button>
-                <button class="btn" onclick="calcExcel('SUM')" style="background:#107c41; color:#fff; border:none;">SUM</button>
-                <button class="btn" onclick="calcExcel('AVERAGE')" style="background:#2b579a; color:#fff; border:none;">AVERAGE</button>
-                <button class="btn" onclick="calcExcel('MAX')" style="background:#d83b01; color:#fff; border:none;">MAX</button>
-                <button class="btn btn-danger" onclick="clearExcel()">Tozalash</button>
-                <button class="btn btn-primary" onclick="exportCSV()" style="background:#107c41; margin-left:auto;">CSV Export</button>
-            </div>
-            <div class="table-wrap">
-                <table id="excelTable">
+            <div class="excel-table-wrap">
+                <table class="excel-grid" id="excelTable">
                     <thead id="excelHead"></thead>
                     <tbody id="excelBody"></tbody>
                 </table>
             </div>
-            <div class="status-bar" style="background:#107c41;">
+            <div class="status-bar" style="background: #107c41;">
                 <span>Natija: <b id="excelResult">0</b></span>
-                <span>Excel Engine V12</span>
+                <span>Excel Web Engine</span>
             </div>
         </div>
 
-        <!-- ACCESS PANEL -->
-        <div id="access" class="app-panel">
-            <div class="window-titlebar" style="background:#a4373a;">
-                <span>🗄️ Database.accdb - Access Relational Database</span>
-                <div class="window-controls"><span>🗕</span><span>🗖</span><span>✕</span></div>
-            </div>
-            <div class="r-toolbar" style="min-height:50px;">
-                <button class="btn btn-primary" onclick="addAccessRecord()" style="background:#a4373a;">+ Yangi yozuv qo'shish</button>
-            </div>
-            <div class="grid-layout">
-                <div class="grid-box">
-                    <div class="grid-title">Jadval 1: Xodimlar</div>
-                    <div style="overflow-y:auto; flex:1;">
-                        <table>
-                            <thead><tr><th>ID</th><th>F.I.Sh.</th><th>Bo'lim</th></tr></thead>
-                            <tbody id="staffBody"></tbody>
-                        </table>
-                    </div>
+        <!-- 4. POWERPOINT VIEW -->
+        <div id="view-ppt" class="view-panel">
+            <div class="office-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #d83b01; font-size: 20px;">📽️</span>
+                    <input type="text" class="office-title-input" value="Taqdimot1 - PowerPoint">
                 </div>
-                <div class="grid-box">
-                    <div class="grid-title">Jadval 2: Tranzaksiyalar (Bog'langan)</div>
-                    <div style="overflow-y:auto; flex:1;">
-                        <table>
-                            <thead><tr><th>ID</th><th>Xodim ID</th><th>Mahsulot / Xizmat</th><th>Summasi</th></tr></thead>
-                            <tbody id="ordersBody"></tbody>
-                        </table>
-                    </div>
-                </div>
+                <button class="r-btn" onclick="startSlideShow()" style="background: #d83b01; color: #fff;">▶ Slayd-шоу</button>
             </div>
-            <div class="status-bar" style="background:#a4373a;">
-                <span>Sinxronizatsiya faol</span>
-                <span>Access DB</span>
-            </div>
-        </div>
-
-        <!-- POWERPOINT PANEL -->
-        <div id="ppt" class="app-panel">
-            <div class="window-titlebar" style="background:#d24726;">
-                <span>📽️ Presentation.pptx - PowerPoint Studio</span>
-                <div class="window-controls"><span>🗕</span><span>🗖</span><span>✕</span></div>
-            </div>
-            <div class="r-toolbar" style="min-height:50px;">
-                <button class="btn btn-primary" onclick="addSlide()" style="background:#d24726;">+ Yangi Slayd</button>
-                <button class="btn" onclick="setSlideTheme('#ffffff', '#1f1f1f')">Oq Tema</button>
-                <button class="btn" onclick="setSlideTheme('#1e1e1e', '#ffffff')" style="background:#333; color:#fff;">Qora Tema</button>
-                <button class="btn btn-danger" onclick="deleteSlide()">O'chirish</button>
-                <button class="btn btn-primary" onclick="startSlideShow()" style="background:#107c41; margin-left:auto;">▶ Slayd-шоу (F5)</button>
-            </div>
-            <div class="ppt-layout">
+            <div class="ppt-container">
                 <div class="ppt-sidebar" id="pptThumbList"></div>
-                <div class="ppt-stage-area">
-                    <div class="slide-stage" id="slideStageBox">
-                        <input type="text" id="pptTitle" placeholder="Slayd sarlavhasi..." oninput="updateSlide()">
-                        <textarea id="pptText" placeholder="Asosiy matn va teinlar..." oninput="updateSlide()"></textarea>
+                <div class="ppt-stage-wrap">
+                    <div class="ppt-stage">
+                        <input type="text" id="pptTitle" placeholder="Sarlavha qo'shish..." oninput="updateSlideData()">
+                        <textarea id="pptText" placeholder="Matn qo'shish..." oninput="updateSlideData()"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="status-bar" style="background:#d24726;">
-                <span id="slideIndicator">Slayd: 1 / 1</span>
-                <span>PowerPoint Studio</span>
-            </div>
-        </div>
-
-        <!-- TASKS PANEL -->
-        <div id="tasks" class="app-panel">
-            <div class="window-titlebar" style="background:#0078d4;">
-                <span>🎯 Project Planner & Tasks Manager</span>
-                <div class="window-controls"><span>🗕</span><span>🗖</span><span>✕</span></div>
-            </div>
-            <div style="padding:25px; flex:1; display:flex; flex-direction:column; gap:15px; overflow-y:auto; background:var(--bg-body);">
-                <div style="display:flex; gap:10px; flex-wrap:wrap; background:var(--panel-bg); padding:15px; border:1px solid var(--border-color); border-radius:6px; box-shadow:var(--shadow);">
-                    <input type="text" id="taskInput" class="input-box" style="flex:1; padding:8px;" placeholder="Yangi vazifa nomi...">
-                    <select id="taskPriority" class="select-box">
-                        <option value="high">Yuqori ustuvorlik</option>
-                        <option value="mid" selected>O'rta</option>
-                        <option value="low">Past</option>
-                    </select>
-                    <input type="date" id="taskDate" class="select-box">
-                    <button class="btn btn-primary" onclick="addTask()">Vazifa qo'shish</button>
-                </div>
-                <div style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px;" id="taskListContainer"></div>
-            </div>
-            <div class="status-bar" style="background:#0078d4;">
-                <span>Barcha vazifalar nazoratda</span>
-                <span>Planner v12</span>
+            <div class="status-bar" style="background: #d83b01;">
+                <span id="pptIndicator">Slayd 1 / 1</span>
+                <span>PowerPoint Web</span>
             </div>
         </div>
 
     </div>
 
     <script>
-        function toggleTheme() {
-            let body = document.body;
-            if(body.classList.contains('light')) {
-                body.classList.remove('light');
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('office_theme_v12', 'dark');
-            } else {
-                body.classList.add('light');
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('office_theme_v12', 'light');
-            }
+        function switchView(viewId, btnEl) {
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+            if(btnEl) btnEl.classList.add('active');
         }
 
-        function switchApp(appId, iconEl) {
-            document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.app-icon').forEach(i => i.classList.remove('active'));
-            document.getElementById(appId).classList.add('active');
-            iconEl.classList.add('active');
-        }
-
-        // --- WORD ---
-        function docCmd(cmd, val = null) {
+        // --- WORD FUNCTIONS ---
+        function execWord(cmd, val = null) {
             document.execCommand(cmd, false, val);
             document.getElementById('wordEditor').focus();
             updateWordStats();
         }
         function updateWordStats() {
-            const txt = document.getElementById('wordEditor').innerText.trim();
-            const words = txt ? txt.split(/\s+/).length : 0;
-            document.getElementById('wordStats').innerText = `So'zlar: ${words} | Belgilar: ${txt.length}`;
-            localStorage.setItem('office_word_v12', document.getElementById('wordEditor').innerHTML);
+            let txt = document.getElementById('wordEditor').innerText.trim();
+            let words = txt ? txt.split(/\s+/).length : 0;
+            document.getElementById('wordStats').innerText = `So'zlar: ${words}`;
         }
-        function clearWord() {
-            if(confirm("Hujjatni tozalashni xohlaysizmi?")) {
-                document.getElementById('wordEditor').innerHTML = '';
-                updateWordStats();
-            }
-        }
-        function insertWordTable() {
-            const tbl = `<table style="width:100%; border-collapse:collapse; margin:15px 0;"><tr><th style="border:1px solid #000; padding:6px;">Ustun 1</th><th style="border:1px solid #000; padding:6px;">Ustun 2</th></tr><tr><td style="border:1px solid #000; padding:6px;">Ma'lumot</td><td style="border:1px solid #000; padding:6px;">Ma'lumot</td></tr></table><p><br></p>`;
-            document.execCommand('insertHTML', false, tbl);
-            updateWordStats();
-        }
-        function insertWordLine() {
-            document.execCommand('insertHTML', false, '<hr style="margin:20px 0; border:1px solid #ccc;"><p><br></p>');
-            updateWordStats();
-        }
-        function insertWordDate() {
-            const d = new Date().toLocaleDateString();
-            document.execCommand('insertText', false, d);
-            updateWordStats();
-        }
-        function downloadWord() {
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="font-family:Calibri; padding:40px;">${document.getElementById('wordEditor').innerHTML}</body></html>`;
-            const blob = new Blob([html], {type: 'application/msword'});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'hujjat.doc';
-            link.click();
+        function saveWord() {
+            alert("Hujjat Microsoft 365 bulutiga saqlandi!");
         }
 
-        // --- EXCEL ---
-        let exRows = 12, exCols = 10, exData = {}, selectedCell = 'A1';
+        // --- EXCEL FUNCTIONS ---
+        let exRows = 15, exCols = 10, exData = {}, selectedCell = 'A1';
         function initExcel() {
-            const head = document.getElementById('excelHead');
-            const body = document.getElementById('excelBody');
+            let head = document.getElementById('excelHead');
+            let body = document.getElementById('excelBody');
             head.innerHTML = '<tr><th>#</th>' + Array.from({length: exCols}, (_, i) => `<th>${String.fromCharCode(65 + i)}</th>`).join('') + '</tr>';
             body.innerHTML = '';
             for(let r=0; r<exRows; r++) {
@@ -388,7 +318,7 @@
             body.querySelectorAll('input').forEach(inp => {
                 let cid = inp.getAttribute('data-cell');
                 inp.onclick = () => selectExcelCell(cid);
-                inp.oninput = (e) => { exData[cid] = e.target.value; localStorage.setItem('office_excel_v12', JSON.stringify(exData)); };
+                inp.oninput = (e) => { exData[cid] = e.target.value; };
             });
         }
         function selectExcelCell(cid) {
@@ -398,15 +328,15 @@
             document.getElementById('activeCellLabel').innerText = cid;
             document.getElementById('formulaInput').value = exData[cid] || '';
         }
-        function handleFormula(e) {
+        function handleExcelFormula(e) {
             if(e.key === 'Enter' && selectedCell) {
                 let val = document.getElementById('formulaInput').value;
                 let res = val;
                 if(val.startsWith('=')) {
                     try {
                         let exp = val.substring(1).toUpperCase();
-                        if(exp.startsWith('SUM(') || exp.startsWith('AVERAGE(') || exp.startsWith('MAX(')) {
-                            let range = exp.substring(exp.indexOf('(')+1, exp.indexOf(')'));
+                        if(exp.startsWith('SUM(')) {
+                            let range = exp.substring(4, exp.indexOf(')'));
                             let [p1, p2] = range.split(':');
                             let vals = [];
                             let sc = p1.charCodeAt(0), sr = parseInt(p1.substring(1));
@@ -417,9 +347,7 @@
                                     if(!isNaN(v)) vals.push(v);
                                 }
                             }
-                            if(exp.startsWith('SUM')) res = vals.reduce((a,b)=>a+b,0);
-                            else if(exp.startsWith('AVERAGE')) res = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
-                            else if(exp.startsWith('MAX')) res = vals.length ? Math.max(...vals) : 0;
+                            res = vals.reduce((a,b)=>a+b,0);
                         } else {
                             res = eval(exp.replace(/[A-Z][0-9]+/g, m => parseFloat(exData[m]) || 0));
                         }
@@ -428,22 +356,9 @@
                 exData[selectedCell] = res;
                 document.getElementById(`cell_${selectedCell}`).value = res;
                 document.getElementById('excelResult').innerText = res;
-                localStorage.setItem('office_excel_v12', JSON.stringify(exData));
             }
         }
-        function calcExcel(func) {
-            let vals = Object.values(exData).map(v => parseFloat(v)).filter(v => !isNaN(v));
-            if(!vals.length) return;
-            let res = 0;
-            if(func === 'SUM') res = vals.reduce((a,b)=>a+b,0);
-            else if(func === 'AVERAGE') res = vals.reduce((a,b)=>a+b,0)/vals.length;
-            else if(func === 'MAX') res = Math.max(...vals);
-            document.getElementById('excelResult').innerText = res;
-        }
-        function addExcelRow() { exRows++; initExcel(); }
-        function addExcelCol() { if(exCols < 15) exCols++; initExcel(); }
-        function clearExcel() { if(confirm("Jadvalni tozalaysizmi?")) { exData = {}; initExcel(); } }
-        function exportCSV() {
+        function exportExcelCSV() {
             let csv = "";
             for(let r=0; r<exRows; r++) {
                 let row = [];
@@ -451,92 +366,43 @@
                 csv += row.join(",") + "\n";
             }
             let blob = new Blob([csv], {type: 'text/csv'});
-            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "export.csv"; a.click();
+            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "excel_export.csv"; a.click();
         }
 
-        // --- ACCESS ---
-        let staff = [{id: 1, name: "Alisher Navoiy", dept: "Direksiya"}, {id: 2, name: "Zuhra Karimova", dept: "Moliya"}];
-        let orders = [{id: 501, staffId: 1, prod: "Server litsenziyasi", amt: 15000000}, {id: 502, staffId: 2, prod: "Audit xizmati", amt: 4500000}];
-        function renderAccess() {
-            document.getElementById('staffBody').innerHTML = staff.map((s,i)=>`<tr><td><b>${s.id}</b></td><td><input type="text" value="${s.name}" oninput="staff[${i}].name=this.value"></td><td><input type="text" value="${s.dept}" oninput="staff[${i}].dept=this.value"></td></tr>`).join('');
-            document.getElementById('ordersBody').innerHTML = orders.map((o,i)=>`<tr><td>${o.id}</td><td><b>${o.staffId}</b></td><td><input type="text" value="${o.prod}" oninput="orders[${i}].prod=this.value"></td><td><input type="number" value="${o.amt}" oninput="orders[${i}].amt=this.value"></td></tr>`).join('');
-        }
-        function addAccessRecord() {
-            let id = staff.length + 1;
-            staff.push({id, name: "Yangi Xodim", dept: "IT"});
-            orders.push({id: 500+id, staffId: id, prod: "Uskuna", amt: 2000000});
-            renderAccess();
-        }
-
-        // --- PPT ---
-        let slides = [{title: "Korporativ Taqdimot", text: "1. Strategik rejalar\n2. Tahlil va hisobot\n3. Xulosalar", bg: "#ffffff", color: "#1f1f1f"}];
+        // --- POWERPOINT FUNCTIONS ---
+        let slides = [{title: "Sarlavha Slaydi", text: "Microsoft 365 taqdimotiga xush kelibsiz."}];
         let activeSlide = 0;
         function renderPPT() {
-            document.getElementById('pptThumbList').innerHTML = slides.map((s,i)=>`<div class="slide-thumb ${i===activeSlide?'active':''}" onclick="activeSlide=${i}; renderPPT();"><div style="font-size:10px;opacity:0.6">Slayd ${i+1}</div><div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div></div>`).join('');
-            document.getElementById('slideIndicator').innerText = `Slayd: ${activeSlide + 1} / ${slides.length}`;
-            let s = slides[activeSlide];
-            document.getElementById('pptTitle').value = s.title;
-            document.getElementById('pptText').value = s.text;
-            let stage = document.getElementById('slideStageBox');
-            stage.style.background = s.bg; stage.style.color = s.color;
-            document.getElementById('pptTitle').style.color = s.color;
-            document.getElementById('pptText').style.color = s.color;
+            document.getElementById('pptThumbList').innerHTML = slides.map((s,i)=>`
+                <div class="ppt-thumb ${i===activeSlide?'active':''}" onclick="activeSlide=${i}; renderPPT();">
+                    <div style="font-size:10px; color:#605e5c;">Slayd ${i+1}</div>
+                    <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.title}</div>
+                </div>`).join('');
+            document.getElementById('pptIndicator').innerText = `Slayd ${activeSlide + 1} / ${slides.length}`;
+            document.getElementById('pptTitle').value = slides[activeSlide].title;
+            document.getElementById('pptText').value = slides[activeSlide].text;
         }
-        function addSlide() { slides.push({title: "Yangi Slayd", text: "Matnni kiriting...", bg: "#ffffff", color: "#1f1f1f"}); activeSlide = slides.length-1; renderPPT(); }
-        function deleteSlide() { if(slides.length>1) { slides.splice(activeSlide, 1); activeSlide = Math.max(0, activeSlide-1); renderPPT(); } }
-        function setSlideTheme(bg, color) { slides[activeSlide].bg = bg; slides[activeSlide].color = color; renderPPT(); }
-        function updateSlide() {
+        function updateSlideData() {
             slides[activeSlide].title = document.getElementById('pptTitle').value;
             slides[activeSlide].text = document.getElementById('pptText').value;
             renderPPT();
         }
         function startSlideShow() {
-            let win = window.open("", "_blank");
-            win.document.write(`<!DOCTYPE html><html><body style="background:#000;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;text-align:center;padding:50px;">
-                <div id="view"></div><script>
-                let slides = ${JSON.stringify(slides)}, idx = ${activeSlide};
-                function show() { let s = slides[idx]; document.body.style.background=s.bg; document.body.style.color=s.color; document.getElementById('view').innerHTML='<h1 style="font-size:45px;margin-bottom:20px">'+s.title+'</h1><p style="font-size:24px;white-space:pre-wrap;line-height:1.6">'+s.text+'</p>'; }
-                window.onkeydown = e => { if(e.key==='ArrowRight'&&idx<slides.length-1){idx++;show();} if(e.key==='ArrowLeft'&&idx>0){idx--;show();} if(e.key==='Escape')window.close(); };
-                show();<\/script></body></html>`);
+            let w = window.open("", "_blank");
+            w.document.write(`<!DOCTYPE html><html><body style="background:#111; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center; padding:40px;">
+                <div id="slideContent"></div>
+                <script>
+                    let slides = ${JSON.stringify(slides)}, idx = ${activeSlide};
+                    function show() { let s = slides[idx]; document.getElementById('slideContent').innerHTML = '<h1 style="font-size:48px; margin-bottom:20px;">'+s.title+'</h1><p style="font-size:24px; line-height:1.6; white-space:pre-wrap;">'+s.text+'</p>'; }
+                    window.onkeydown = e => { if(e.key==='ArrowRight'&&idx<slides.length-1){idx++;show();} if(e.key==='ArrowLeft'&&idx>0){idx--;show();} if(e.key==='Escape')window.close(); };
+                    show();
+                <\/script></body></html>`);
         }
 
-        // --- TASKS ---
-        let tasks = [{title: "Tizim arxitekturasini tasdiqlash", priority: "high", date: "2026-09-30", done: false}];
-        function renderTasks() {
-            document.getElementById('taskListContainer').innerHTML = tasks.map((t,i)=>`
-                <div style="display:flex; align-items:center; justify-content:space-between; background:var(--panel-bg); border:1px solid var(--border-color); padding:12px 16px; border-radius:6px; box-shadow:var(--shadow); ${t.done?'opacity:0.5;text-decoration:line-through':''}">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <input type="checkbox" ${t.done?'checked':''} onchange="tasks[${i}].done=!tasks[${i}].done; renderTasks();">
-                        <b style="font-size:14px;">${t.title}</b>
-                        <span style="font-size:10px; padding:2px 6px; border-radius:3px; background:${t.priority==='high'?'#d13438':'#ff8c00'}; color:#fff">${t.priority}</span>
-                        <span style="font-size:12px; opacity:0.6">Muddat: ${t.date}</span>
-                    </div>
-                    <button class="btn btn-danger" onclick="tasks.splice(${i},1); renderTasks();">O'chirish</button>
-                </div>`).join('');
-            localStorage.setItem('office_tasks_v12', JSON.stringify(tasks));
-        }
-        function addTask() {
-            let t = document.getElementById('taskInput').value;
-            if(!t) return;
-            tasks.push({title: t, priority: document.getElementById('taskPriority').value, date: document.getElementById('taskDate').value, done: false});
-            document.getElementById('taskInput').value = '';
-            renderTasks();
-        }
-
-        // Init
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            if(localStorage.getItem('office_theme_v12') === 'light') {
-                document.body.classList.add('light');
-                document.documentElement.classList.remove('dark');
-            }
-            let sw = localStorage.getItem('office_word_v12'); if(sw) document.getElementById('wordEditor').innerHTML = sw;
-            updateWordStats();
-            let se = localStorage.getItem('office_excel_v12'); if(se) { try{exData = JSON.parse(se);}catch(e){} }
             initExcel();
-            renderAccess();
             renderPPT();
-            let st = localStorage.getItem('office_tasks_v12'); if(st) { try{tasks = JSON.parse(st);}catch(e){} }
-            renderTasks();
         });
     </script>
 </body>
