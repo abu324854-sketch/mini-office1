@@ -1,92 +1,170 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfraGuard AI - Infratuzilma Defektlarini Aniqlash Tizimi</title>
+    <title>InfraGuard AI — Professional Infratuzilma Monitoring Tizimi</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Chart.js Grafika uchun -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .drop-zone { border: 2px dashed #4b5563; transition: 0.3s; }
-        .drop-zone:hover { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.05); }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-panel { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
 
-    <!-- Header -->
-    <header class="bg-gray-800 border-b border-700 py-4 px-6 shadow-md">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <!-- Top Navigation Bar -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-slate-800 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">InfraGuard AI</span>
-                <span class="text-xs bg-blue-900 text-blue-300 px-2 py-1 rounded-full border border-blue-700">v1.0 Beta</span>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">InfraGuard AI</span>
+                    <p class="text-xs text-slate-400">Industrial Defect Detection Core</p>
+                </div>
             </div>
-            <p class="text-sm text-gray-400 hidden sm:block">Sun'iy intellekt yordamida ko‘prik va yo‘llar tahlili</p>
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-full border border-slate-800 text-xs text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>AI Server: Faol (Online)</span>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-lg shadow-blue-600/20 cursor-pointer">+ Yangi obyekt qo'shish</button>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold mb-2">Inshootlar Defektini Tahlil Qilish</h1>
-            <p class="text-gray-400">Ko‘prik, yo‘l yoki beton konstruksiya suratini yuklang va AI orqali yoriqlar hamda xavflarni aniqlang.</p>
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-blue-500">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Jami tahlil qilingan</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">1,428</h3>
+                <p class="text-xs text-emerald-400 mt-1 flex items-center">↑ 12% bu oyda</p>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-red-500">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kritik nuqsonlar</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">38</h3>
+                <p class="text-xs text-red-400 mt-1">Zudlik bilan e'tibor talab</p>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-amber-500">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">O'rtacha xavf</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">142</h3>
+                <p class="text-xs text-amber-400 mt-1">Nazorat ostida</p>
+            </div>
+            <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-emerald-500">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Barqaror obyektlar</p>
+                <h3 class="text-3xl font-extrabold mt-2 text-white">1,248</h3>
+                <p class="text-xs text-slate-400 mt-1">Xavfsiz darajada</p>
+            </div>
         </div>
 
-        <!-- Upload Card -->
-        <div class="bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-xl">
-            <div id="drop-zone" class="drop-zone rounded-xl p-8 text-center cursor-pointer flex flex-col items-center justify-center">
-                <svg class="w-12 h-12 text-blue-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                </svg>
-                <p class="text-lg font-medium mb-1">Suratni bu yerga tashlang yoki tanlang</p>
-                <p class="text-sm text-gray-400">PNG, JPG formatlarida (Maksimal 10MB)</p>
-                <input type="file" id="file-input" class="hidden" accept="image/*">
-            </div>
-
-            <!-- Preview & Analysis Area -->
-            <div id="result-section" class="mt-6 hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-400 mb-2">Yuklangan surat:</h3>
-                        <div class="relative rounded-lg overflow-hidden border border-gray-700 bg-gray-900 flex justify-center">
-                            <img id="preview-img" src="" alt="Preview" class="max-h-64 object-contain">
-                        </div>
+        <!-- Core Workspace: Upload & Interactive Analysis -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left: Upload & Scanner Panel (2 columns) -->
+            <div class="lg:col-span-2 glass-panel p-6 rounded-3xl flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span>Sun'iy Intellekt Vizual Skaneri</span>
+                        </h2>
+                        <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Model: v4.2-ResNet</span>
                     </div>
-                    <div class="bg-gray-900 p-5 rounded-xl border border-gray-700">
-                        <h3 class="text-lg font-bold mb-3 text-blue-400">Tahlil Natijalari</h3>
-                        <div id="loading" class="text-gray-400 py-4 flex items-center space-x-2">
-                            <svg class="animate-spin h-5 w-5 text-blue-400" viewBox="0 0 24 24" fill="none">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Sun'iy intellekt tahlil qilmoqda...</span>
+
+                    <!-- Dropzone -->
+                    <div id="drop-zone" class="border-2 border-dashed border-slate-700 hover:border-blue-500 bg-slate-900/50 hover:bg-blue-500/5 transition rounded-2xl p-8 text-center cursor-pointer flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 rounded-full bg-blue-600/10 flex items-center justify-center mb-4 text-blue-400">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
                         </div>
-                        <div id="analysis-content" class="hidden space-y-3">
-                            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
-                                <span class="text-gray-400">Holat:</span>
-                                <span id="status-badge" class="px-2.5 py-1 rounded text-xs font-bold">Aniqlanmoqda</span>
+                        <p class="text-base font-semibold text-slate-200">Ko‘prik, yo‘l yoki beton suratini tashlang</p>
+                        <p class="text-xs text-slate-400 mt-1">Yoki fayl tanlash uchun bosing (JPG, PNG, WEBP)</p>
+                        <input type="file" id="file-input" class="hidden" accept="image/*">
+                    </div>
+
+                    <!-- Preview & Results Container -->
+                    <div id="result-section" class="mt-6 hidden grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 flex justify-center p-2">
+                            <img id="preview-img" src="" alt="Preview" class="max-h-56 rounded-xl object-contain">
+                        </div>
+                        <div class="space-y-4">
+                            <div id="loading" class="flex items-center space-x-3 text-blue-400 py-6">
+                                <svg class="animate-spin h-6 w-6" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                                <span class="text-sm font-medium">Neyrotarmoq tahlil qilmoqda...</span>
                             </div>
-                            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
-                                <span class="text-gray-400">Yoriqlar ehtimoli:</span>
-                                <span id="crack-prob" class="font-semibold">-</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-2">
-                                <span class="text-gray-400">Tavsiya:</span>
-                                <span id="recommendation" class="text-sm text-right text-gray-300">-</span>
+                            <div id="analysis-content" class="hidden space-y-3 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-400">Holat:</span>
+                                    <span id="status-badge" class="px-2.5 py-1 rounded-lg text-xs font-bold"></span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-400">Defekt ehtimoli:</span>
+                                    <span id="crack-prob" class="font-bold text-white"></span>
+                                </div>
+                                <div class="pt-2 border-t border-slate-800">
+                                    <span class="text-xs text-slate-400 block mb-1">Muhandislik tavsiyasi:</span>
+                                    <p id="recommendation" class="text-xs text-slate-200 leading-relaxed"></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Right: Analytics Chart Panel (1 column) -->
+            <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-white mb-4">Hududlar bo'yicha xavf</h2>
+                    <div class="relative h-64 flex items-center justify-center">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
+                    <span>Yangilandi: Hozir</span>
+                    <span class="text-blue-400 cursor-pointer hover:underline">To'liq hisobot →</span>
+                </div>
+            </div>
+
         </div>
+
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700 py-4 text-center text-sm text-gray-500">
-        <p>&copy; 2026 InfraGuard AI. Barcha huquqlar himoyalangan.</p>
+    <footer class="glass-panel border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>&copy; 2026 InfraGuard AI. Barcha huquqlar himoyalangan. O‘zbekiston infratuzilma xavfsizligi uchun.</p>
     </footer>
 
-    <!-- JavaScript Mantiqi -->
+    <!-- Script Mantiqi -->
     <script>
+        // Chart.js init
+        const ctx = document.getElementById('riskChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Kritik', 'O‘rtacha', 'Barqaror'],
+                datasets: [{
+                    data: [38, 142, 1248],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 } } }
+                }
+            }
+        });
+
+        // Upload & AI simulation logic
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const resultSection = document.getElementById('result-section');
@@ -98,28 +176,14 @@
         const recommendation = document.getElementById('recommendation');
 
         dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => { if (e.target.files.length > 0) processFile(e.target.files[0]); });
 
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                processFile(e.target.files[0]);
-            }
-        });
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('border-blue-500');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('border-blue-500');
-        });
-
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-blue-500'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('border-blue-500');
-            if (e.dataTransfer.files.length > 0) {
-                processFile(e.dataTransfer.files[0]);
-            }
+            if (e.dataTransfer.files.length > 0) processFile(e.dataTransfer.files[0]);
         });
 
         function processFile(file) {
@@ -130,25 +194,22 @@
                 loading.classList.remove('hidden');
                 analysisContent.classList.add('hidden');
 
-                // Simulyatsiya qilingan AI tahlili (2 soniyadan keyin natija chiqadi)
                 setTimeout(() => {
                     loading.classList.add('hidden');
                     analysisContent.classList.remove('hidden');
 
-                    // Tasodifiy yoki namunaviy tahlil natijasi
-                    const riskTypes = [
-                        { status: "Xavfli (Kritik yoriq)", color: "bg-red-900 text-red-300 border border-red-700", prob: "89%", rec: "Zudlik bilan muhandislik tekshiruvi talab etiladi." },
-                        { status: "O'rtacha xavf", color: "bg-yellow-900 text-yellow-300 border border-yellow-700", prob: "54%", rec: "Keyingi oyda qayta nazoratdan o'tkazing." },
-                        { status: "Barqaror holat", color: "bg-green-900 text-green-300 border border-green-700", prob: "12%", rec: "Jiddiy nuqsonlar topilmadi." }
+                    const outcomes = [
+                        { status: "Kritik shikastlanish", color: "bg-red-500/20 text-red-400 border border-red-500/30", prob: "94.2%", rec: "Beton qoplamasida chuqur mikroyoriqlar va armatura korroziyasi aniqlandi. Zudlik bilan mutaxassislar guruhini yuboring." },
+                        { status: "O‘rta darajadagi yemirilish", color: "bg-amber-500/20 text-amber-400 border border-amber-500/30", prob: "61.5%", rec: "Sirtqi qatlamda kichik yoriqlar mavjud. Keyingi rejali ta'mirlash davrida maxsus qoplama bilan yangilash tavsiya etiladi." },
+                        { status: "Normal holat", color: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30", prob: "8.1%", rec: "Konstruksiya barqaror. Jiddiy nuqsonlar aniqlanmadi, standart monitoring davom etadi." }
                     ];
 
-                    const randomResult = riskTypes[Math.floor(Math.random() * riskTypes.length)];
-                    
-                    statusBadge.className = `px-2.5 py-1 rounded text-xs font-bold ${randomResult.color}`;
-                    statusBadge.textContent = randomResult.status;
-                    crackProb.textContent = randomResult.prob;
-                    recommendation.textContent = randomResult.rec;
-                }, 2000);
+                    const res = outcomes[Math.floor(Math.random() * outcomes.length)];
+                    statusBadge.className = `px-2.5 py-1 rounded-lg text-xs font-bold ${res.color}`;
+                    statusBadge.textContent = res.status;
+                    crackProb.textContent = res.prob;
+                    recommendation.textContent = res.rec;
+                }, 1800);
             };
             reader.readAsDataURL(file);
         }
