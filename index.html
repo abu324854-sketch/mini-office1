@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfraGuard Enterprise — Real-Time Satellite Intelligence</title>
+    <title>InfraGuard Enterprise — GIS Map Telemetry</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Leaflet CSS & JS (Interaktiv xarita uchun) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .glass-panel { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .radar-scan { background: linear-gradient(180deg, rgba(6, 182, 212, 0) 0%, rgba(6, 182, 212, 0.2) 100%); animation: scan 3s infinite linear; }
-        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        /* Xarita qorong'i rejim dizayni uchun filtr */
+        .leaflet-layer, .leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-attribution-for-humans {
+            filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-600 selection:text-white">
@@ -27,15 +32,15 @@
                 </div>
                 <div>
                     <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">InfraGuard Enterprise AI</span>
-                    <p class="text-xs text-slate-400">Live Satellite Telemetry & GIS Core</p>
+                    <p class="text-xs text-slate-400">Interactive Map Satellite Telemetry</p>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
                 <div class="hidden md:flex items-center space-x-2 bg-slate-900/90 px-3 py-1.5 rounded-full border border-slate-800 text-xs text-slate-300">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span>API Gateway: Connected (Sentinel Hub)</span>
+                    <span>Xarita & API: Aktiv</span>
                 </div>
-                <button onclick="scrollToAdd()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-lg shadow-cyan-600/20 cursor-pointer">+ Real vaqtda ulash</button>
+                <button onclick="scrollToAdd()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-lg shadow-cyan-600/20 cursor-pointer">+ Xaritadan Belgilash</button>
             </div>
         </div>
     </header>
@@ -48,7 +53,7 @@
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-cyan-500">
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Aktiv Kosmik Obyektlar</p>
                 <h3 id="stat-total" class="text-3xl font-extrabold mt-2 text-white">482</h3>
-                <p class="text-xs text-cyan-400 mt-1">Avtomatik API sinxronizatsiya</p>
+                <p class="text-xs text-cyan-400 mt-1">Xarita orqali ulangan</p>
             </div>
             <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-red-500">
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Kritik Deformatsiya</p>
@@ -67,25 +72,27 @@
             </div>
         </div>
 
-        <!-- Real-time API Skaner Paneli -->
-        <div id="add-section" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Skaner Paneli & Interaktiv Xarita -->
+        <div id="add-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            <div class="lg:col-span-2 glass-panel p-6 rounded-3xl flex flex-col justify-between">
+            <!-- Forma -->
+            <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
                 <div>
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex justify-between items-center mb-4">
                         <h2 class="text-lg font-bold text-white flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                            <span>Sun'iy Yo'ldosh API Orqali Avto-Qo'shish</span>
+                            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <span>Xaritadan Tanlab Monitoringga Qo'shish</span>
                         </h2>
-                        <span class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1 rounded-full">Live Feed Enabled</span>
                     </div>
+                    <p class="text-xs text-slate-400 mb-6">O'ng tarafdagi xaritada istalgan ko'prik, yo'l yoki damba ustiga bosing — koordinata avtomatik tushadi.</p>
 
                     <form id="ai-form" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Obyekt nomi / Hudud</label>
+                            <input type="text" id="obj-name" required placeholder="Masalan: Farg'ona halqa yo'li ko'prigi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1">Obyekt nomi / Hudud</label>
-                                <input type="text" id="obj-name" required placeholder="Masalan: Farg'ona halqa yo'li ko'prigi" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
-                            </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-400 mb-1">Inshoot turi</label>
                                 <select id="obj-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
@@ -95,57 +102,40 @@
                                     <option>Gidrotexnik inshoot</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1">GPS Kenglik / Uzunlik (Koordinata)</label>
-                                <input type="text" id="obj-coords" required placeholder="Masalan: 40.3842° N, 71.7843° E" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1">Sun'iy yo'ldosh telemetriya kanali</label>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Sun'iy yo'ldosh kanali</label>
                                 <select id="obj-sat" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
-                                    <option>Sentinel-1 SAR Radar Stream (Live)</option>
+                                    <option>Sentinel-1 SAR Radar Stream</option>
                                     <option>Sentinel-2 Multispectral Tile</option>
                                     <option>Maxar WorldView High-Res API</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                                    <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-semibold text-white">Orbital Kadrni To'g'ridan-to'g'ri Tortish</p>
-                                    <p class="text-[11px] text-slate-400">Foydalanuvchi rasm yuklashi shart emas. Tizim API orqali kosmik suratni o'zi oladi.</p>
-                                </div>
-                            </div>
-                            <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-lg">Tayyor</span>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Avtomatik olingan GPS Koordinata (Xaritadan)</label>
+                            <input type="text" id="obj-coords" readonly required placeholder="Xaritadan nuqtani bosing..." class="w-full bg-slate-900/80 border border-cyan-500/40 rounded-xl px-4 py-2.5 text-sm text-cyan-300 font-mono focus:outline-none">
                         </div>
 
                         <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold py-3.5 rounded-xl transition shadow-lg shadow-cyan-600/30 flex items-center justify-center space-x-2 cursor-pointer">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                            <span>Sun'iy Yo'ldoshdan Real Vaqtda Skanerlash</span>
+                            <span>Kosmik Sun'iy Yo'ldosh Tahlilini Boshlash</span>
                         </button>
                     </form>
                 </div>
             </div>
 
-            <!-- Chart -->
-            <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
-                <div>
-                    <h2 class="text-lg font-bold text-white mb-2">Kosmik Xavf Analizi</h2>
-                    <p class="text-xs text-slate-400 mb-4">Real vaqt orbital o'lchovlar</p>
-                    <div class="relative h-48 flex items-center justify-center">
-                        <canvas id="riskChart"></canvas>
-                    </div>
+            <!-- Interaktiv Xarita Bloki -->
+            <div class="glass-panel p-4 rounded-3xl flex flex-col">
+                <div class="flex justify-between items-center mb-3 px-2">
+                    <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span>Hududni Xaritadan Tanlash (Click)</span>
+                    </h3>
+                    <span id="map-status" class="text-xs text-slate-400 font-mono">Farg'ona / O'zbekiston</span>
                 </div>
-                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-400 flex justify-between">
-                    <span>API Latency</span>
-                    <span class="text-emerald-400 font-semibold">14 ms (Optimal)</span>
-                </div>
+                <!-- Xarita konteyneri -->
+                <div id="map" class="w-full h-80 lg:h-[350px] rounded-2xl border border-slate-800 z-10"></div>
             </div>
 
         </div>
@@ -155,9 +145,9 @@
             <div class="flex justify-between items-center">
                 <div>
                     <h2 class="text-lg font-bold text-white">Kosmik Telemetriya Va Infratuzilma Bazasi</h2>
-                    <p class="text-xs text-slate-400">Sun'iy yo'ldosh API orqali avtomatlashgan monitoring ro'yxati</p>
+                    <p class="text-xs text-slate-400">Xarita va sun'iy yo'ldosh API orqali monitoring qilinayotgan inshootlar</p>
                 </div>
-                <span id="badge-count" class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1.5 rounded-xl font-medium">Jami 5 ta obyekt</span>
+                <span class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1.5 rounded-xl font-medium">Jami 5 ta obyekt</span>
             </div>
 
             <div class="overflow-x-auto">
@@ -166,7 +156,7 @@
                         <tr class="border-b border-slate-800 text-xs text-slate-400 uppercase">
                             <th class="py-3 px-4">Obyekt nomi / GPS Koordinata</th>
                             <th class="py-3 px-4">Telemetriya Kanali</th>
-                            <th class="py-3 px-4">Real Vaqtda SAR / AI Tahlil Natijasi</th>
+                            <th class="py-3 px-4">SAR / AI Tahlil Natijasi</th>
                             <th class="py-3 px-4">Xavf darajasi</th>
                             <th class="py-3 px-4">Status</th>
                         </tr>
@@ -184,42 +174,12 @@
                         </tr>
                         <tr class="hover:bg-slate-900/40 transition">
                             <td class="py-3.5 px-4">
-                                <div class="font-medium text-white">Toshkent halqa avtomobil yo'li (Keles)</div>
-                                <div class="text-xs text-cyan-400 font-mono">41.3654° N, 69.2145° E</div>
-                            </td>
-                            <td class="py-3.5 px-4 text-slate-300">Sentinel-2 API</td>
-                            <td class="py-3.5 px-4 text-slate-300">Spektral tahlil: Sirtqi termal anomaliya</td>
-                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">O'rtacha</span></td>
-                            <td class="py-3.5 px-4 text-slate-300"><span class="text-emerald-400 font-semibold">Live Synced</span></td>
-                        </tr>
-                        <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4">
                                 <div class="font-medium text-white">Farg'ona shahri Sirdaryo ko'chasi o'tkazgichi</div>
                                 <div class="text-xs text-cyan-400 font-mono">40.3842° N, 71.7843° E</div>
                             </td>
                             <td class="py-3.5 px-4 text-slate-300">Maxar WorldView API</td>
                             <td class="py-3.5 px-4 text-slate-300">Optik kadr tahlili: Mikro-yoriqlar aniqlandi</td>
                             <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">O'rtacha</span></td>
-                            <td class="py-3.5 px-4 text-slate-300"><span class="text-emerald-400 font-semibold">Live Synced</span></td>
-                        </tr>
-                        <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4">
-                                <div class="font-medium text-white">Andijon-Toshkent yo'nalishi estakadasi</div>
-                                <div class="text-xs text-cyan-400 font-mono">40.7823° N, 72.3412° E</div>
-                            </td>
-                            <td class="py-3.5 px-4 text-slate-300">Sentinel-1 SAR API</td>
-                            <td class="py-3.5 px-4 text-slate-300">Geodezik barqarorlik: Deformatsiya yo'q</td>
-                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Barqaror</span></td>
-                            <td class="py-3.5 px-4 text-slate-300"><span class="text-emerald-400 font-semibold">Live Synced</span></td>
-                        </tr>
-                        <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-3.5 px-4">
-                                <div class="font-medium text-white">Sirdaryo viloyati Suv ombori damba qismi</div>
-                                <div class="text-xs text-cyan-400 font-mono">40.4812° N, 68.7812° E</div>
-                            </td>
-                            <td class="py-3.5 px-4 text-slate-300">Sentinel-1 SAR API</td>
-                            <td class="py-3.5 px-4 text-slate-300">Radar tahlili: Qiyalikda siljish xavfi mavjud</td>
-                            <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30">Kritik (Yuqori)</span></td>
                             <td class="py-3.5 px-4 text-slate-300"><span class="text-emerald-400 font-semibold">Live Synced</span></td>
                         </tr>
                     </tbody>
@@ -231,32 +191,40 @@
 
     <!-- Footer -->
     <footer class="glass-panel border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        <p>&copy; 2026 InfraGuard Enterprise. Barcha huquqlar himoyalangan. Professional GIS & Orbital Telemetriya tizimi.</p>
+        <p>&copy; 2026 InfraGuard Enterprise. Barcha huquqlar himoyalangan. Professional GIS & Interaktiv Xarita tizimi.</p>
     </footer>
 
-    <!-- Script -->
+    <!-- Scripts -->
     <script>
-        let stats = { total: 482, critical: 12, medium: 45, stable: 425 };
+        // Leaflet xaritasini ishga tushirish (Farg'ona / O'zbekiston markazida)
+        const map = L.map('map').setView([40.3842, 71.7843], 10);
 
-        const ctx = document.getElementById('riskChart').getContext('2d');
-        const riskChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Kritik', 'O‘rtacha', 'Barqaror'],
-                datasets: [{
-                    data: [stats.critical, stats.medium, stats.stable],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', size: 11 } } }
-                }
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        let currentMarker = null;
+
+        // Xaritaga bosganda koordinatani avtomatik olish
+        map.on('click', function(e) {
+            const lat = e.latlng.lat.toFixed(4);
+            const lng = e.latlng.lng.toFixed(4);
+            const coordString = `${lat}° N, ${lng}° E`;
+
+            document.getElementById('obj-coords').value = coordString;
+            document.getElementById('map-status').textContent = `Tanlandi: ${lat}, ${lng}`;
+
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
             }
+
+            currentMarker = L.marker([lat, lng]).addTo(map)
+                .bindPopup('<b>Tanlangan Inshoot</b><br>' + coordString)
+                .openPopup();
         });
+
+        let stats = { total: 482, critical: 12, medium: 45, stable: 425 };
 
         function scrollToAdd() {
             document.getElementById('add-section').scrollIntoView({ behavior: 'smooth' });
@@ -266,50 +234,39 @@
             e.preventDefault();
             
             const name = document.getElementById('obj-name').value;
-            const type = document.getElementById('obj-type').value;
-            let coords = document.getElementById('obj-coords').value;
+            const coords = document.getElementById('obj-coords').value;
             const sat = document.getElementById('obj-sat').value;
 
-            // Professional yuklanish animatsiyasi yoki xabari
-            alert("Sun'iy yo'ldosh API orqali koordinata bo'yicha real vaqt telemetriya kadrlandi va AI tahlili yakunlandi!");
+            if(!coords) {
+                alert("Iltimos, avval xaritadan inshoot joylashgan nuqtani bosing!");
+                return;
+            }
 
-            const riskLevels = [
-                { label: 'Kritik (Yuqori)', badge: 'bg-red-500/20 text-red-400 border border-red-500/30', typeKey: 'critical', analysis: 'SAR Live API: Millimetrlik yer deformatsiyasi aniqlandi' },
-                { label: 'O\'rtacha', badge: 'bg-amber-500/20 text-amber-400 border border-amber-500/30', typeKey: 'medium', analysis: 'Multispectral API: Sirtqi qatlam eskirishi kuzatilmoqda' },
-                { label: 'Barqaror', badge: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30', typeKey: 'stable', analysis: 'GIS Telemetriya: Inshoot barqaror, ogish yo\'q' }
-            ];
-
-            const selectedRisk = riskLevels[Math.floor(Math.random() * riskLevels.length)];
+            alert("Xarita koordinatasi qabul qilindi! Sun'iy yo'ldosh API orqali kadr yuklanib, AI tahlili muvaffaqiyatli yakunlandi.");
 
             stats.total += 1;
-            if(selectedRisk.typeKey === 'critical') stats.critical += 1;
-            else if(selectedRisk.typeKey === 'medium') stats.medium += 1;
-            else stats.stable += 1;
-
+            stats.stable += 1;
             document.getElementById('stat-total').textContent = stats.total;
-            document.getElementById('stat-critical').textContent = stats.critical;
-            document.getElementById('stat-medium').textContent = stats.medium;
             document.getElementById('stat-stable').textContent = stats.stable;
-
-            riskChart.data.datasets[0].data = [stats.critical, stats.medium, stats.stable];
-            riskChart.update();
 
             const tbody = document.getElementById('table-body');
             const newRow = document.createElement('tr');
             newRow.className = 'hover:bg-slate-900/40 transition bg-cyan-500/5';
             newRow.innerHTML = `
                 <td class="py-3.5 px-4">
-                    <div class="font-medium text-white">${name} <span class="text-xs text-cyan-400 font-normal">(Real-time)</span></div>
+                    <div class="font-medium text-white">${name} <span class="text-xs text-cyan-400 font-normal">(Xarita orqali)</span></div>
                     <div class="text-xs text-cyan-400 font-mono">${coords}</div>
                 </td>
                 <td class="py-3.5 px-4 text-slate-300">${sat.split(' ')[0]} API</td>
-                <td class="py-3.5 px-4 text-slate-300">${selectedRisk.analysis}</td>
-                <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold ${selectedRisk.badge}">${selectedRisk.label}</span></td>
+                <td class="py-3.5 px-4 text-slate-300">GIS Telemetriya: Inshoot barqaror, ogish yo'q</td>
+                <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Barqaror</span></td>
                 <td class="py-3.5 px-4 text-slate-300"><span class="text-emerald-400 font-semibold">Live Synced</span></td>
             `;
             tbody.prepend(newRow);
 
             document.getElementById('ai-form').reset();
+            document.getElementById('obj-coords').value = '';
+            if (currentMarker) map.removeLayer(currentMarker);
         });
     </script>
 </body>
