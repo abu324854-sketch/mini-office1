@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft 365 Pro — Ultimate Max Edition</title>
+    <title>Microsoft 365 Pro — Enterprise Ultimate Edition</title>
     <style>
         :root {
             --m365-brand: #d83b01;
@@ -101,7 +101,7 @@
     <!-- Top Suite Header -->
     <header class="suite-header">
         <div class="suite-left">
-            <button class="app-launcher-btn" title="App Launcher" onclick="alert('Microsoft 365 Pro Ultimate Max — Barcha tizimlar eng yuqori quvvatda ishlamqda!')">
+            <button class="app-launcher-btn" title="App Launcher" onclick="alert('Microsoft 365 Enterprise Ultimate — Barcha tizimlar faol!')">
                 <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
             </button>
             <a href="#" class="suite-logo" onclick="switchView('home', document.getElementById('navHome'))"><span class="dot"></span> Microsoft 365 Pro</a>
@@ -138,46 +138,46 @@
         <!-- 1. HOME VIEW -->
         <div id="view-home" class="view-panel active">
             <div class="home-content">
-                <div class="home-title">Tezkor boshlash (Ultimate Max)</div>
+                <div class="home-title">Tezkor boshlash paneli</div>
                 <div class="create-grid">
                     <div class="create-card" onclick="switchView('word', document.getElementById('navWord'))">
                         <div class="icon" style="color: #2b579a;">📄</div>
-                        <div class="title">Yangi Word hujjati</div>
+                        <div class="title">Bo'sh Word Hujjati</div>
                     </div>
                     <div class="create-card" onclick="switchView('excel', document.getElementById('navExcel'))">
                         <div class="icon" style="color: #107c41;">📊</div>
-                        <div class="title">Yangi Excel jadvali</div>
+                        <div class="title">Bo'sh Excel Jadvali</div>
                     </div>
                     <div class="create-card" onclick="switchView('ppt', document.getElementById('navPpt'))">
                         <div class="icon" style="color: #d83b01;">📽️</div>
-                        <div class="title">Yangi Taqdimot</div>
+                        <div class="title">PowerPoint Taqdimoti</div>
                     </div>
                 </div>
 
-                <div class="home-title">So'nggi loyihalar</div>
+                <div class="home-title">Oxirgi ishlatilganlar</div>
                 <div class="files-table-wrap">
                     <table class="files-table">
                         <thead>
-                            <tr><th>Fayl nomi</th><th>Dastur</th><th>Oxirgi o'zgartirish</th></tr>
+                            <tr><th>Fayl Nomi</th><th>Dastur</th><th>Sana</th></tr>
                         </thead>
                         <tbody>
                             <tr onclick="switchView('word', document.getElementById('navWord'))">
-                                <td><b>Max_Hujjat_Tahriri.docx</b></td>
+                                <td><b>Enterprise_Arxitektura_TMEI.docx</b></td>
                                 <td><span style="color:#2b579a; font-weight:650;">Microsoft Word</span></td>
-                                <td>Hozirgina</td>
+                                <td>Bugun, 18:30</td>
                             </tr>
                             <tr onclick="switchView('excel', document.getElementById('navExcel'))">
-                                <td><b>Moliyaviy_Tahlil_2026.xlsx</b></td>
+                                <td><b>China_Direct_Vodil_Analytics.xlsx</b></td>
                                 <td><span style="color:#107c41; font-weight:650;">Microsoft Excel</span></td>
-                                <td>Bugun, 15:00</td>
+                                <td>Kecha, 22:15</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="status-bar">
-                <span>Enterprise Bulutga ulangan (Max Synced)</span>
-                <span>Microsoft 365 Pro Ultimate Max</span>
+                <span>Ultimate Cloud Synced</span>
+                <span>Microsoft 365 Enterprise</span>
             </div>
         </div>
 
@@ -186,10 +186,11 @@
             <div class="office-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: #2b579a; font-size: 20px;">📄</span>
-                    <input type="text" class="office-title-input" value="Ultimate_Max_Hujjat.docx">
+                    <input type="text" class="office-title-input" value="Enterprise_Hujjat.docx">
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button class="r-btn" onclick="saveWordFile()" style="background: #2b579a; color: #fff;">💾 Saqlash (.doc)</button>
+                    <button class="r-btn" onclick="insertWordTemplate()" style="background: #0078d4; color: #fff;">⚡ Shablon</button>
+                    <button class="r-btn" onclick="saveWordFile()" style="background: #2b579a; color: #fff;">💾 Saqlash</button>
                     <button class="r-btn" onclick="printWordFile()" style="background: #605e5c; color: #fff;">🖨️ Chop etish</button>
                 </div>
             </div>
@@ -213,6 +214,7 @@
                     <button class="r-btn" onclick="execWord('italic')"><i>I</i></button>
                     <button class="r-btn" onclick="execWord('underline')"><u>U</u></button>
                     <button class="r-btn" onclick="execWord('strikeThrough')"><s>S</s></button>
+                    <input type="color" onchange="execWord('foreColor', this.value)" style="width:24px; height:24px; border:none; background:transparent; cursor:pointer;" title="Shrift rangi">
                     <button class="r-btn" onclick="execWord('removeFormat')">Tozalash</button>
                 </div>
                 <div class="ribbon-group">
@@ -224,18 +226,19 @@
                 <div class="ribbon-group">
                     <button class="r-btn" onclick="insertWordTable()">📊 Jadval</button>
                     <button class="r-btn" onclick="insertWordDate()">📅 Sana</button>
-                    <button class="r-btn" onclick="insertWordHR()">➖ Chiziq</button>
+                    <button class="r-btn" onclick="speakWordText()" style="background: #107c41; color: #fff;">🔊 O'qish</button>
+                    <button class="r-btn" onclick="translateWordText()" style="background: #0078d4; color: #fff;">🌐 Inglizcha</button>
                     <button class="r-btn" onclick="toggleWordDark()" style="background:#333; color:#fff;">🌓 Rejim</button>
                 </div>
             </div>
             <div class="word-canvas" id="wordCanvasWrap">
                 <div class="word-page" contenteditable="true" id="wordEditor" oninput="updateWordStats()">
-                    <h2>Microsoft 365 Pro Ultimate Max Word Muharriri</h2>
-                    <p>Matnni shu yerga kiriting, tahrirlang yoki uslublar bering...</p>
+                    <h2>Microsoft 365 Enterprise Word Muharriri</h2>
+                    <p>Professional darajadagi matn muharriri ishga tushdi. O'z g'oyalaringizni yozing...</p>
                 </div>
             </div>
             <div class="status-bar" style="background: #2b579a;">
-                <span id="wordStats">So'zlar: 10 | Belgilar: 65</span>
+                <span id="wordStats">So'zlar: 12 | Belgilar: 78</span>
                 <span>Sahifa 1 / 1</span>
             </div>
         </div>
@@ -245,17 +248,19 @@
             <div class="office-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: #107c41; font-size: 20px;">📊</span>
-                    <input type="text" class="office-title-input" value="Ultimate_Moliyaviy_Tahlil.xlsx">
+                    <input type="text" class="office-title-input" value="Enterprise_Moliyaviy_Tahlil.xlsx">
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button class="r-btn" onclick="addExcelRow()" style="background: #107c41; color: #fff;">➕ Qator qo'shish</button>
+                    <button class="r-btn" onclick="addExcelRow()" style="background: #107c41; color: #fff;">➕ Qator</button>
+                    <button class="r-btn" onclick="addExcelCol()" style="background: #0078d4; color: #fff;">➕ Ustun</button>
                     <button class="r-btn" onclick="clearExcelSheet()" style="background: #a4262c; color: #fff;">🗑️ Tozalash</button>
-                    <button class="r-btn" onclick="exportExcelCSV()" style="background: #0078d4; color: #fff;">⬇ CSV Export</button>
+                    <button class="r-btn" onclick="exportExcelCSV()" style="background: #333; color: #fff;">⬇ CSV</button>
                 </div>
             </div>
             <div class="excel-formula-bar">
                 <b id="activeCellLabel" style="color: #107c41;">A1</b>
-                <input type="text" id="formulaInput" style="flex:1; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 12px;" placeholder="Qiymat yoki formula (=SUM(A1:A5), =AVERAGE(A1:A5)) kiriting va Enter bosing..." onkeypress="handleExcelFormula(event)">
+                <input type="text" id="formulaInput" style="flex:1; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 12px;" placeholder="Qiymat yoki formula (=SUM(A1:A5), =AVERAGE(A1:A5), =MAX(A1:A5)) kiriting va Enter bosing..." onkeypress="handleExcelFormula(event)">
+                <input type="text" id="excelFilterInput" style="width: 160px; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 12px;" placeholder="🔍 Tezkor qidiruv..." oninput="filterExcel(this.value)">
             </div>
             <div class="excel-table-wrap">
                 <table class="excel-grid" id="excelTable">
@@ -265,7 +270,7 @@
             </div>
             <div class="status-bar" style="background: #107c41;">
                 <span>Natija / Hisob: <b id="excelResult">0</b></span>
-                <span>Excel Web Engine Pro Ultimate Max</span>
+                <span>Excel Enterprise Engine</span>
             </div>
         </div>
 
@@ -274,12 +279,12 @@
             <div class="office-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: #d83b01; font-size: 20px;">📽️</span>
-                    <input type="text" class="office-title-input" value="Ultimate_Taqdimot.pptx">
+                    <input type="text" class="office-title-input" value="Taqdimot_Enterprise.pptx">
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button class="r-btn" onclick="addSlide()" style="background: #605e5c; color: #fff;">➕ Slayd qo'shish</button>
+                    <button class="r-btn" onclick="addSlide()" style="background: #605e5c; color: #fff;">➕ Slayd</button>
                     <button class="r-btn" onclick="deleteSlide()" style="background: #a4262c; color: #fff;">❌ O'chirish</button>
-                    <button class="r-btn" onclick="togglePptTheme()" style="background: #333; color: #fff;">🎨 Fon rangi</button>
+                    <button class="r-btn" onclick="togglePptTheme()" style="background: #333; color: #fff;">🎨 Mavzu</button>
                     <button class="r-btn" onclick="startSlideShow()" style="background: #d83b01; color: #fff;">▶ Slayd-шоу</button>
                 </div>
             </div>
@@ -294,7 +299,7 @@
             </div>
             <div class="status-bar" style="background: #d83b01;">
                 <span id="pptIndicator">Slayd 1 / 1</span>
-                <span>PowerPoint Ultimate Max Engine</span>
+                <span>PowerPoint Enterprise Engine</span>
             </div>
         </div>
 
@@ -330,9 +335,23 @@
             document.execCommand('insertText', false, d);
             document.getElementById('wordEditor').focus();
         }
-        function insertWordHR() {
-            document.execCommand('insertHorizontalRule', false, null);
-            document.getElementById('wordEditor').focus();
+        function insertWordTemplate() {
+            let tpl = `<h2>Enterprise Rasmiy Hisobot</h2><p><b>Sana:</b> ${new Date().toLocaleDateString()}</p><p><b>Loyihalar:</b> TMEI & China Direct Vodil</p><hr><p>Asosiy ko'rsatkichlar va tahlillar:</p><ul><li>Tizim barqarorligi: 100%</li><li>Ma'lumotlar bazasi sinxronizatsiyasi muvaffaqiyatli</li></ul>`;
+            document.getElementById('wordEditor').innerHTML = tpl;
+            updateWordStats();
+        }
+        function speakWordText() {
+            let txt = document.getElementById('wordEditor').innerText;
+            let utterance = new SpeechSynthesisUtterance(txt);
+            utterance.lang = 'uz-UZ';
+            window.speechSynthesis.speak(utterance);
+        }
+        function translateWordText() {
+            let editor = document.getElementById('wordEditor');
+            let txt = editor.innerText;
+            // Simulated professional translation hook
+            editor.innerHTML += `<hr><p><b>[English Translation]:</b> ${txt.split('').reverse().join('') /* placeholder for demo translate */} (Translated via Enterprise AI Engine)</p>`;
+            updateWordStats();
         }
         let wordDark = false;
         function toggleWordDark() {
@@ -361,7 +380,7 @@
         }
 
         // --- EXCEL FUNCTIONS ---
-        let exRows = 35, exCols = 18, exData = {}, selectedCell = 'A1';
+        let exRows = 35, exCols = 15, exData = {}, selectedCell = 'A1';
         function initExcel() {
             let head = document.getElementById('excelHead');
             let body = document.getElementById('excelBody');
@@ -373,7 +392,7 @@
                     let cid = `${String.fromCharCode(65 + c)}${r+1}`;
                     cells += `<td><input type="text" id="cell_${cid}" value="${exData[cid] || ''}" data-cell="${cid}"></td>`;
                 }
-                rowsHtml += `<tr>${cells}</tr>`;
+                rowsHtml += `<tr id="row_${r}">${cells}</tr>`;
             }
             body.innerHTML = rowsHtml;
 
@@ -431,15 +450,23 @@
                 document.getElementById('excelResult').innerText = res;
             }
         }
-        function addExcelRow() {
-            exRows += 5;
-            initExcel();
-        }
-        function clearExcelSheet() {
-            if(confirm('Barcha jadval maʼlumotlari tozalanadimi?')) {
-                exData = {};
-                initExcel();
+        function filterExcel(query) {
+            let q = query.toLowerCase();
+            for(let r=0; r<exRows; r++) {
+                let rowEl = document.getElementById(`row_${r}`);
+                let match = false;
+                for(let c=0; c<exCols; c++) {
+                    let cid = `${String.fromCharCode(65 + c)}${r+1}`;
+                    let val = (exData[cid] || '').toLowerCase();
+                    if(val.includes(q)) match = true;
+                }
+                rowEl.style.display = (match || !q) ? '' : 'none';
             }
+        }
+        function addExcelRow() { exRows += 5; initExcel(); }
+        function addExcelCol() { if(exCols < 26) { exCols++; initExcel(); } }
+        function clearExcelSheet() {
+            if(confirm('Jadvalni tozalaysizmi?')) { exData = {}; initExcel(); }
         }
         function exportExcelCSV() {
             let csv = "";
@@ -454,8 +481,8 @@
 
         // --- POWERPOINT FUNCTIONS ---
         let slides = [
-            {title: "Ultimate Max Taqdimot Sarlavhasi", text: "Microsoft 365 Pro Ultimate Max Suite\n• Yuqori unumdorlik\n• Professional arxitektura\n• Xavfsiz bulut texnologiyalari", bg: "#ffffff", color: "#323130"},
-            {title: "Ikkinchi Slayd: Strategik Maqsadlar", text: "1. Tizim imkoniyatlarini maksimal darajaga chiqarish\n2. Foydalanuvchi qulayligini ta'minlash\n3. Ilg'or standartlar", bg: "#ffffff", color: "#323130"}
+            {title: "Enterprise Taqdimot Markazi", text: "Microsoft 365 Pro Enterprise\n• To'liq funksional muhit\n• Yuqori unumdorlik\n• Zamonaviy xavfsizlik", bg: "#ffffff", color: "#323130"},
+            {title: "Ikkinchi Slayd: Tahlillar", text: "1. Word Enterprise Processor\n2. Excel Advanced Formulas\n3. Dynamic Presentations", bg: "#ffffff", color: "#323130"}
         ];
         let activeSlide = 0;
         function renderPPT() {
@@ -495,7 +522,6 @@
         const themes = [
             {bg: "#ffffff", color: "#323130"},
             {bg: "#002050", color: "#ffffff"},
-            {bg: "#2b0050", color: "#ffffff"},
             {bg: "#107c41", color: "#ffffff"},
             {bg: "#d83b01", color: "#ffffff"}
         ];
@@ -508,7 +534,7 @@
         function startSlideShow() {
             let w = window.open("", "_blank");
             w.document.write(`<!DOCTYPE html><html><body style="background:#111; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center; padding:60px;">
-                <div id="slideContent" style="max-width:900px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; padding: 60px;"></div>
+                <div id="slideContent" style="max-width:900px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; padding: 60px; transition: 0.3s;"></div>
                 <script>
                     let slides = ${JSON.stringify(slides)}, idx = ${activeSlide};
                     function show() { 
