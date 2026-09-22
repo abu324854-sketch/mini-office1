@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft 365 — Professional Web Suite</title>
+    <title>Microsoft 365 Pro — Advanced Enterprise Edition</title>
     <style>
         :root {
             --m365-brand: #d83b01;
@@ -40,11 +40,11 @@
         .nav-item.active { background: #f3f2f1; color: var(--m365-brand); font-weight: 600; }
         .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
 
-        /* Views (Home, Word, Excel, PPT) */
+        /* Views */
         .view-panel { display: none; flex: 1; flex-direction: column; background: var(--bg-body); overflow: hidden; position: absolute; top:0; left:64px; right:0; bottom:0; }
         .view-panel.active { display: flex; }
 
-        /* HOME / ONEDRIVE DASHBOARD */
+        /* HOME / DASHBOARD */
         .home-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
         .home-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; color: #201f1e; }
         .create-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-bottom: 35px; }
@@ -59,7 +59,7 @@
         .files-table th { background: #faf9f8; font-weight: 600; color: #605e5c; }
         .files-table tr:hover { background: var(--hover-bg); cursor: pointer; }
 
-        /* OFFICE EDITORS (WORD, EXCEL, PPT) */
+        /* OFFICE EDITORS COMMON */
         .office-header { background: #ffffff; border-bottom: 1px solid var(--border-color); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
         .office-title-input { border: 1px solid transparent; padding: 4px 8px; font-size: 14px; font-weight: 600; border-radius: 2px; width: 250px; background: transparent; }
         .office-title-input:hover, .office-title-input:focus { border-color: var(--border-color); background: #fff; outline: none; }
@@ -70,11 +70,11 @@
         .r-btn:hover { background: #edebe9; border-color: #c8c6c4; }
         .r-select { padding: 4px 6px; border: 1px solid #c8c6c4; border-radius: 2px; background: #fff; font-size: 12px; }
 
-        /* Word Workspace */
+        /* WORD WORKSPACE */
         .word-canvas { flex: 1; background: #e1dfdd; overflow-y: auto; padding: 40px; display: flex; justify-content: center; }
         .word-page { width: 750px; min-height: 1000px; background: #fff; padding: 60px 80px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); outline: none; font-size: 14px; line-height: 1.6; }
 
-        /* Excel Workspace */
+        /* EXCEL WORKSPACE */
         .excel-formula-bar { background: #fff; border-bottom: 1px solid var(--border-color); padding: 6px 12px; display: flex; align-items: center; gap: 10px; }
         .excel-table-wrap { flex: 1; overflow: auto; background: #fff; }
         .excel-grid { width: 100%; border-collapse: collapse; }
@@ -83,9 +83,9 @@
         .excel-grid td input { width: 100%; border: none; outline: none; background: transparent; font-size: 12px; }
         .excel-grid td.selected { background: rgba(0, 120, 212, 0.1); border: 2px solid #0078d4; }
 
-        /* PPT Workspace */
+        /* PPT WORKSPACE */
         .ppt-container { flex: 1; display: flex; background: #f3f2f1; overflow: hidden; }
-        .ppt-sidebar { width: 200px; background: #fff; border-right: 1px solid var(--border-color); padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .ppt-sidebar { width: 220px; background: #fff; border-right: 1px solid var(--border-color); padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
         .ppt-thumb { padding: 10px; border: 2px solid var(--border-color); border-radius: 4px; cursor: pointer; background: #fff; font-size: 12px; }
         .ppt-thumb.active { border-color: #d83b01; }
         .ppt-stage-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 30px; }
@@ -101,10 +101,10 @@
     <!-- Top Suite Header -->
     <header class="suite-header">
         <div class="suite-left">
-            <button class="app-launcher-btn" title="App Launcher">
+            <button class="app-launcher-btn" title="App Launcher" onclick="alert('Microsoft 365 Professional App Launcher')">
                 <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
             </button>
-            <a href="#" class="suite-logo"><span class="dot"></span> Microsoft 365</a>
+            <a href="#" class="suite-logo"><span class="dot"></span> Microsoft 365 Pro</a>
         </div>
         <div class="suite-right">
             <input type="text" placeholder="Qidirish (Alt + Q)" style="padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 2px; width: 240px; font-size: 12px; background: var(--bg-body);">
@@ -135,7 +135,7 @@
             </button>
         </nav>
 
-        <!-- 1. HOME VIEW (OneDrive Dashboard) -->
+        <!-- 1. HOME VIEW -->
         <div id="view-home" class="view-panel active">
             <div class="home-content">
                 <div class="home-title">Yangi hujjat yaratish</div>
@@ -154,7 +154,7 @@
                     </div>
                 </div>
 
-                <div class="home-title">Oxirgi fayllar</div>
+                <div class="home-title">Oxirgi fayllar va hisobotlar</div>
                 <div class="files-table-wrap">
                     <table class="files-table">
                         <thead>
@@ -164,7 +164,7 @@
                             <tr onclick="switchView('word', document.querySelectorAll('.nav-item')[1])">
                                 <td><b>Zakovat_Taqdimot_Rejasi.docx</b></td>
                                 <td>Word Document</td>
-                                <td>Bugun, 12:40</td>
+                                <td>Bugun, 13:30</td>
                             </tr>
                             <tr onclick="switchView('excel', document.querySelectorAll('.nav-item')[2])">
                                 <td><b>China_Direct_Vodil_Hisobot.xlsx</b></td>
@@ -176,8 +176,8 @@
                 </div>
             </div>
             <div class="status-bar">
-                <span>Tayyor</span>
-                <span>Microsoft 365 Cloud Storage</span>
+                <span>Enterprise Bulutga ulangan</span>
+                <span>Microsoft 365 Pro</span>
             </div>
         </div>
 
@@ -186,9 +186,12 @@
             <div class="office-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: #2b579a; font-size: 20px;">📄</span>
-                    <input type="text" class="office-title-input" value="Hujjat1 - Word">
+                    <input type="text" class="office-title-input" value="Professional_Hujjat.docx">
                 </div>
-                <button class="r-btn" onclick="saveWord()" style="background: #2b579a; color: #fff;">💾 Saqlash</button>
+                <div style="display: flex; gap: 8px;">
+                    <button class="r-btn" onclick="saveWordFile()" style="background: #2b579a; color: #fff;">💾 Saqlash (.doc)</button>
+                    <button class="r-btn" onclick="printWordFile()" style="background: #605e5c; color: #fff;">🖨️ Chop etish</button>
+                </div>
             </div>
             <div class="ribbon">
                 <div class="ribbon-group">
@@ -196,32 +199,42 @@
                         <option value="Segoe UI">Segoe UI</option>
                         <option value="Calibri">Calibri</option>
                         <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
                     </select>
                     <select class="r-select" onchange="execWord('fontSize', this.value)">
                         <option value="3">11 pt</option>
                         <option value="4">14 pt</option>
                         <option value="5">18 pt</option>
+                        <option value="6">24 pt</option>
                     </select>
                 </div>
                 <div class="ribbon-group">
                     <button class="r-btn" onclick="execWord('bold')"><b>B</b></button>
                     <button class="r-btn" onclick="execWord('italic')"><i>I</i></button>
                     <button class="r-btn" onclick="execWord('underline')"><u>U</u></button>
+                    <button class="r-btn" onclick="execWord('strikeThrough')"><s>S</s></button>
+                    <button class="r-btn" onclick="execWord('removeFormat')">Formatni tozalash</button>
                 </div>
                 <div class="ribbon-group">
                     <button class="r-btn" onclick="execWord('justifyLeft')">Chapga</button>
                     <button class="r-btn" onclick="execWord('justifyCenter')">O'rtaga</button>
                     <button class="r-btn" onclick="execWord('justifyRight')">O'ngga</button>
+                    <button class="r-btn" onclick="execWord('justifyFull')">Eniga</button>
+                </div>
+                <div class="ribbon-group">
+                    <button class="r-btn" onclick="insertWordTable()">📊 Jadval</button>
+                    <button class="r-btn" onclick="insertWordDate()">📅 Sana</button>
+                    <button class="r-btn" onclick="insertWordHR()">➖ Chiziq</button>
                 </div>
             </div>
             <div class="word-canvas">
-                <div class="word-page" contenteditable="true" id="wordEditor">
-                    <h2>Microsoft 365 Word Muharriri</h2>
-                    <p>Matningizni shu yerga kiriting...</p>
+                <div class="word-page" contenteditable="true" id="wordEditor" oninput="updateWordStats()">
+                    <h2>Microsoft 365 Professional Word Muharriri</h2>
+                    <p>Bu yerga o'z matningizni yozishingiz, tahrirlashingiz va barcha zamonaviy formatlash usullaridan foydalanishingiz mumkin...</p>
                 </div>
             </div>
             <div class="status-bar" style="background: #2b579a;">
-                <span id="wordStats">So'zlar: 5</span>
+                <span id="wordStats">So'zlar: 18 | Belgilar: 110</span>
                 <span>Sahifa 1 / 1</span>
             </div>
         </div>
@@ -231,13 +244,16 @@
             <div class="office-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: #107c41; font-size: 20px;">📊</span>
-                    <input type="text" class="office-title-input" value="Kitob1 - Excel">
+                    <input type="text" class="office-title-input" value="Moliyaviy_Hisobot.xlsx">
                 </div>
-                <button class="r-btn" onclick="exportExcelCSV()" style="background: #107c41; color: #fff;">⬇ CSV Export</button>
+                <div style="display: flex; gap: 8px;">
+                    <button class="r-btn" onclick="clearExcelSheet()" style="background: #a4262c; color: #fff;">🗑️ Tozalash</button>
+                    <button class="r-btn" onclick="exportExcelCSV()" style="background: #107c41; color: #fff;">⬇ CSV Export</button>
+                </div>
             </div>
             <div class="excel-formula-bar">
                 <b id="activeCellLabel" style="color: #107c41;">A1</b>
-                <input type="text" id="formulaInput" style="flex:1; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 12px;" placeholder="Qiymat yoki formula (=SUM(A1:A5)) kiriting..." onkeypress="handleExcelFormula(event)">
+                <input type="text" id="formulaInput" style="flex:1; border: 1px solid var(--border-color); padding: 4px 8px; font-size: 12px;" placeholder="Qiymat yoki formula (=SUM(A1:A5), =AVERAGE(A1:A5), =MAX(A1:A5)) kiriting..." onkeypress="handleExcelFormula(event)">
             </div>
             <div class="excel-table-wrap">
                 <table class="excel-grid" id="excelTable">
@@ -246,8 +262,8 @@
                 </table>
             </div>
             <div class="status-bar" style="background: #107c41;">
-                <span>Natija: <b id="excelResult">0</b></span>
-                <span>Excel Web Engine</span>
+                <span>Natija / Formula Hisobi: <b id="excelResult">0</b></span>
+                <span>Excel Web Engine Pro</span>
             </div>
         </div>
 
@@ -256,22 +272,26 @@
             <div class="office-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="color: #d83b01; font-size: 20px;">📽️</span>
-                    <input type="text" class="office-title-input" value="Taqdimot1 - PowerPoint">
+                    <input type="text" class="office-title-input" value="Taqdimot_Proyekt.pptx">
                 </div>
-                <button class="r-btn" onclick="startSlideShow()" style="background: #d83b01; color: #fff;">▶ Slayd-шоу</button>
+                <div style="display: flex; gap: 8px;">
+                    <button class="r-btn" onclick="addSlide()" style="background: #605e5c; color: #fff;">➕ Slayd qo'shish</button>
+                    <button class="r-btn" onclick="deleteSlide()" style="background: #a4262c; color: #fff;">❌ O'chirish</button>
+                    <button class="r-btn" onclick="startSlideShow()" style="background: #d83b01; color: #fff;">▶ Slayd-шоу</button>
+                </div>
             </div>
             <div class="ppt-container">
                 <div class="ppt-sidebar" id="pptThumbList"></div>
                 <div class="ppt-stage-wrap">
                     <div class="ppt-stage">
-                        <input type="text" id="pptTitle" placeholder="Sarlavha qo'shish..." oninput="updateSlideData()">
-                        <textarea id="pptText" placeholder="Matn qo'shish..." oninput="updateSlideData()"></textarea>
+                        <input type="text" id="pptTitle" placeholder="Sarlavha kiriting..." oninput="updateSlideData()">
+                        <textarea id="pptText" placeholder="Slayd asosiy matni va punktlarni kiriting..." oninput="updateSlideData()"></textarea>
                     </div>
                 </div>
             </div>
             <div class="status-bar" style="background: #d83b01;">
                 <span id="pptIndicator">Slayd 1 / 1</span>
-                <span>PowerPoint Web</span>
+                <span>PowerPoint Enterprise</span>
             </div>
         </div>
 
@@ -285,7 +305,7 @@
             if(btnEl) btnEl.classList.add('active');
         }
 
-        // --- WORD FUNCTIONS ---
+        // --- WORD ADVANCED FUNCTIONS ---
         function execWord(cmd, val = null) {
             document.execCommand(cmd, false, val);
             document.getElementById('wordEditor').focus();
@@ -294,14 +314,33 @@
         function updateWordStats() {
             let txt = document.getElementById('wordEditor').innerText.trim();
             let words = txt ? txt.split(/\s+/).length : 0;
-            document.getElementById('wordStats').innerText = `So'zlar: ${words}`;
+            let chars = txt.length;
+            document.getElementById('wordStats').innerText = `So'zlar: ${words} | Belgilar: ${chars}`;
         }
-        function saveWord() {
-            alert("Hujjat Microsoft 365 bulutiga saqlandi!");
+        function insertWordTable() {
+            let tHtml = '<table border="1" style="border-collapse:collapse; width:100%; margin:10px 0;"><tr><td>Ustun 1</td><td>Ustun 2</td></tr><tr><td>Ma'lumot</td><td>Ma'lumot</td></tr></table><p>&nbsp;</p>';
+            document.execCommand('insertHTML', false, tHtml);
+        }
+        function insertWordDate() {
+            let d = new Date().toLocaleDateString();
+            document.execCommand('insertText', false, d);
+        }
+        function insertWordHR() {
+            document.execCommand('insertHorizontalRule', false, null);
+        }
+        function saveWordFile() {
+            let html = document.getElementById('wordEditor').innerHTML;
+            let blob = new Blob(['<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>' + html + '</body></html>'], {type: 'application/msword'});
+            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "hujjat.doc"; a.click();
+        }
+        function printWordFile() {
+            let w = window.open('', '_blank');
+            w.document.write('<html><head><title>Print</title></head><body style="font-family:sans-serif; padding:40px;">' + document.getElementById('wordEditor').innerHTML + '</body></html>');
+            w.print();
         }
 
-        // --- EXCEL FUNCTIONS ---
-        let exRows = 15, exCols = 10, exData = {}, selectedCell = 'A1';
+        // --- EXCEL ADVANCED FUNCTIONS ---
+        let exRows = 20, exCols = 12, exData = {}, selectedCell = 'A1';
         function initExcel() {
             let head = document.getElementById('excelHead');
             let body = document.getElementById('excelBody');
@@ -335,8 +374,9 @@
                 if(val.startsWith('=')) {
                     try {
                         let exp = val.substring(1).toUpperCase();
-                        if(exp.startsWith('SUM(')) {
-                            let range = exp.substring(4, exp.indexOf(')'));
+                        if(exp.startsWith('SUM(') || exp.startsWith('AVERAGE(') || exp.startsWith('MAX(') || exp.startsWith('MIN(')) {
+                            let fn = exp.substring(0, exp.indexOf('('));
+                            let range = exp.substring(exp.indexOf('(')+1, exp.indexOf(')'));
                             let [p1, p2] = range.split(':');
                             let vals = [];
                             let sc = p1.charCodeAt(0), sr = parseInt(p1.substring(1));
@@ -347,15 +387,24 @@
                                     if(!isNaN(v)) vals.push(v);
                                 }
                             }
-                            res = vals.reduce((a,b)=>a+b,0);
+                            if(fn === 'SUM') res = vals.reduce((a,b)=>a+b,0);
+                            if(fn === 'AVERAGE') res = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+                            if(fn === 'MAX') res = vals.length ? Math.max(...vals) : 0;
+                            if(fn === 'MIN') res = vals.length ? Math.min(...vals) : 0;
                         } else {
                             res = eval(exp.replace(/[A-Z][0-9]+/g, m => parseFloat(exData[m]) || 0));
                         }
-                    } catch(err) { res = "Xato"; }
+                    } catch(err) { res = "Formula xatosi"; }
                 }
                 exData[selectedCell] = res;
                 document.getElementById(`cell_${selectedCell}`).value = res;
                 document.getElementById('excelResult').innerText = res;
+            }
+        }
+        function clearExcelSheet() {
+            if(confirm('Jadvaldagi barcha maʼlumotlarni oʻchirasizmi?')) {
+                exData = {};
+                initExcel();
             }
         }
         function exportExcelCSV() {
@@ -366,11 +415,14 @@
                 csv += row.join(",") + "\n";
             }
             let blob = new Blob([csv], {type: 'text/csv'});
-            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "excel_export.csv"; a.click();
+            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "moliyaviy_hisobot.csv"; a.click();
         }
 
-        // --- POWERPOINT FUNCTIONS ---
-        let slides = [{title: "Sarlavha Slaydi", text: "Microsoft 365 taqdimotiga xush kelibsiz."}];
+        // --- POWERPOINT ADVANCED FUNCTIONS ---
+        let slides = [
+            {title: "Loyihaning Asosiy Sarlavhasi", text: "Microsoft 365 Pro Taqdimoti\n• Kirish qismi\n• Asosiy tahlillar\n• Xulosa va natijalar"},
+            {title: "Ikkinchi Slayd: Maqsad va Vazifalar", text: "1. Veb ilovalarni takomillashtirish\n2. Ish unumdorligini oshirish\n3. Professional dizayn standartlari"}
+        ];
         let activeSlide = 0;
         function renderPPT() {
             document.getElementById('pptThumbList').innerHTML = slides.map((s,i)=>`
@@ -387,22 +439,44 @@
             slides[activeSlide].text = document.getElementById('pptText').value;
             renderPPT();
         }
+        function addSlide() {
+            slides.push({title: `Yangi Slayd ${slides.length + 1}`, text: "Matnni shu yerga kiriting..."});
+            activeSlide = slides.length - 1;
+            renderPPT();
+        }
+        function deleteSlide() {
+            if(slides.length > 1) {
+                slides.splice(activeSlide, 1);
+                if(activeSlide >= slides.length) activeSlide = slides.length - 1;
+                renderPPT();
+            } else {
+                alert("Oxirgi slaydni o'chirib bo'lmaydi!");
+            }
+        }
         function startSlideShow() {
             let w = window.open("", "_blank");
-            w.document.write(`<!DOCTYPE html><html><body style="background:#111; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center; padding:40px;">
-                <div id="slideContent"></div>
+            w.document.write(`<!DOCTYPE html><html><body style="background:#111; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif; text-align:center; padding:60px;">
+                <div id="slideContent" style="max-width:900px;"></div>
                 <script>
                     let slides = ${JSON.stringify(slides)}, idx = ${activeSlide};
-                    function show() { let s = slides[idx]; document.getElementById('slideContent').innerHTML = '<h1 style="font-size:48px; margin-bottom:20px;">'+s.title+'</h1><p style="font-size:24px; line-height:1.6; white-space:pre-wrap;">'+s.text+'</p>'; }
-                    window.onkeydown = e => { if(e.key==='ArrowRight'&&idx<slides.length-1){idx++;show();} if(e.key==='ArrowLeft'&&idx>0){idx--;show();} if(e.key==='Escape')window.close(); };
+                    function show() { 
+                        let s = slides[idx]; 
+                        document.getElementById('slideContent').innerHTML = '<h1 style="font-size:46px; margin-bottom:30px; color:#ffb900;">'+s.title+'</h1><p style="font-size:24px; line-height:1.8; white-space:pre-wrap; text-align:left; background:rgba(255,255,255,0.05); padding:30px; border-radius:8px;">'+s.text+'</p>'; 
+                    }
+                    window.onkeydown = e => { 
+                        if((e.key==='ArrowRight'||e.key===' '||e.key==='Enter') && idx<slides.length-1){idx++;show();} 
+                        if(e.key==='ArrowLeft'&&idx>0){idx--;show();} 
+                        if(e.key==='Escape')window.close(); 
+                    };
                     show();
                 <\/script></body></html>`);
         }
 
-        // Initialize
+        // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
             initExcel();
             renderPPT();
+            updateWordStats();
         });
     </script>
 </body>
